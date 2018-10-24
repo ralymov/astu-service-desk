@@ -50,36 +50,17 @@
           username: '',
         },
         remember: false,
-        hasErrors: false,
-        isSuccessful: true,
       };
     },
     methods: {
       ...mapActions('auth', ['login']),
       submit() {
-        this.loading = true;
-        this.isSuccessful = true;
-        this.hasErrors = false;
-
-        axios.post('/login', this.credentials, {errorHandle: false}).then(response => {
-          let credentials = response.data;
-          this.login(credentials);
-          console.log(credentials);
-          //this.$emit('login');
-          this.$router.push('/');
-        }).catch((error) => {
-          this.loading = false;
-          this.hasErrors = true;
-
-          const {status} = error.response;
-
-          if (status === 401 || status === 422) {
-            this.isSuccessful = false;
-            return;
-          }
-
-          throw error;
-        });
+        axios.post('login', this.credentials)
+          .then(response => {
+            let credentials = response.data;
+            this.login(credentials);
+            this.$router.push('/');
+          })
       },
     },
   }

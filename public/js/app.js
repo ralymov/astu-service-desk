@@ -1740,9 +1740,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         password: '',
         username: ''
       },
-      remember: false,
-      hasErrors: false,
-      isSuccessful: true
+      remember: false
     };
   },
 
@@ -1750,29 +1748,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     submit: function submit() {
       var _this = this;
 
-      this.loading = true;
-      this.isSuccessful = true;
-      this.hasErrors = false;
-
-      axios.post('/login', this.credentials, { errorHandle: false }).then(function (response) {
+      axios.post('/login', this.credentials).then(function (response) {
         var credentials = response.data;
         _this.login(credentials);
-        console.log(credentials);
-        //this.$emit('login');
         _this.$router.push('/');
-      }).catch(function (error) {
-        _this.loading = false;
-        _this.hasErrors = true;
-
-        var status = error.response.status;
-
-
-        if (status === 401 || status === 422) {
-          _this.isSuccessful = false;
-          return;
-        }
-
-        throw error;
       });
     }
   })
@@ -34991,13 +34970,13 @@ __webpack_require__("./resources/js/services/errorResponseHandler.js");
  * a simple convenience so we don't have to attach every token manually.
  */
 
-var token = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+// let token = document.head.querySelector('meta[name="csrf-token"]');
+//
+// if (token) {
+//     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+// } else {
+//     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+// }
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -35509,9 +35488,7 @@ var mutations = {
     state.auth = value;
   },
   setUser: function setUser(state, credentials) {
-    //state.user.full_name = credentials.full_name;
     state.user.role = credentials.role;
-    //state.user.employee_id = credentials.employee_id;
     state.user.id = credentials.id;
   }
 };

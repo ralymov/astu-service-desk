@@ -17,9 +17,7 @@ export const mutations = {
     state.auth = value;
   },
   setUser(state, credentials) {
-    //state.user.full_name = credentials.full_name;
     state.user.role = credentials.role;
-    //state.user.employee_id = credentials.employee_id;
     state.user.id = credentials.id;
   }
 };

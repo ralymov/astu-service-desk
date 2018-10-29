@@ -104,6 +104,10 @@
 
 <style lang="scss">
 
+  body {
+    background: white;
+  }
+
   #header {
     position: fixed;
     top: 0;

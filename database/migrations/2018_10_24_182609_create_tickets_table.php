@@ -88,7 +88,7 @@ class CreateTicketsTable extends Migration
             $table->unsignedInteger('applicant_id')->nullable();
             $table->foreign('applicant_id')->references('id')->on('employees');
 
-            $table->unsignedInteger('employee_id')->nullabel();
+            $table->unsignedInteger('employee_id')->nullable();
             $table->foreign('employee_id')->references('id')->on('employees');
 
             $table->unsignedInteger('type_id');

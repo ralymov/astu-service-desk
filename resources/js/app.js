@@ -7,10 +7,13 @@ import router from './router';
 import store from './store';
 import SweetAlert from './mixins/sweet_alert';
 import App from './components/App.vue';
+import _ from 'lodash';
 
 Vue.use(VueRouter);
 Vue.use(SweetAlert);
 Vue.use(BootstrapVue);
+
+Object.defineProperty(Vue.prototype, '_', { value: _ });
 
 const app = new Vue({
   el: '#app',

@@ -12,16 +12,23 @@ const mix = require('laravel-mix');
  |
  */
 
+mix.options({
+  extractVueStyles: true,
+  globalVueStyles: path.resolve(__dirname, 'resources/sass/_global.scss'),
+});
+
+
 mix.webpackConfig({
   resolve: {
     alias: {
+      'styles': path.resolve(__dirname, 'resources/sass'),
       'components': path.resolve(__dirname, 'resources/js/components'),
     }
   },
 });
 
-mix.js('resources/js/app.js', 'public/js')
-  .sass('resources/sass/app.scss', 'public/css');
+mix.js('resources/js/app.js', 'public/js').sourceMaps();
+  mix.sass('resources/sass/app.scss', 'public/css');
 
 mix.version();
 

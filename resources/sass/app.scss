@@ -1,11 +1,33 @@
+// Variables and mixins
+@import "global";
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-// Variables
-@import 'variables';
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-vue/dist/bootstrap-vue.css';
 
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+h1, h2, h3, h4 {
+  font-weight: 400;
+  line-height: 1;
+}
+
+.content {
+  padding: 20px;
+}
+
+.content-inner {
+  //padding: 0 22px;
+}
+
+.page-subtitle {
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.pointer {
+  cursor: pointer;
 }

@@ -4,7 +4,8 @@ namespace App\Models\Storage\User;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model {
+class Role extends Model
+{
 
     public const FLD_ID = 'id';
     public const FLD_NAME = 'name';
@@ -14,7 +15,8 @@ class Role extends Model {
     public const admin = 'admin';
     public const contractor = 'contractor';
 
-    public function users() {
+    public function users()
+    {
         return $this->hasMany(User::class);
     }
 }

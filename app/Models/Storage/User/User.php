@@ -2,11 +2,13 @@
 
 namespace App\Models\Storage\User;
 
+use App\Models\Storage\Employee\Employee;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject {
+class User extends Authenticatable implements JWTSubject
+{
     use Notifiable;
 
     protected $fillable = [
@@ -22,7 +24,13 @@ class User extends Authenticatable implements JWTSubject {
     public const FLD_PASSWORD = 'password';
     public const FLD_ROLE_ID = 'role_id';
 
-    public function role() {
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
 
@@ -31,7 +39,8 @@ class User extends Authenticatable implements JWTSubject {
      *
      * @return mixed
      */
-    public function getJWTIdentifier() {
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
@@ -40,7 +49,8 @@ class User extends Authenticatable implements JWTSubject {
      *
      * @return array
      */
-    public function getJWTCustomClaims() {
+    public function getJWTCustomClaims()
+    {
         return [];
     }
 }

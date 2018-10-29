@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
-class AuthController extends ApiController {
+class AuthController extends ApiController
+{
 
     /**
      * Create a new AuthController instance.
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth.api', ['except' => ['login']]);
     }
 
@@ -20,7 +22,8 @@ class AuthController extends ApiController {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $credentials = $request->only(['username', 'password']);
 
         if (!$token = auth()->attempt($credentials)) {
@@ -35,7 +38,8 @@ class AuthController extends ApiController {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function credentials() {
+    public function credentials()
+    {
         $user = auth()->user();
         if (!$user) {
             return $this->respondUnauthorized();
@@ -45,6 +49,7 @@ class AuthController extends ApiController {
             'username' => $user->username,
             'role' => $user->role->name,
             'id' => $user->id,
+            'full_name' => $user->employee->name ?? $user->name,
         ]);
     }
 
@@ -53,7 +58,8 @@ class AuthController extends ApiController {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me() {
+    public function me()
+    {
         return response()->json(auth()->user());
     }
 
@@ -62,7 +68,8 @@ class AuthController extends ApiController {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout() {
+    public function logout()
+    {
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
@@ -73,7 +80,8 @@ class AuthController extends ApiController {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh() {
+    public function refresh()
+    {
         return $this->respondWithToken(auth()->refresh());
     }
 
@@ -85,7 +93,8 @@ class AuthController extends ApiController {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token) {
+    protected function respondWithToken($token)
+    {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',

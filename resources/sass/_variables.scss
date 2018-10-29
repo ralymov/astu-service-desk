@@ -1,20 +1,122 @@
+//
+// Color system
+//
+
+// stylelint-disable
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #ebebeb !default;
+$gray-400: #d5d5d5 !default; // e6e6e6 ced4da
+$gray-500: #505050 !default; // #adb5bd
+$gray-600: #d8d8d8 !default; // 868e96
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #2f2f2f !default;
+$black:    #000 !default;
+
+$blue:    #3b95e8 !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #ff6666 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffcc33 !default;
+$green:   #00c690 !default; // #
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
+
+$primary:       $blue !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+
+
+
+$theme-colors: () !default;
+$theme-colors: map-merge((
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+), $theme-colors);
+// stylelint-enable
+
 
 // Body
-$body-bg: #f8fafc;
+//
+// Settings for the `<body>` element.
 
-// Typography
-$font-family-sans-serif: "Nunito", sans-serif;
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
+$body-bg: $white;
+$body-color: $gray-900;
 
-// Colors
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66D9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
+// Grid columns
+//
+// Set the number of columns and specify the width of the gutters.
+
+$grid-columns:                12 !default;
+$grid-gutter-width:           40px !default;
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+
+// stylelint-disable value-keyword-case
+$font-family-sans-serif: "PT Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+
+$text-muted: #c0c0c0;
+
+// Cards
+
+$card-bg: #f8f8f8 !default;
+$card-border-width: 0px;
+
+// Links
+//
+// Style anchor elements.
+
+$link-color: theme-color("success") !default;
+
+
+// Modals
+
+// Padding applied to the modal body
+$modal-inner-padding: 1.8rem !default;
+
+$modal-content-bg: $gray-100;
+$modal-content-border-color:  transparent !default;
+
+$modal-lg:  1400px !default;
+$modal-md:  500px !default;
+$modal-sm:  300px !default;
+
+
+// Forms
+
+$input-placeholder-color: $gray-400 !default;
+
+$custom-control-indicator-bg: $gray-400 !default;
+$custom-control-indicator-checked-bg: $custom-control-indicator-bg !default;
+$custom-control-indicator-checked-color: theme-color("success") !default;
+$custom-control-indicator-focus-box-shadow: none;
+
+$custom-select-indicator-color: theme-color("primary") !default;
+
+$input-padding-y-lg: 5px !default;
+$input-padding-x-lg: 6px !default;
+
+// Popover
+
+$popover-max-width: 600px !default;
+
+// Tables
+
+$table-border-color: #e6e6e6 !default;

@@ -8,5 +8,4 @@ class TicketType extends Model
 {
 
 
-
 }

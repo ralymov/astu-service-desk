@@ -3,6 +3,7 @@
 namespace App\Models\Storage\Ticket;
 
 use App\Models\Storage\Employee\Employee;
+use App\Models\Storage\Employee\Location;
 use App\Models\Storage\Ticket\References\TicketPriority;
 use App\Models\Storage\Ticket\References\TicketStatus;
 use App\Models\Storage\Ticket\References\TicketType;
@@ -10,6 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+
+    public function applicant_location()
+    {
+        return $this->belongsTo(Location::class);
+    }
 
     public function applicant()
     {

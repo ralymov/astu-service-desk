@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class TicketPriority extends Model
 {
 
-
+    public const LOW = 'low';
+    public const NORMAL = 'normal';
+    public const HIGH = 'high';
 
 }

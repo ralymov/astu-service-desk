@@ -4,6 +4,8 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 // Bootstrap
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
+//Components
+@import "components/modal";
 
 .navbar-laravel {
   background-color: #fff;

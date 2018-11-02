@@ -16,5 +16,9 @@ require_once __DIR__ . '/api/ticket.php';
 
 Route::group(['namespace' => 'Api'], function () {
 
+    Route::post('search', 'Common\SearchController@index');
 
+    Route::get('/{any}', function () {
+        return response()->json(['message' => 'Not Found.'], 404);
+    })->where('any', '.*');
 });

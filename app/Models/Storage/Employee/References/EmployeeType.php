@@ -10,4 +10,6 @@ class EmployeeType extends Model
     public const CONTRACTOR = 'contractor';
     public const CUSTOMER = 'customer';
 
+    protected $guarded = ['id'];
+
 }

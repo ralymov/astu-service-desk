@@ -17,4 +17,6 @@ class Location extends Model
     public const EIGHTH_CAMPUS = '8_campus';
     public const NINTH_CAMPUS = '9_campus';
 
+    protected $guarded = ['id'];
+
 }

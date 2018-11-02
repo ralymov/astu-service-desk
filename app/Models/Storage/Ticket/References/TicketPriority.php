@@ -11,4 +11,6 @@ class TicketPriority extends Model
     public const NORMAL = 'normal';
     public const HIGH = 'high';
 
+    protected $guarded = ['id'];
+
 }

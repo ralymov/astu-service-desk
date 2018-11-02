@@ -12,6 +12,35 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
 
+    protected $guarded = ['id'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function ($model) {
+            $model->status_id = TicketStatus::new()->first()->id ?? null;
+        });
+
+    }
+
+    #region Relations
+
+    public function forList()
+    {
+        return $this->load('applicant_location', 'applicant', 'employee', 'type', 'priority', 'status');
+    }
+
+    public function scopeForList($query)
+    {
+        return $query->with('applicant_location', 'applicant', 'employee', 'type', 'priority', 'status');
+    }
+
+    public function comments()
+    {
+        return $this->belongsToMany(Comment::class, 'ticket_comments');
+    }
+
     public function applicant_location()
     {
         return $this->belongsTo(Location::class);
@@ -41,5 +70,7 @@ class Ticket extends Model
     {
         return $this->belongsTo(TicketStatus::class);
     }
+
+    #endregion
 
 }

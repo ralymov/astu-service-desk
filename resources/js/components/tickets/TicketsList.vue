@@ -18,7 +18,7 @@
       </template>
       <template slot="status" slot-scope="data">
         <div class="badge badge-primary status-badge"
-             :style="{ 'background-color': _.get(data.item, 'status.rgb', '#fff') }">
+             :style="{ 'background-color': _.get(data.item, 'status.rgb') }">
           {{ _.get(data.item, 'status.name', 'Нет данных') }}
         </div>
       </template>
@@ -95,6 +95,9 @@
   }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+  .table.b-table .status-badge {
+    min-width: 100px;
+    font-size: 16px;
+  }
 </style>

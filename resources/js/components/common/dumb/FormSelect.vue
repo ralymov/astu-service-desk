@@ -1,5 +1,5 @@
 <template>
-  <b-form-select v-model="value"
+  <b-form-select v-model="dataValue"
                  :options="options"
                  :text-field="textField"
                  :value-field="valueField"
@@ -39,16 +39,17 @@
       required: {
         type: Boolean,
         default: false,
-      }
+      },
+      value: null,
     },
     data() {
       return {
-        value: null,
+        dataValue: this.value || null,
       }
     },
     methods: {
       input() {
-        this.$emit('input', this.value);
+        this.$emit('input', this.dataValue);
       }
     }
   }

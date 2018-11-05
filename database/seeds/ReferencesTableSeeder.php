@@ -23,43 +23,43 @@ class ReferencesTableSeeder extends Seeder
         $locations = [
             [
                 'name' => 'Главный корпус',
-                'code' => 'main_campus',
-            ],
-            [
-                'name' => '1 корпус',
                 'code' => Location::MAIN_CAMPUS,
             ],
             [
-                'name' => '2 корпус',
+                'name' => '1 корпус',
                 'code' => Location::FIRST_CAMPUS,
             ],
             [
-                'name' => '3 корпус',
+                'name' => '2 корпус',
                 'code' => Location::SECOND_CAMPUS,
             ],
             [
-                'name' => '4 корпус',
+                'name' => '3 корпус',
                 'code' => Location::THIRD_CAMPUS,
             ],
             [
-                'name' => '5 корпус',
+                'name' => '4 корпус',
                 'code' => Location::FOURTH_CAMPUS,
             ],
             [
-                'name' => '6 корпус',
+                'name' => '5 корпус',
                 'code' => Location::FIFTH_CAMPUS,
             ],
             [
-                'name' => '7 корпус',
+                'name' => '6 корпус',
                 'code' => Location::SIXTH_CAMPUS,
             ],
             [
-                'name' => '8 корпус',
+                'name' => '7 корпус',
                 'code' => Location::SEVENTH_CAMPUS,
             ],
             [
-                'name' => '9 корпус',
+                'name' => '8 корпус',
                 'code' => Location::EIGHTH_CAMPUS,
+            ],
+            [
+                'name' => '9 корпус',
+                'code' => Location::NINTH_CAMPUS,
             ],
         ];
         fill_seeds($locations, Location::class);

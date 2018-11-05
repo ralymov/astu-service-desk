@@ -21,6 +21,7 @@
   "dependencies": {
     "bootstrap-vue": "^2.0.0-rc.11",
     "sweetalert": "^2.1.0",
+    "vue-color": "^2.7.0",
     "vue-router": "^3.0.1",
     "vue-select": "^2.5.1",
     "vuex": "^3.0.1"

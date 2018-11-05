@@ -61,6 +61,7 @@
           {url: 'departments', label: 'Отделы'},
           {url: 'positions', label: 'Должности'},
           {url: 'employees', label: 'Сотрудники'},
+          {url: 'users', label: 'Пользователи системы'},
         ],
       }
     },

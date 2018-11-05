@@ -1,5 +1,10 @@
 <template>
-  <reference-table-list entity="employees" ref="employeesList" :additionalFields="additionalFields">
+  <reference-table-list
+      entity="employees"
+      ref="employeesList"
+      :additionalFields="additionalFields"
+      nameFieldLabel="Имя"
+  >
 
     <template slot="form-inputs" slot-scope="data">
       <form-select v-model="data.item.department_id" :options="departments"

@@ -22,7 +22,8 @@ class TicketStatusController extends ApiController
     public function store(Request $request)
     {
         $this->validate($request, [
-
+            'name' => 'required|max:255',
+            'rgb' => 'nullable|max:7'
         ]);
         $ticketStatus = TicketStatus::create($request->all());
         return response()->json($ticketStatus, 201);
@@ -31,7 +32,8 @@ class TicketStatusController extends ApiController
     public function update(Request $request, TicketStatus $ticketStatus)
     {
         $this->validate($request, [
-
+            'name' => 'required|max:255',
+            'rgb' => 'nullable|max:7'
         ]);
         $ticketStatus->update($request->all());
         return response()->json($ticketStatus, 200);

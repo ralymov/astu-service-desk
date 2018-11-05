@@ -56,6 +56,10 @@
         errorPage: false,
         navItems: [
           {url: 'tickets', label: 'Заявки'},
+          {url: 'ticketTypes', label: 'Типы заявок'},
+          {url: 'ticketStatuses', label: 'Статусы заявок'},
+          {url: 'departments', label: 'Отделы'},
+          {url: 'positions', label: 'Должности'},
         ],
       }
     },

@@ -11,7 +11,7 @@ class DepartmentController extends ApiController
 
     public function index()
     {
-        return Department::with('location')->get();
+        return Department::with('location')->orderBy('id','desc')->get();
     }
 
     public function show(Department $department)

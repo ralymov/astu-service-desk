@@ -29,14 +29,14 @@ class TicketController extends ApiController
             'description' => 'required|max:1000',
             'applicant_name' => 'nullable|max:255',
             'applicant_id' => 'nullable|integer|exists:employees,id',
-            'employee_id' => 'nullable|integer|exists:employees,id',
+            'contractor_id' => 'nullable|integer|exists:users,id',
             'type_id' => 'nullable|integer|exists:ticket_types,id',
             'priority_id' => 'nullable|integer|exists:ticket_priorities,id',
             'comment' => 'nullable|max:1000',
         ]);
         $ticket = Ticket::create($request->except('comment'));
         if ($request->has('comment')) {
-            $comment = Comment::create(['text'=>$request->input('comment')]);
+            $comment = Comment::create(['text' => $request->input('comment')]);
             $ticket->comments()->attach($comment->id);
         }
         return response()
@@ -50,7 +50,7 @@ class TicketController extends ApiController
             'description' => 'required|max:1000',
             'applicant_name' => 'nullable|max:255',
             'applicant_id' => 'nullable|integer|exists:employees,id',
-            'employee_id' => 'nullable|integer|exists:employees,id',
+            'contractor_id' => 'nullable|integer|exists:users,id',
             'type_id' => 'nullable|integer|exists:ticket_types,id',
             'priority_id' => 'nullable|integer|exists:ticket_priorities,id',
             'comment' => 'nullable|max:1000',

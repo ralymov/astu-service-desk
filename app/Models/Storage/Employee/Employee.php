@@ -20,9 +20,4 @@ class Employee extends Model
         return $this->belongsTo(Position::class);
     }
 
-    public function type()
-    {
-        return $this->belongsTo(EmployeeType::class);
-    }
-
 }

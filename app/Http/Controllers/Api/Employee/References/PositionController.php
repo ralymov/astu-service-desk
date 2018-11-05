@@ -11,7 +11,7 @@ class PositionController extends ApiController
 
     public function index()
     {
-        return Position::all();
+        return Position::orderBy('id','desc')->get();
     }
 
     public function show(Position $positions)

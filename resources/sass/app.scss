@@ -55,3 +55,11 @@ h1, h2, h3, h4 {
 .pointer {
   cursor: pointer;
 }
+
+.custom-file-label::after {
+  content: "Обзор";
+}
+
+.form-inline label {
+  justify-content: left;
+}

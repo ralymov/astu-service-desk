@@ -15,17 +15,17 @@ class ReferencesRelationsSeeder extends Seeder
     public function run()
     {
         //Attach positions to departments
-        $serviceDepartments = Department::whereName('Сервисный отдел')
-            ->orWhere('name', 'Отдел ВСиС')
-            ->orWhere('name', 'Отдел ИБ')
-            ->orWhere('name', 'Отдел АСУ')
-            ->get();
-        $positions = Position::whereName('Начальник отдела')
-            ->orWhere('name', 'Специалист')
-            ->orWhere('name', 'Ведущий специалист')
-            ->get();
-        foreach ($serviceDepartments as $department) {
-            $department->positions()->sync($positions);
-        }
+//        $serviceDepartments = Department::whereName('Сервисный отдел')
+//            ->orWhere('name', 'Отдел ВСиС')
+//            ->orWhere('name', 'Отдел ИБ')
+//            ->orWhere('name', 'Отдел АСУ')
+//            ->get();
+//        $positions = Position::whereName('Начальник отдела')
+//            ->orWhere('name', 'Специалист')
+//            ->orWhere('name', 'Ведущий специалист')
+//            ->get();
+//        foreach ($serviceDepartments as $department) {
+//            $department->positions()->sync($positions);
+//        }
     }
 }

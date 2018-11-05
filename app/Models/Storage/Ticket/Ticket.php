@@ -7,6 +7,7 @@ use App\Models\Storage\Employee\Location;
 use App\Models\Storage\Ticket\References\TicketPriority;
 use App\Models\Storage\Ticket\References\TicketStatus;
 use App\Models\Storage\Ticket\References\TicketType;
+use App\Models\Storage\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
@@ -28,12 +29,12 @@ class Ticket extends Model
 
     public function forList()
     {
-        return $this->load('applicant_location', 'applicant', 'employee', 'type', 'priority', 'status');
+        return $this->load('applicant_location', 'applicant', 'contractor', 'type', 'priority', 'status');
     }
 
     public function scopeForList($query)
     {
-        return $query->with('applicant_location', 'applicant', 'employee', 'type', 'priority', 'status');
+        return $query->with('applicant_location', 'applicant', 'contractor', 'type', 'priority', 'status');
     }
 
     public function comments()
@@ -51,9 +52,9 @@ class Ticket extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function employee()
+    public function contractor()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(User::class);
     }
 
     public function type()

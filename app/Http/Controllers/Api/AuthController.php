@@ -49,7 +49,7 @@ class AuthController extends ApiController
             'username' => $user->username,
             'role' => $user->role->name,
             'id' => $user->id,
-            'full_name' => $user->employee->name ?? $user->name,
+            'full_name' => $user->name,
         ]);
     }
 

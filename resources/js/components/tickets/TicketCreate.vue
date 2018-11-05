@@ -10,7 +10,7 @@
     <b-form @submit.prevent="createTicket">
       <b-row class="mt-3 mb-5">
 
-        <b-col cols="8">
+        <b-col cols="6">
           <label for="inputTitle">Тема:</label>
           <b-form-input id="inputTitle"
                         v-model.trim="ticket.title"
@@ -18,14 +18,13 @@
                         placeholder="Тема заявки"
                         required></b-form-input>
         </b-col>
-        <b-col cols="4">
+        <b-col cols="6">
           <label for="inputApplicant">От кого:</label>
           <input-search id="inputApplicant"
                         placeholder="ФИО пользователя"
                         v-model.trim="ticket.applicant_name"
                         @selectItem="ticket.applicant_id=$event"
                         searchTable="employees"
-                        :additionalSearchConditionals="[{field:'type_id',value:2}]"
                         searchField="name">
           </input-search>
         </b-col>
@@ -43,9 +42,8 @@
           <input-search id="inputContractor"
                         placeholder="ФИО сотрудника"
                         v-model.trim="ticket.employee_name"
-                        @selectItem="ticket.employee_id=$event"
-                        searchTable="employees"
-                        :additionalSearchConditionals="[{field:'type_id',value:1}]"
+                        @selectItem="ticket.contractor_id=$event"
+                        searchTable="users"
                         searchField="name">
           </input-search>
         </b-col>

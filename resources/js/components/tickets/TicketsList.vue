@@ -14,7 +14,7 @@
         {{ _.get(data.item, 'applicant.name', data.item.applicant_name) }}
       </template>
       <template slot="contractor" slot-scope="data">
-        {{ _.get(data.item, 'employee.name', 'Нет данных') }}
+        {{ _.get(data.item, 'contractor.name', 'Нет данных') }}
       </template>
       <template slot="status" slot-scope="data">
         <div class="badge badge-primary status-badge"

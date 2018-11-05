@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="inputSearch">
 
     <b-form-input
         @input.native="input"
@@ -56,7 +56,7 @@
       },
       additionalSearchConditionals: {
         type: Array,
-        default: [],
+        default: () => [],
       },
       required: {
         type: Boolean,
@@ -96,7 +96,6 @@
           });
       },
       selectItem(item) {
-        console.log(item);
         this.value = item.name;
         this.selectedItem = item;
         this.searchItems = [];
@@ -135,6 +134,10 @@
 </script>
 
 <style lang="scss">
+  .inputSearch {
+    position: relative;
+  }
+
   .searchResult {
     display: block;
     font-size: 1rem;
@@ -146,7 +149,7 @@
     border-radius: 0.25rem;
     z-index: 500;
     position: absolute;
-    width: 91%;
+    width: 100%;
   }
 
   .searchResultItem {

@@ -1,11 +1,23 @@
 <template>
-  <div>
-    <div class="input-group mb-3 mt-3" :style="{width:'30%'}">
-      <b-form-input placeholder="Название" v-model="item.name"/>
-      <div class="input-group-append">
-        <b-button variant="success" @click="store">Добавить</b-button>
-      </div>
-    </div>
+  <div class="referenceTableList">
+
+    <b-row class="mb-3 mt-2">
+      <b-col cols="6">
+        <b-form inline @submit.prevent="store">
+          <div class="input-group">
+            <b-form-input placeholder="Название" v-model="item.name" required/>
+            <slot name="form-inputs" :item="item"></slot>
+            <div class="input-group-append">
+              <b-button variant="success" type="submit">Добавить</b-button>
+            </div>
+          </div>
+        </b-form>
+      </b-col>
+      <slot name="additional-forms"></slot>
+    </b-row>
+
+
+    <slot name="before-table"></slot>
 
     <b-table class="mt-4"
              hover :items="items"
@@ -24,7 +36,7 @@
         <slot :name="field.key" v-bind="data">{{ data.item[field.key] }}</slot>
       </template>
 
-      <template slot="actions" slot-scope="data">
+      <template slot="actions" slot-scope="data" class="action-slot">
         <template v-if="data.item.is_edit">
           <b-button size="sm" variant="success" @click.stop="update(data.item)" class="mr-1">
             Сохранить
@@ -101,6 +113,13 @@
       edit(item) {
         item.is_edit = true;
       },
+      store() {
+        axios.post(this.entity, this.item)
+          .then(response => {
+            response.data.is_edit = false;
+            this.items.unshift(response.data);
+          });
+      },
       update(item) {
         let data = {};
         this.requestFields.map(value => data[value] = item[value]);
@@ -114,17 +133,14 @@
         axios.delete(this.entity + '/' + id)
           .then(() => this.deleteById(this.items, id));
       },
-      store() {
-        axios.post(this.entity, this.item)
-          .then(response => {
-            response.data.is_edit = false;
-            this.items.unshift(response.data);
-          });
-      }
     },
   }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+  .referenceTableList {
+    tr > td:last-of-type {
+      min-width: 250px;
+    }
+  }
 </style>

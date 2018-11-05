@@ -2,7 +2,8 @@
 
 namespace App\Models\Storage\User;
 
-use App\Models\Storage\Employee\Employee;
+use App\Models\Storage\Employee\Department;
+use App\Models\Storage\Employee\Position;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -24,9 +25,14 @@ class User extends Authenticatable implements JWTSubject
     public const FLD_PASSWORD = 'password';
     public const FLD_ROLE_ID = 'role_id';
 
-    public function employee()
+    public function department()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Department::class);
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
     }
 
     public function role()

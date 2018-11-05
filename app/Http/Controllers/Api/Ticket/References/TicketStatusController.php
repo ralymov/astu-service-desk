@@ -11,7 +11,7 @@ class TicketStatusController extends ApiController
 
     public function index()
     {
-        return TicketStatus::all();
+        return TicketStatus::orderBy('id','desc')->get();
     }
 
     public function show(TicketStatus $ticketStatus)

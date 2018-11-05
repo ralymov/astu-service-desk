@@ -8,7 +8,7 @@
         <title>@yield('title')</title>
         <link href="https://fonts.googleapis.com/css?family=PT+Sans:100,300,400,700&amp;subset=cyrillic"
               rel="stylesheet">
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon"/>
+        <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon"/>
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}"/>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
               integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"

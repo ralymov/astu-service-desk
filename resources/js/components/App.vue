@@ -60,6 +60,7 @@
           {url: 'ticketStatuses', label: 'Статусы заявок'},
           {url: 'departments', label: 'Отделы'},
           {url: 'positions', label: 'Должности'},
+          {url: 'employees', label: 'Сотрудники'},
         ],
       }
     },

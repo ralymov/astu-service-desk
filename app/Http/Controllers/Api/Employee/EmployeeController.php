@@ -37,7 +37,7 @@ class EmployeeController extends ApiController
             'department_id' => 'nullable|integer|exists:departments,id',
         ]);
         $employee = Employee::create($request->all());
-        return response()->json($employee, 201);
+        return response()->json($employee->load('department', 'position'), 201);
     }
 
     public function update(Request $request, Employee $employee)
@@ -48,7 +48,7 @@ class EmployeeController extends ApiController
             'department_id' => 'nullable|integer|exists:departments,id',
         ]);
         $employee->update($request->all());
-        return response()->json($employee, 200);
+        return response()->json($employee->load('department', 'position'), 200);
     }
 
     public function destroy(Employee $employee)

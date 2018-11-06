@@ -21,7 +21,7 @@
     <div class="searchResult" v-if="showSearch">
       <div class="searchResultItem pointer"
            v-for="item,i in searchItems"
-           :class="{ 'active': i === arrowCounter }"
+           :class="{ 'active': i === arrowCounter, 'showInfo': showItemInfo }"
            :key="i"
            @click="selectItem(item)"
            @mouseover="onMouseover(i)">
@@ -59,6 +59,10 @@
         default: () => [],
       },
       required: {
+        type: Boolean,
+        default: false,
+      },
+      showItemInfo: {
         type: Boolean,
         default: false,
       }
@@ -103,7 +107,7 @@
         this.$emit('selectItem', item.id);
       },
       onBlur() {
-        setTimeout(() => this.showSearch = false, 300);
+        //setTimeout(() => this.showSearch = false, 300);
       },
       onFocus() {
         this.showSearch = true;
@@ -156,7 +160,17 @@
     height: calc(2.25rem + 2px);
     padding: 0.375rem 0.75rem;
     &.active {
-      background: #3b95e8;
+      background: #93d1e8;
+    }
+    &.showInfo {
+      &::before {
+        position: relative;
+        content: "?";
+        top: 0;
+        height: 20px;
+        width: 20px;
+        left: 98%;
+      }
     }
   }
 </style>

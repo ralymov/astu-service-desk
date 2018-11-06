@@ -4,14 +4,13 @@
       <div id="header" class="d-flex align-items-center justify-content-between" v-if="isAuth">
         <div class="v-center">
           <h1 class="mr-3">{{ pageTitle }}</h1>
-          <span class="font-weight-bold mr-4">{{ currentUser.full_name || 'Нет данных' }}</span>
         </div>
         <div class="v-center">
           <div class="dropdowns">
-            <b-dropdown variant="link" size="lg" no-caret right>
+            <b-dropdown variant="link" size="lg" no-caret right class="profile-dropdown">
               <template slot="button-content">
-                <!--<vector icon="user"/>-->
-                <img :style="{width:'40px'}" src="/icons/user.svg">
+                <img :style="{width:'30px'}" src="/icons/user.svg">
+                <span class="font-weight-bold mr-4">{{ currentUser.full_name || 'Нет данных' }}</span>
               </template>
               <b-dropdown-item href="#" @click="logout">Выход</b-dropdown-item>
             </b-dropdown>
@@ -40,7 +39,9 @@
       </div>
     </template>
     <div id="content">
-      <router-view></router-view>
+      <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
     </div>
   </div>
 </template>
@@ -55,12 +56,13 @@
         pageTitle: '',
         errorPage: false,
         navItems: [
-          {url: 'tickets', label: 'Заявки'},
-          {url: 'ticketTypes', label: 'Типы заявок'},
-          {url: 'ticketStatuses', label: 'Статусы заявок'},
-          {url: 'departments', label: 'Отделы'},
-          {url: 'positions', label: 'Должности'},
-          {url: 'employees', label: 'Сотрудники'},
+          {url: '/tickets', label: 'Заявки'},
+          {url: '/ticketTypes', label: 'Типы заявок'},
+          {url: '/ticketStatuses', label: 'Статусы заявок'},
+          {url: '/departments', label: 'Отделы'},
+          {url: '/positions', label: 'Должности'},
+          {url: '/employees', label: 'Сотрудники'},
+          {url: '/users', label: 'Пользователи системы'},
         ],
       }
     },
@@ -260,6 +262,7 @@
 
   .menu-item-wrapper {
     position: relative;
+    margin-top: 10px;
   }
 
   .menu-icon {
@@ -278,6 +281,35 @@
     &:hover, &.active {
       color: #00c690 !important;
     }
+  }
+
+  .profile-dropdown {
+    .btn-link {
+      color: white;
+      text-decoration: none;
+      &:hover {
+        text-decoration: none;
+      }
+      &:focus {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .fade-enter {
+    opacity: 0;
+  }
+
+  .fade-enter-active {
+    transition: opacity 2s ease;
+  }
+
+  .fade-leave {
+  }
+
+  .fade-leave-active {
+    transition: opacity 2s ease;
+    opacity: 0;
   }
 
 </style>

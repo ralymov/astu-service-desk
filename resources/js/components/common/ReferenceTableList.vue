@@ -1,7 +1,7 @@
 <template>
   <div class="referenceTableList">
 
-    <b-row class="mb-3 mt-2">
+    <b-row class="mb-3 mt-2" v-if="!hideForm">
       <b-col cols="6">
         <b-form inline @submit.prevent="store">
           <div class="input-group">
@@ -15,7 +15,6 @@
       </b-col>
       <slot name="additional-forms"></slot>
     </b-row>
-
 
     <slot name="before-table"></slot>
 
@@ -65,6 +64,10 @@
         default: '',
         required: true,
       },
+      hideForm: {
+        type: Boolean,
+        default: false,
+      },
       additionalFields: {
         type: Array,
         default: () => [],
@@ -72,6 +75,14 @@
       requestFields: {
         type: Array,
         default: () => ['name']
+      },
+      nameFieldLabel: {
+        type: String,
+        default: 'Название',
+      },
+      editPath: {
+        type: String,
+        default: null,
       }
     },
     data() {
@@ -85,7 +96,7 @@
           },
           {
             key: 'name',
-            label: 'Название',
+            label: this.nameFieldLabel,
           },
           {
             key: 'actions',
@@ -111,6 +122,7 @@
           }));
       },
       edit(item) {
+        if (this.editPath) this.$router.push(this.editPath + item.id);
         item.is_edit = true;
       },
       store() {

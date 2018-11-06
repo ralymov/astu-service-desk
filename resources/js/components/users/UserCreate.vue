@@ -1,66 +1,135 @@
 <template>
-  <reference-table-list
-      entity="users"
-      nameFieldLabel="Имя"
-      :additionalFields="additionalFields"
-      hideForm
-  >
+  <b-card header-tag="header"
+          footer-tag="footer"
+          class="user-card">
 
-    <template slot="before-table">
-      <b-button variant="success" @click="create">Новый пользователь</b-button>
-    </template>
+    <h4 slot="header" class="mb-0">Новый пользователь</h4>
 
-    <template slot="department" slot-scope="data">
-      <template v-if="data.item.is_edit">
-        <form-select v-model="data.item.department_id" :options="departments"
-                     :firstElement="{value:null,text:'Отдел'}">
-        </form-select>
-      </template>
-      <template v-else>
-        {{_.get(data.item, 'department.name', 'Нет данных')}}
-      </template>
-    </template>
+    <b-form @submit.prevent="storeOrUpdate" id="userCreateForm">
+      <b-container fluid>
 
-    <template slot="position" slot-scope="data">
-      <template v-if="data.item.is_edit">
-        <form-select v-model="data.item.position_id" :options="positions"
-                     :firstElement="{value:null,text:'Должность'}">
-        </form-select>
-      </template>
-      <template v-else>
-        {{_.get(data.item, 'position.name', 'Нет данных')}}
-      </template>
-    </template>
+        <b-row class="my-1">
+          <b-col sm="3">
+            <label for="inputName">ФИО:</label>
+          </b-col>
+          <b-col sm="9">
+            <b-form-input id="inputName" v-model="user.name" required></b-form-input>
+          </b-col>
+        </b-row>
 
-  </reference-table-list>
+        <b-row class="mt-4">
+          <b-col sm="3">
+            <label for="inputLogin">Логин:</label>
+          </b-col>
+          <b-col sm="9">
+            <b-form-input id="inputLogin" v-model="user.username" required></b-form-input>
+          </b-col>
+        </b-row>
+
+        <b-row class="mt-4">
+          <b-col sm="3">
+            <label for="inputPassword">Пароль:</label>
+          </b-col>
+          <b-col sm="9">
+            <b-form-input id="inputPassword" v-model="user.password" type="password" required></b-form-input>
+          </b-col>
+        </b-row>
+
+        <b-row class="mt-4">
+          <b-col sm="3">
+            <label for="inputEmail">E-mail:</label>
+          </b-col>
+          <b-col sm="9">
+            <b-form-input id="inputEmail" v-model="user.email"></b-form-input>
+          </b-col>
+        </b-row>
+
+        <b-row class="mt-4">
+          <b-col sm="3">
+            <label for="inputDepartment">Отдел:</label>
+          </b-col>
+          <b-col sm="9">
+            <select-search id="inputDepartment"
+                           v-model="user.department_id"
+                           searchTable="departments"
+                           searchField="name">
+            </select-search>
+          </b-col>
+        </b-row>
+
+        <b-row class="mt-4">
+          <b-col sm="3">
+            <label for="inputPosition">Должность:</label>
+          </b-col>
+          <b-col sm="9">
+            <select-search id="inputPosition"
+                           v-model="user.position_id"
+                           searchTable="positions"
+                           searchField="name">
+            </select-search>
+          </b-col>
+        </b-row>
+
+      </b-container>
+    </b-form>
+
+    <div slot="footer">
+      <b-button variant="success" type="submit" class="mr-1" form="userCreateForm">
+        Сохранить
+      </b-button>
+    </div>
+
+  </b-card>
 </template>
 
 <script>
-  import ReferenceTableList from 'components/common/ReferenceTableList'
 
   export default {
     name: "UserCreate",
-    components: {
-      ReferenceTableList
-    },
     data() {
       return {
-        additionalFields: [
-          {
-            key: 'department',
-            label: 'Отдел'
-          },
-          {
-            key: 'position',
-            label: 'Должность'
-          },
-        ]
+        user: {},
+        departments: [],
       }
     },
+    mounted() {
+      this.fetchReferences();
+      this.fetchData();
+    },
     methods: {
-      create() {
-        this.$router.push('users/create');
+      fetchData() {
+        if (!this.$route.params.id) return;
+        axios.get('users/' + this.$route.params.id)
+          .then(response => this.user = response.data);
+      },
+      fetchReferences() {
+        axios.get('departments')
+          .then(response => this.departments = response.data);
+      },
+      storeOrUpdate() {
+        if (!this.$route.params.id) {
+          this.store();
+        } else {
+          this.update();
+        }
+      },
+      store() {
+        axios.post('users', this.user)
+          .then(response => {
+            this.alertSuccess();
+            this.$router.push('/users');
+          });
+      },
+      update() {
+        axios.put('users/' + this.$route.params.id, this.user)
+          .then(response => this.alertSuccess());
       }
     }
   }
 </script>
+
+<style scoped>
+  .user-card {
+    width: 60%;
+  }
+</style>

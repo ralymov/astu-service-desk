@@ -16,7 +16,6 @@
 @import "~bootstrap/scss/input-group";
 @import "~bootstrap/scss/custom-forms";
 @import "~bootstrap/scss/nav";
-@import "~bootstrap/scss/card";
 @import "~bootstrap/scss/pagination";
 @import "~bootstrap/scss/badge";
 @import "~bootstrap/scss/progress";
@@ -25,6 +24,7 @@
 @import "~bootstrap/scss/tooltip";
 @import "~bootstrap/scss/popover";
 @import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/card";
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
 //Components
 @import "components/modal";
@@ -62,4 +62,14 @@ h1, h2, h3, h4 {
 
 .form-inline label {
   justify-content: left;
+}
+
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  .card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  }
+  .card-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+  }
 }

@@ -25,6 +25,13 @@ class User extends Authenticatable implements JWTSubject
     public const FLD_PASSWORD = 'password';
     public const FLD_ROLE_ID = 'role_id';
 
+    public function updateUser(array $attributes = []): self {
+        $this->username = $attributes['username'];
+        $this->role_id = $attributes['role_id'];
+        $this->password = \Hash::make($attributes['password']);
+        return $this;
+    }
+
     public function department()
     {
         return $this->belongsTo(Department::class);

@@ -25,7 +25,8 @@
                         v-model.trim="ticket.applicant_name"
                         @selectItem="ticket.applicant_id=$event"
                         searchTable="employees"
-                        searchField="name">
+                        searchField="name"
+                        showItemInfo>
           </input-search>
         </b-col>
 
@@ -81,8 +82,13 @@
 </template>
 
 <script>
+  import EmployeeInfoCard from './helpers/EmployeeInfoCard';
+
   export default {
     name: "TicketCreate",
+    components: {
+      EmployeeInfoCard
+    },
     data() {
       return {
         ticket: {},

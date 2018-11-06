@@ -79,6 +79,10 @@
       nameFieldLabel: {
         type: String,
         default: 'Название',
+      },
+      editPath: {
+        type: String,
+        default: null,
       }
     },
     data() {
@@ -118,6 +122,7 @@
           }));
       },
       edit(item) {
+        if (this.editPath) this.$router.push(this.editPath + item.id);
         item.is_edit = true;
       },
       store() {

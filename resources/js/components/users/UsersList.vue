@@ -3,6 +3,7 @@
       entity="users"
       nameFieldLabel="Имя"
       :additionalFields="additionalFields"
+      editPath="/users/edit/"
       hideForm
   >
 

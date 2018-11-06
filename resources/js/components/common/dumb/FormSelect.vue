@@ -4,7 +4,8 @@
                  :text-field="textField"
                  :value-field="valueField"
                  @input="input"
-                 :required="required">
+                 :required="required"
+                 :id="id">
     <template slot="first">
       <option :value="firstElement.value" disabled>{{firstElement.text}}</option>
     </template>
@@ -41,6 +42,10 @@
         default: false,
       },
       value: null,
+      id: {
+        type: String,
+        default: '',
+      }
     },
     data() {
       return {

@@ -22,9 +22,9 @@ router.beforeEach((to, from, next) => {
   if (!to.meta.guestGuard && !store.getters['auth/isAuth'] && to.path !== '/404') {
     next({name: 'login'});
   }
-  
+
   document.title = to.meta.title || 'Service desk';
-  
+
   next();
 });
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Models\Storage\User\Role;
 use App\Models\Storage\User\User;
 use Illuminate\Http\Request;
 
@@ -14,19 +15,24 @@ class UserController extends ApiController
         return User::with('department', 'position', 'role')->orderBy('id', 'desc')->get();
     }
 
-    public function show(User $users)
+    public function show(User $user)
     {
-        return $users;
+        return $user;
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'position_id' => 'nullable|integer|exists:positions,id',
-            'department_id' => 'nullable|integer|exists:departments,id',
+            'username' => 'required|max:255',
+            'password' => 'required|max:255',
         ]);
-        $user = User::create($request->all());
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->username = $request->input('username');
+        $user->password = \Hash::make($request->input('password'));
+        $user->role_id = Role::whereCode(Role::contractor)->first()->id;
+        $user->save();
         return response()->json($user, 201);
     }
 
@@ -34,10 +40,14 @@ class UserController extends ApiController
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'position_id' => 'nullable|integer|exists:positions,id',
-            'department_id' => 'nullable|integer|exists:departments,id',
+            'username' => 'required|max:255',
+            'password' => 'required|max:255',
         ]);
-        $user->update($request->all());
+        $user->name = $request->input('name');
+        $user->username = $request->input('username');
+        $user->password = \Hash::make($request->input('password'));
+        $user->role_id = Role::whereCode(Role::contractor)->first()->id;
+        $user->save();
         return response()->json($user, 200);
     }
 

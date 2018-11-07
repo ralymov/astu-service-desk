@@ -19,15 +19,16 @@
                         required></b-form-input>
         </b-col>
         <b-col cols="6">
+
           <label for="inputApplicant">От кого:</label>
-          <input-search id="inputApplicant"
-                        placeholder="ФИО пользователя"
-                        v-model.trim="ticket.applicant_name"
-                        @selectItem="ticket.applicant_id=$event"
-                        searchTable="employees"
-                        searchField="name"
-                        showItemInfo>
-          </input-search>
+          <employee-input-search id="inputApplicant"
+                                 placeholder="ФИО пользователя"
+                                 v-model.trim="ticket.applicant_name"
+                                 @selectItem="ticket.applicant_id=$event"
+                                 @item="selectedEmployee=$event"
+                                 searchTable="employees"
+                                 searchField="name">
+          </employee-input-search>
         </b-col>
 
         <b-col cols="4" class="mt-3">
@@ -82,12 +83,12 @@
 </template>
 
 <script>
-  import EmployeeInfoCard from './helpers/EmployeeInfoCard';
+  import EmployeeInputSearch from './helpers/EmployeeInputSearch';
 
   export default {
     name: "TicketCreate",
     components: {
-      EmployeeInfoCard
+      EmployeeInputSearch
     },
     data() {
       return {
@@ -95,6 +96,8 @@
         ticketTypes: [],
         ticketPriorities: [],
         ticketStatuses: [],
+
+        selectedEmployee: {},
       }
     },
     methods: {

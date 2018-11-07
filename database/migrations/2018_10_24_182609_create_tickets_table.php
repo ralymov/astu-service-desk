@@ -81,6 +81,7 @@ class CreateTicketsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description');
+            $table->text('comment')->nullable();
 
             $table->string('applicant_name')->nullable();
             $table->unsignedInteger('applicant_location_id')->nullable();
@@ -99,6 +100,9 @@ class CreateTicketsTable extends Migration
 
             $table->unsignedInteger('status_id')->nullable();
             $table->foreign('status_id')->references('id')->on('ticket_statuses');
+
+            $table->unsignedInteger('author_id')->nullable();
+            $table->foreign('author_id')->references('id')->on('users');
 
             $table->dateTime('closed_at')->nullable();
             $table->timestamps();

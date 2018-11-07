@@ -13,7 +13,7 @@
         <b-col cols="6">
           <label for="inputTitle">Тема:</label>
           <b-form-input id="inputTitle"
-                        v-model.trim="ticket.title"
+                        v-model="ticket.title"
                         type="text"
                         placeholder="Тема заявки"
                         required></b-form-input>
@@ -23,7 +23,7 @@
           <label for="inputApplicant">От кого:</label>
           <employee-input-search id="inputApplicant"
                                  placeholder="ФИО пользователя"
-                                 v-model.trim="ticket.applicant_name"
+                                 v-model="ticket.applicant_name"
                                  @selectItem="ticket.applicant_id=$event"
                                  @item="selectedEmployee=$event"
                                  searchTable="employees"
@@ -43,7 +43,7 @@
           <label for="inputContractor">Кому:</label>
           <input-search id="inputContractor"
                         placeholder="ФИО сотрудника"
-                        v-model.trim="ticket.employee_name"
+                        v-model="ticket.employee_name"
                         @selectItem="ticket.contractor_id=$event"
                         searchTable="users"
                         searchField="name">

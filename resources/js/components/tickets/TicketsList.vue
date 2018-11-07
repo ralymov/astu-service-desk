@@ -39,6 +39,7 @@
   import TicketCreate from './TicketCreate';
 
   export default {
+    name: "TicketsList",
     components: {
       TicketCreate,
     },
@@ -85,8 +86,8 @@
       ticketCreated(ticket) {
         this.tickets.data.unshift(ticket);
       },
-      editTicket(id) {
-        console.log('Edit ticket ' + id);
+      editTicket(item) {
+        this.$router.push('/tickets/edit/' + item.id);
       },
       changePage() {
         this.fetchData(this.tickets.current_page);
@@ -96,7 +97,7 @@
 </script>
 
 <style lang="scss">
-  .table.b-table .status-badge {
+  .table .status-badge {
     min-width: 100px;
     font-size: 16px;
   }

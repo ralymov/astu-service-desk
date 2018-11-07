@@ -73,3 +73,18 @@ h1, h2, h3, h4 {
     border-top: 1px solid rgba(0, 0, 0, 0.125);
   }
 }
+
+.btn-group-justified {
+  display: flex;
+  width: 100%;
+  .btn,
+  .btn-group {
+    flex: 1;
+    .btn {
+      width: 100%;
+    }
+    .dropdown-menu {
+      left: auto;
+    }
+  }
+}

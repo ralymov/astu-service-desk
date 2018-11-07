@@ -3,7 +3,8 @@
              triggers="hover focus">
     <b-card header-tag="header"
             footer-tag="footer"
-            class="employee-info-card">
+            class="employee-info-card"
+            header-bg-variant="success">
 
       <h5 slot="header" class="mb-0">Информация о сотруднике</h5>
 
@@ -65,6 +66,9 @@
     }
     .employee-info-item {
       font-size: 16px;
+    }
+    .popover {
+      max-width: 100%;
     }
   }
 </style>

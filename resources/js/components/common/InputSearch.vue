@@ -5,7 +5,7 @@
         @input.native="input"
         :id="id"
         type="text"
-        v-model.trim="value"
+        v-model="value"
         :placeholder="placeholder"
         @blur.native="onBlur"
         @focus.native="onFocus"

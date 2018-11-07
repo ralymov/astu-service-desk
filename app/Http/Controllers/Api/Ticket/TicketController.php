@@ -13,13 +13,13 @@ class TicketController extends ApiController
     public function index()
     {
         return Ticket::orderBy('id', 'desc')
-            ->forList('applicant_location', 'applicant', 'employee', 'type', 'priority', 'status')
+            ->forList()
             ->paginate(10);
     }
 
     public function show(Ticket $ticket)
     {
-        return $ticket;
+        return $ticket->forList();
     }
 
     public function store(Request $request)
@@ -34,13 +34,17 @@ class TicketController extends ApiController
             'priority_id' => 'nullable|integer|exists:ticket_priorities,id',
             'comment' => 'nullable|max:1000',
         ]);
-        $ticket = Ticket::create($request->except('comment'));
-        if ($request->has('comment')) {
-            $comment = Comment::create(['text' => $request->input('comment')]);
-            $ticket->comments()->attach($comment->id);
-        }
-        return response()
-            ->json($ticket->forList(), 201);
+        $ticket = Ticket::create($request->all());
+//        if ($request->has('comment')) {
+//            $comment = Comment::create(['text' => $request->input('comment')]);
+//            $ticket->comments()->attach($comment->id);
+//        }
+        return response()->json($ticket->forList(), 201);
+    }
+
+    public function edit(Ticket $ticket)
+    {
+        return $ticket->forEdit();
     }
 
     public function update(Request $request, Ticket $ticket)
@@ -56,8 +60,7 @@ class TicketController extends ApiController
             'comment' => 'nullable|max:1000',
         ]);
         $ticket->update($request->all());
-        return response()
-            ->json($ticket->forList(), 200);
+        return response()->json($ticket->forList(), 200);
     }
 
     public function destroy(Ticket $ticket)

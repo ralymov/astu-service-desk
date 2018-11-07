@@ -8,12 +8,31 @@ use App\Models\Storage\Ticket\References\TicketPriority;
 use App\Models\Storage\Ticket\References\TicketStatus;
 use App\Models\Storage\Ticket\References\TicketType;
 use App\Models\Storage\User\User;
+use App\Traits\FormatDateTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+    use FormatDateTrait;
 
     protected $guarded = ['id'];
+    private $relationsForList = [
+        'applicant_location',
+        'applicant', 'contractor',
+        'type',
+        'priority',
+        'status'
+    ];
+    private $relationsForEdit = [
+        'applicant_location',
+        'applicant',
+        'contractor',
+        'type',
+        'priority',
+        'status',
+        'author',
+        'comments.author'
+    ];
 
     public static function boot()
     {
@@ -21,20 +40,39 @@ class Ticket extends Model
 
         self::creating(function ($model) {
             $model->status_id = TicketStatus::new()->first()->id ?? null;
+            $model->author_id = auth()->user()->id ?? null;
         });
-
     }
 
-    #region Relations
+    #region Relations methods and scoped
+
+    public function forEdit()
+    {
+        return $this->load($this->relationsForEdit);
+    }
+
+    public function scopeForEdit($query)
+    {
+        return $query->with($this->relationsForEdit);
+    }
 
     public function forList()
     {
-        return $this->load('applicant_location', 'applicant', 'contractor', 'type', 'priority', 'status');
+        return $this->load($this->relationsForList);
     }
 
     public function scopeForList($query)
     {
-        return $query->with('applicant_location', 'applicant', 'contractor', 'type', 'priority', 'status');
+        return $query->with($this->relationsForList);
+    }
+
+    #endregion
+
+    #region Relations
+
+    public function author()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function comments()

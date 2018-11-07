@@ -100,5 +100,9 @@
   .table .status-badge {
     min-width: 100px;
     font-size: 16px;
+    cursor: pointer;
+    &:hover {
+      filter: brightness(85%);
+    }
   }
 </style>

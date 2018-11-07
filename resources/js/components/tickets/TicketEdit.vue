@@ -31,7 +31,7 @@
               </tr>
               <tr>
                 <td class="font-weight-bold">Заявитель</td>
-                <td>{{_.get(ticket,'applicant.name', 'Нет данных')}}</td>
+                <td>{{_.get(ticket,'applicant.name', ticket.applicant_name)}}</td>
                 <td class="font-weight-bold">Последнее обновление</td>
                 <td>{{ticket.updated_at}}</td>
               </tr>

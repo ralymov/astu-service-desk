@@ -53,14 +53,20 @@
       };
     },
     methods: {
-      ...mapActions('auth', ['login']),
+      ...mapActions('auth', ['login', 'setUser', 'logout']),
       submit() {
         axios.post('login', this.credentials)
           .then(response => {
             let credentials = response.data;
             this.login(credentials);
+            this.getCurrentUser();
             this.$router.push('/');
           })
+      },
+      getCurrentUser() {
+        axios.get('/credentials')
+          .then(response => this.setUser(response.data))
+          .catch(error => this.logout());
       },
     },
   }

@@ -2,13 +2,13 @@
 
 namespace App\Models\Storage\Employee;
 
-use App\Models\Storage\Employee\References\EmployeeType;
 use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
 
     protected $guarded = ['id'];
+    protected $with = ['department', 'position'];
 
     public function department()
     {

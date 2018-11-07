@@ -1,16 +1,34 @@
 <template>
-  <b-card header-tag="header"
-          footer-tag="footer"
-          :title="employee.name"
-          class="employee-info-card">
+  <b-popover :target="target"
+             triggers="hover focus">
+    <b-card header-tag="header"
+            footer-tag="footer"
+            class="employee-info-card">
 
-    <h4 slot="header" class="mb-0">Информация о сотруднике</h4>
+      <h5 slot="header" class="mb-0">Информация о сотруднике</h5>
 
-    <p class="card-text">
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </p>
-
-  </b-card>
+      <div class="card-text">
+        <div class="employee-name">{{employee.name}}</div>
+        <hr>
+        <b-row class="employee-info-item">
+          <b-col cols="4">Должность:</b-col>
+          <b-col cols="8">{{_.get(employee,'position.name','Нет данных')}}</b-col>
+        </b-row>
+        <b-row class="employee-info-item">
+          <b-col cols="4">Отдел:</b-col>
+          <b-col cols="8">{{_.get(employee,'department.name','Нет данных')}}</b-col>
+        </b-row>
+        <b-row class="employee-info-item">
+          <b-col cols="4">Тел:</b-col>
+          <b-col cols="8">{{employee.phone || 'Нет данных'}}</b-col>
+        </b-row>
+        <b-row class="employee-info-item">
+          <b-col cols="4">Кабинет:</b-col>
+          <b-col cols="8">{{employee.cabinet || 'Нет данных'}}</b-col>
+        </b-row>
+      </div>
+    </b-card>
+  </b-popover>
 </template>
 
 <script>
@@ -22,6 +40,10 @@
         type: Object,
         default: () => {
         },
+      },
+      target: {
+        type: String,
+        default: 'employeeInfoPopover',
       }
     },
     data() {
@@ -34,8 +56,15 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .employee-info-card {
-    width: 200px;
+    width: 400px;
+    .employee-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .employee-info-item {
+      font-size: 16px;
+    }
   }
 </style>

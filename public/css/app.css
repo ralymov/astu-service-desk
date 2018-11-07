@@ -470,8 +470,22 @@ body {
   font-weight: bold;
 }
 
+.inputSearch .infoBadge img {
+  width: 20px;
+  position: absolute;
+  right: 10px;
+  top: 8px;
+}
+
 .employee-info-card[data-v-19b99b89] {
-  width: 200px;
+  width: 400px;
+}
+.employee-info-card .employee-name[data-v-19b99b89] {
+    font-size: 18px;
+    font-weight: bold;
+}
+.employee-info-card .employee-info-item[data-v-19b99b89] {
+    font-size: 16px;
 }
 
 body {
@@ -643,33 +657,32 @@ body {
 .inputSearch {
   position: relative;
 }
-.searchResult {
-  display: block;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  z-index: 500;
-  position: absolute;
-  width: 100%;
+.inputSearch .searchResult {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    z-index: 500;
+    position: absolute;
+    width: 100%;
 }
-.searchResultItem {
-  height: calc(2.25rem + 2px);
-  padding: 0.375rem 0.75rem;
-}
-.searchResultItem.active {
-    background: #93d1e8;
-}
-.searchResultItem.showInfo::before {
+.inputSearch .searchResultItem {
+    height: calc(2.25rem + 2px);
+    padding: 0.375rem 0.75rem;
     position: relative;
-    content: "?";
-    top: 0;
-    height: 20px;
+}
+.inputSearch .searchResultItem.active {
+      background: #93d1e8;
+}
+.inputSearch .infoBadge img {
     width: 20px;
-    left: 98%;
+    position: absolute;
+    right: 10px;
+    top: 8px;
 }
 
 .selectSearch {

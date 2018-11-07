@@ -21,7 +21,7 @@
     <div class="searchResult" v-if="showSearch">
       <div class="searchResultItem pointer"
            v-for="item,i in searchItems"
-           :class="{ 'active': i === arrowCounter, 'showInfo': showItemInfo }"
+           :class="{ 'active': i === arrowCounter }"
            :key="i"
            @click="selectItem(item)"
            @mouseover="onMouseover(i)">
@@ -62,10 +62,6 @@
         type: Boolean,
         default: false,
       },
-      showItemInfo: {
-        type: Boolean,
-        default: false,
-      }
     },
     data() {
       return {
@@ -81,6 +77,7 @@
         this.search();
         this.$emit('input', this.value);
         this.$emit('selectItem', null);
+        this.$emit('item', {});
       },
       search() {
         if (!this.value) {
@@ -105,9 +102,10 @@
         this.searchItems = [];
         this.showSearch = false;
         this.$emit('selectItem', item.id);
+        this.$emit('item', item);
       },
       onBlur() {
-        //setTimeout(() => this.showSearch = false, 300);
+        setTimeout(() => this.showSearch = false, 300);
       },
       onFocus() {
         this.showSearch = true;
@@ -140,37 +138,35 @@
 <style lang="scss">
   .inputSearch {
     position: relative;
-  }
 
-  .searchResult {
-    display: block;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    z-index: 500;
-    position: absolute;
-    width: 100%;
-  }
-
-  .searchResultItem {
-    height: calc(2.25rem + 2px);
-    padding: 0.375rem 0.75rem;
-    &.active {
-      background: #93d1e8;
+    .searchResult {
+      display: block;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      z-index: 500;
+      position: absolute;
+      width: 100%;
     }
-    &.showInfo {
-      &::before {
-        position: relative;
-        content: "?";
-        top: 0;
-        height: 20px;
-        width: 20px;
-        left: 98%;
+
+    .searchResultItem {
+      height: calc(2.25rem + 2px);
+      padding: 0.375rem 0.75rem;
+      position: relative;
+      &.active {
+        background: #93d1e8;
       }
+    }
+
+    .infoBadge img {
+      width: 20px;
+      position: absolute;
+      right: 10px;
+      top: 8px;
     }
   }
 </style>

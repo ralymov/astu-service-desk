@@ -111,6 +111,7 @@
         this.blurSecondInput = true;
         this.$emit('selectItem', item.id);
         this.$emit('input', item.id);
+        this.$emit('item', item);
       },
 
       onBlurFirst() {

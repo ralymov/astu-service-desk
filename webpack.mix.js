@@ -17,18 +17,11 @@ mix.options({
   globalVueStyles: path.resolve(__dirname, 'resources/sass/_global.scss'),
 });
 
-
-mix.webpackConfig({
-  resolve: {
-    alias: {
-      'styles': path.resolve(__dirname, 'resources/sass'),
-      'components': path.resolve(__dirname, 'resources/js/components'),
-    }
-  },
-});
+const config = require('./webpack.config.js');
+mix.webpackConfig(config);
 
 mix.js('resources/js/app.js', 'public/js').sourceMaps();
-  mix.sass('resources/sass/app.scss', 'public/css');
+mix.sass('resources/sass/app.scss', 'public/css');
 
 mix.version();
 

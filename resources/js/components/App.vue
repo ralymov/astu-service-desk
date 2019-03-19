@@ -120,7 +120,7 @@
     top: 0;
     left: 200px;
     right: 0;
-    z-index: 100000;
+    z-index: 500;
     height: 80px;
     padding: 0 25px;
     background-color: theme-color('success');

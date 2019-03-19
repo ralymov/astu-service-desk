@@ -38,6 +38,21 @@ Vue.component('chrome-color', Chrome);
 
 Object.defineProperty(Vue.prototype, '_', {value: _});
 
+Vue.directive('click-outside', {
+  bind: function (el, binding, vnode) {
+    el.clickOutsideEvent = function (event) {
+      console.log(event);
+      if (!(el == event.target || el.contains(event.target))) {
+        vnode.context[binding.expression](event);
+      }
+    };
+    document.body.addEventListener('click', el.clickOutsideEvent);
+  },
+  unbind: function (el) {
+    document.body.removeEventListener('click', el.clickOutsideEvent);
+  },
+});
+
 const app = new Vue({
   el: '#app',
   components: {App},

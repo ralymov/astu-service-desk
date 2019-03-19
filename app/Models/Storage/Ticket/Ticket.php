@@ -8,6 +8,7 @@ use App\Models\Storage\Ticket\References\TicketPriority;
 use App\Models\Storage\Ticket\References\TicketStatus;
 use App\Models\Storage\Ticket\References\TicketType;
 use App\Models\Storage\User\User;
+use App\Models\Storage\User\UserDepartment;
 use App\Traits\FormatDateTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +19,8 @@ class Ticket extends Model
     protected $guarded = ['id'];
     private $relationsForList = [
         'applicant_location',
-        'applicant', 'contractor',
+        'applicant',
+        'contractor',
         'type',
         'priority',
         'status'
@@ -69,6 +71,11 @@ class Ticket extends Model
     #endregion
 
     #region Relations
+
+    public function department()
+    {
+        return $this->belongsTo(UserDepartment::class);
+    }
 
     public function author()
     {

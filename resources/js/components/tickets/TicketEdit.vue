@@ -10,7 +10,8 @@
 
           <div class="d-flex justify-content-between" slot="header">
             <h5 class="text-white font-weight-bold">Заявка №{{ticket.id}}</h5>
-            <b-btn variant="secondary">Редактировать</b-btn>
+            <b-btn variant="success" v-if="editing" @click="save">Сохранить</b-btn>
+            <b-btn variant="secondary" v-else @click="edit">Редактировать</b-btn>
           </div>
 
           <div class="card-text">
@@ -38,13 +39,23 @@
               <tr>
                 <td class="font-weight-bold">Статус</td>
                 <td>
-                  <div class="badge badge-primary status-badge"
+                  <form-select v-model="ticket.status_id" :options="statuses"
+                               :firstElement="{value:null,text:'Статус'}" v-if="editing">
+                  </form-select>
+                  <div class="badge badge-primary status-badge" v-else
                        :style="{ 'background-color': _.get(ticket, 'status.rgb') }">
                     {{ _.get(ticket, 'status.name', 'Нет данных') }}
                   </div>
                 </td>
                 <td class="font-weight-bold">Приоритет</td>
-                <td>{{_.get(ticket,'priority.name', 'Нет данных')}}</td>
+                <td>
+                  <form-select v-model="ticket.priority_id" :options="priorities"
+                               :firstElement="{value:null,text:'Приоритет'}" v-if="editing">
+                  </form-select>
+                  <template v-else>
+                    {{_.get(ticket,'priority.name', 'Нет данных')}}
+                  </template>
+                </td>
               </tr>
               </tbody>
             </table>
@@ -53,7 +64,11 @@
               <tbody>
               <tr>
                 <td colspan="2">
-                  <b class="mr-5">Тема:</b>{{ticket.title}}
+                  <b class="mr-5">Тема:</b>
+                  <b-form-input class="inline-form" v-if="editing" v-model="ticket.title" inline/>
+                  <template v-else>
+                    {{ticket.title}}
+                  </template>
                 </td>
               </tr>
               <tr>
@@ -61,14 +76,24 @@
                 <td class="font-weight-bold">Комментарий</td>
               </tr>
               <tr>
-                <td>{{ticket.description}}</td>
-                <td>{{ticket.comment}}</td>
+                <td>
+                  <b-form-input class="inline-form" v-if="editing" v-model="ticket.description" inline/>
+                  <template v-else>
+                    {{ticket.description}}
+                  </template>
+                </td>
+                <td>
+                  <b-form-input class="inline-form" v-if="editing" v-model="ticket.comment" inline/>
+                  <template v-else>
+                    {{ticket.comment}}
+                  </template>
+                </td>
               </tr>
               </tbody>
             </table>
 
             <b-button-group class="mt-5 btn-group-justified actions-wrapper">
-              <b-button variant="primary">
+              <b-button variant="primary" v-b-toggle.forward>
                 <v-icon name="share"/>
                 Переадресация
               </b-button>
@@ -81,6 +106,27 @@
                 Выполнено
               </b-button>
             </b-button-group>
+
+            <b-collapse id="forward" class="mt-2">
+              <b-card>
+                <b-form @submit.prevent="forward">
+                  <b-row class="align-items-center">
+                    <b-col cols="3">
+                      Переадресация на:
+                    </b-col>
+                    <b-col cols="6">
+                      <select-search v-model="forwardData.department_id"
+                                     searchTable="userDepartments"
+                                     searchField="name">
+                      </select-search>
+                    </b-col>
+                    <b-col cols="3">
+
+                    </b-col>
+                  </b-row>
+                </b-form>
+              </b-card>
+            </b-collapse>
 
           </div>
         </b-card>
@@ -204,6 +250,10 @@
 </template>
 
 <script>
+  import ticketApi from 'api/tickets/ticketApi';
+  import ticketStatusesApi from 'api/tickets/ticketStatusesApi';
+  import ticketPrioritiesApi from 'api/tickets/ticketPrioritiesApi';
+
   export default {
     name: "TicketEdit",
     data() {
@@ -213,18 +263,39 @@
           comments: [],
         },
         comment: '',
+        editing: false,
+        statuses: [],
+        priorities: [],
+        forwardData: {},
       }
     },
     mounted() {
       this.fetchData();
     },
-    created: function () {
+    created() {
       document.title = 'Заявка №' + this.$route.params.id;
     },
     methods: {
-      fetchData() {
-        axios.get(`tickets/${this.$route.params.id}/edit/`)
-          .then(response => this.ticket = response.data)
+      async fetchData() {
+        this.ticket = await ticketApi.edit(this.$route.params.id);
+        this.statuses = await ticketStatusesApi.get();
+        this.priorities = await ticketPrioritiesApi.get();
+      },
+      async save() {
+        this.ticket = await ticketApi.update(this.$route.params.id, {
+          title: this.ticket.title,
+          description: this.ticket.description,
+          comment: this.ticket.comment,
+          priority_id: this.ticket.priority_id,
+          status_id: this.ticket.status_id,
+        });
+        this.editing = false;
+      },
+      forward() {
+        console.log('forward');
+      },
+      edit() {
+        this.editing = true;
       },
       addComment() {
         axios.post('ticketComments', {text: this.comment, ticket_id: this.ticket.id})
@@ -245,15 +316,19 @@
         margin-top: 10px;
       }
     }
+
     .employee-info-item {
       margin-top: 10px;
     }
+
     .actions-wrapper button {
       height: 45px;
     }
+
     .employee-name {
       font-size: 20px;
     }
+
     .fade {
       transition: opacity 0.5s linear;
     }
@@ -262,10 +337,12 @@
       overflow-y: auto;
       max-height: 400px;
     }
+
     ul.timeline {
       list-style-type: none;
       position: relative;
     }
+
     ul.timeline:before {
       content: ' ';
       background: #d4d9df;
@@ -276,10 +353,12 @@
       height: 100%;
       z-index: 400;
     }
+
     ul.timeline > li {
       margin: 20px 0;
       padding-left: 20px;
     }
+
     ul.timeline > li:before {
       content: ' ';
       background: white;
@@ -291,6 +370,11 @@
       width: 20px;
       height: 20px;
       z-index: 400;
+    }
+
+    .inline-form {
+      display: inline-block;
+      width: 300px;
     }
   }
 </style>

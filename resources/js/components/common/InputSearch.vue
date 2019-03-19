@@ -157,6 +157,7 @@
       height: calc(2.25rem + 2px);
       padding: 0.375rem 0.75rem;
       position: relative;
+
       &.active {
         background: #93d1e8;
       }

@@ -9,7 +9,7 @@ function errorResponseHandler(error) {
   
   // if has response show the error
   if (error.response) {
-    SweetAlert.methods.alertError(error.response.data.message);
+    SweetAlert.methods.alertError('Что-то пошло не так.');
     return Promise.reject(error);
   }
 }

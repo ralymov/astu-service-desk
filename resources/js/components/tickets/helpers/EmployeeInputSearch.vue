@@ -18,7 +18,7 @@
         autocomplete="off"
     />
 
-    <div class="searchResult" v-if="showSearch">
+    <div class="searchResult" v-if="showSearch" @mousedown="onMousedown" @mouseup="onMouseup">
       <div class="searchResultItem pointer"
            v-for="item,i in searchItems"
            :class="{ 'active': i === arrowCounter }"
@@ -80,6 +80,7 @@
         selectedItem: {},
         searchItems: [],
         arrowCounter: -1,
+        mousedown: false,
       }
     },
     computed: {
@@ -122,7 +123,8 @@
         this.$emit('item', item);
       },
       onBlur() {
-        //setTimeout(() => this.showSearch = false, 300);
+        if (this.mousedown) return;
+        this.showSearch = false;
       },
       onFocus() {
         this.showSearch = true;
@@ -147,6 +149,12 @@
       },
       onMouseover(i) {
         this.arrowCounter = i;
+      },
+      onMousedown() {
+        this.mousedown = true;
+      },
+      onMouseup() {
+        this.mousedown = false;
       }
     }
   }

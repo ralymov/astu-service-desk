@@ -8,7 +8,8 @@
              hover :items="tickets.data"
              :fields="fields"
              tbody-tr-class="pointer"
-             @row-clicked="editTicket">
+             @row-clicked="editTicket"
+             @row-middle-clicked="editTicketNewPage">
 
       <template slot="customer" slot-scope="data">
         {{ _.get(data.item, 'applicant.name', data.item.applicant_name) }}
@@ -89,6 +90,11 @@
       editTicket(item) {
         this.$router.push('/tickets/edit/' + item.id);
       },
+      editTicketNewPage(item) {
+        console.log('middle click');
+        let routeData = this.$router.resolve('/tickets/edit/' + item.id);
+        window.open(routeData.href, '_blank');
+      },
       changePage() {
         this.fetchData(this.tickets.current_page);
       },
@@ -101,6 +107,7 @@
     min-width: 100px;
     font-size: 16px;
     cursor: pointer;
+
     &:hover {
       filter: brightness(85%);
     }

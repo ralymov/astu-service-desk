@@ -99,7 +99,7 @@
         axios.put(this.entity + '/' + item.id, {name: item.name, rgb: item.rgb.hex})
           .then(() => {
             item.rgb = item.rgb.hex;
-            item.is_edit = false
+            item.is_edit = false;
           });
       },
       destroy(id) {

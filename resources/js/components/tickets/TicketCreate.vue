@@ -135,9 +135,11 @@
     .modal-dialog {
       max-width: 1050px;
     }
+
     .input-group {
       width: 350px;
     }
+
     label {
       font-weight: bold;
     }

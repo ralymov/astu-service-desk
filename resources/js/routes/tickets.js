@@ -1,7 +1,7 @@
-import TicketsList from 'components/tickets/TicketsList.vue';
-import TicketTypes from 'components/tickets/references/TicketTypes.vue';
-import TicketStatuses from 'components/tickets/references/TicketStatuses.vue';
-import TicketEdit from 'components/tickets/TicketEdit.vue';
+import TicketsList from 'views/tickets/TicketsList.vue';
+import TicketTypes from 'views/tickets/references/TicketTypes.vue';
+import TicketStatuses from 'views/tickets/references/TicketStatuses.vue';
+import TicketEdit from 'views/tickets/TicketEdit.vue';
 
 export default [
   {path: '/tickets', component: TicketsList, meta: {title: 'Заявки'}},

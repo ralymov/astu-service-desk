@@ -93,7 +93,7 @@
             </table>
 
             <b-button-group class="mt-5 btn-group-justified actions-wrapper">
-              <b-button variant="primary" v-b-toggle.forward>
+              <b-button variant="primary" @click="showForwardCollapse=!showForwardCollapse">
                 <v-icon name="share"/>
                 Переадресация
               </b-button>
@@ -101,27 +101,36 @@
                 <v-icon name="lock"/>
                 Заблокировать
               </b-button>
-              <b-button variant="success">
+              <b-button variant="success" @click="confirmCompleteModal=true">
                 <v-icon name="check"/>
                 Выполнено
               </b-button>
+              <confirmation-modal v-model="confirmCompleteModal" @ok="complete"/>
             </b-button-group>
 
-            <b-collapse id="forward" class="mt-2">
+            <b-collapse id="forward" class="mt-2" v-model="showForwardCollapse">
               <b-card>
-                <b-form @submit.prevent="forward">
+                <b-form>
                   <b-row class="align-items-center">
-                    <b-col cols="3">
+                    <b-col cols="12" class="mb-2">
                       Переадресация на:
                     </b-col>
                     <b-col cols="6">
-                      <select-search v-model="forwardData.department_id"
-                                     searchTable="userDepartments"
+                      <select-search v-model="ticket.department_id"
+                                     searchTable="user-departments"
                                      searchField="name">
                       </select-search>
                     </b-col>
-                    <b-col cols="3">
-
+                    <b-col cols="6">
+                      <select-search v-model="ticket.contractor_id"
+                                     searchTable="users"
+                                     searchField="name">
+                      </select-search>
+                    </b-col>
+                    <b-col cols="3" class="mt-3">
+                      <b-button variant="primary" v-if="ticket.department_id" @click="forward">
+                        Подтвердить
+                      </b-button>
                     </b-col>
                   </b-row>
                 </b-form>
@@ -253,6 +262,7 @@
   import ticketApi from 'api/tickets/ticketApi';
   import ticketStatusesApi from 'api/tickets/ticketStatusesApi';
   import ticketPrioritiesApi from 'api/tickets/ticketPrioritiesApi';
+  import ticketCommentsApi from "api/tickets/ticketCommentsApi";
 
   export default {
     name: "TicketEdit",
@@ -267,6 +277,8 @@
         statuses: [],
         priorities: [],
         forwardData: {},
+        showForwardCollapse: false,
+        confirmCompleteModal: false,
       }
     },
     mounted() {
@@ -291,19 +303,30 @@
         });
         this.editing = false;
       },
-      forward() {
-        console.log('forward');
+      async forward() {
+        this.showForwardCollapse = false;
+        this.ticket = await ticketApi.update(this.$route.params.id, {
+          department_id: this.ticket.department_id,
+          contractor_id: this.ticket.contractor_id,
+        });
+        this.alertSuccess();
       },
       edit() {
         this.editing = true;
       },
-      addComment() {
-        axios.post('ticketComments', {text: this.comment, ticket_id: this.ticket.id})
-          .then(response => {
-            this.ticket.comments.push(response.data);
-            this.comment = '';
-            this.alertSuccess();
-          });
+      async complete() {
+        let closedStatus = this.statuses.find(item => item.name === 'Завершенная');
+        this.ticket = await ticketApi.update(this.$route.params.id, {
+          closed_at: new Date(),
+          status_id: closedStatus.id,
+        });
+        this.alertSuccess();
+      },
+      async addComment() {
+        let comment = await ticketCommentsApi.store({text: this.comment, ticket_id: this.ticket.id});
+        this.ticket.comments.push(comment);
+        this.comment = '';
+        this.alertSuccess();
       }
     }
   }

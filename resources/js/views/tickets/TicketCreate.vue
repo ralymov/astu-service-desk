@@ -83,7 +83,7 @@
 </template>
 
 <script>
-  import EmployeeInputSearch from './helpers/EmployeeInputSearch';
+  import EmployeeInputSearch from 'components/tickets/helpers/EmployeeInputSearch';
 
   export default {
     name: "TicketCreate",

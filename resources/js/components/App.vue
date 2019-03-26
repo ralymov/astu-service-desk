@@ -301,14 +301,14 @@
   }
 
   .fade-enter-active {
-    transition: opacity 2s ease;
+    transition: opacity .3s ease;
   }
 
   .fade-leave {
   }
 
   .fade-leave-active {
-    transition: opacity 2s ease;
+    transition: opacity .3s ease;
     opacity: 0;
   }
 

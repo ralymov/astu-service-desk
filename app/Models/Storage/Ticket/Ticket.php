@@ -10,6 +10,7 @@ use App\Models\Storage\Ticket\References\TicketType;
 use App\Models\Storage\User\User;
 use App\Models\Storage\User\UserDepartment;
 use App\Traits\FormatDateTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
@@ -17,7 +18,7 @@ class Ticket extends Model
     use FormatDateTrait;
 
     protected $guarded = ['id'];
-    private $relationsForList = [
+    private static $relationsForList = [
         'applicant_location',
         'applicant',
         'contractor',
@@ -25,7 +26,7 @@ class Ticket extends Model
         'priority',
         'status'
     ];
-    private $relationsForEdit = [
+    private static $relationsForEdit = [
         'applicant_location',
         'applicant',
         'contractor',
@@ -40,32 +41,42 @@ class Ticket extends Model
     {
         parent::boot();
 
-        self::creating(function ($model) {
+        self::creating(static function ($model) {
             $model->status_id = TicketStatus::new()->first()->id ?? null;
             $model->author_id = auth()->user()->id ?? null;
         });
     }
 
-    #region Relations methods and scoped
+    #region Setters and getter
+
+    public function setClosedAtAttribute($date = null): void
+    {
+        if (!$date) return;
+        $this->attributes['closed_at'] = Carbon::parse($date);
+    }
+
+    #endregion
+
+    #region Relations methods and scopes
 
     public function forEdit()
     {
-        return $this->load($this->relationsForEdit);
+        return $this->load(self::$relationsForEdit);
     }
 
     public function scopeForEdit($query)
     {
-        return $query->with($this->relationsForEdit);
+        return $query->with(self::$relationsForEdit);
     }
 
     public function forList()
     {
-        return $this->load($this->relationsForList);
+        return $this->load(self::$relationsForList);
     }
 
     public function scopeForList($query)
     {
-        return $query->with($this->relationsForList);
+        return $query->with(self::$relationsForList);
     }
 
     #endregion

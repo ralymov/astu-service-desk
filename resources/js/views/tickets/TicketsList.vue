@@ -91,7 +91,6 @@
         this.$router.push('/tickets/edit/' + item.id);
       },
       editTicketNewPage(item) {
-        console.log('middle click');
         let routeData = this.$router.resolve('/tickets/edit/' + item.id);
         window.open(routeData.href, '_blank');
       },

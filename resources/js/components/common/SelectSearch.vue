@@ -94,13 +94,6 @@
         mouseClicked: false,
       }
     },
-    watch: {
-      value: function (newValue, oldValue) {
-        console.log(oldValue);
-        console.log(newValue);
-        if (!newValue) return;
-      }
-    },
     computed: {
       filteredItems() {
         if (!this.searchString) return this.searchItems;

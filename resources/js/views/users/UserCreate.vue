@@ -13,7 +13,7 @@
             <label for="inputName">ФИО:</label>
           </b-col>
           <b-col sm="9">
-            <b-form-input id="inputName" v-model="user.name" required></b-form-input>
+            <b-form-input id="inputName" v-model="user.name"/>
           </b-col>
         </b-row>
 
@@ -22,7 +22,7 @@
             <label for="inputLogin">Логин:</label>
           </b-col>
           <b-col sm="9">
-            <b-form-input id="inputLogin" v-model="user.username" required></b-form-input>
+            <b-form-input id="inputLogin" v-model="user.username" required/>
           </b-col>
         </b-row>
 
@@ -31,7 +31,8 @@
             <label for="inputPassword">Пароль:</label>
           </b-col>
           <b-col sm="9">
-            <b-form-input id="inputPassword" v-model="user.password" type="password" required></b-form-input>
+            <b-form-input id="inputPassword" v-model="user.password" type="password"
+                          :required="!this.$route.params.id"/>
           </b-col>
         </b-row>
 
@@ -40,7 +41,7 @@
             <label for="inputEmail">E-mail:</label>
           </b-col>
           <b-col sm="9">
-            <b-form-input id="inputEmail" v-model="user.email"></b-form-input>
+            <b-form-input id="inputEmail" v-model="user.email"/>
           </b-col>
         </b-row>
 
@@ -51,7 +52,7 @@
           <b-col sm="9">
             <select-search id="inputDepartment"
                            v-model="user.department_id"
-                           searchTable="departments"
+                           searchTable="user-departments"
                            searchField="name">
             </select-search>
           </b-col>

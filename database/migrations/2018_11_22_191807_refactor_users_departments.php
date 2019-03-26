@@ -26,6 +26,7 @@ class RefactorUsersDepartments extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedInteger('department_id')->nullable();
             $table->foreign('department_id')->references('id')->on('user_departments');
+            $table->string('email')->nullable()->unique();
         });
         Schema::table('tickets', function (Blueprint $table) {
             $table->unsignedInteger('department_id')->nullable();
@@ -45,6 +46,7 @@ class RefactorUsersDepartments extends Migration
         });
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('department_id');
+            $table->dropColumn('email');
         });
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedInteger('department_id')->nullable();

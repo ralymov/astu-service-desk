@@ -120,7 +120,7 @@
     top: 0;
     left: 200px;
     right: 0;
-    z-index: 100;
+    z-index: 500;
     height: 80px;
     padding: 0 25px;
     background-color: theme-color('success');
@@ -301,14 +301,14 @@
   }
 
   .fade-enter-active {
-    transition: opacity 2s ease;
+    transition: opacity .3s ease;
   }
 
   .fade-leave {
   }
 
   .fade-leave-active {
-    transition: opacity 2s ease;
+    transition: opacity .3s ease;
     opacity: 0;
   }
 

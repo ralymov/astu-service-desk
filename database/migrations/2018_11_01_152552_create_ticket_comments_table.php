@@ -16,15 +16,20 @@ class CreateTicketCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
             $table->text('text');
+            $table->unsignedInteger('author_id');
+            $table->foreign('author_id')->references('id')->on('users');
             $table->timestamps();
         });
         Schema::create('ticket_comments', function (Blueprint $table) {
             $table->increments('id');
+
             $table->unsignedInteger('ticket_id');
             $table->foreign('ticket_id')->references('id')->on('tickets')
                 ->onDelete('cascade');
+
             $table->unsignedInteger('comment_id');
             $table->foreign('comment_id')->references('id')->on('comments');
+
             $table->timestamps();
         });
     }

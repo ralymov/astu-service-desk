@@ -13,51 +13,56 @@ class TicketController extends ApiController
     public function index()
     {
         return Ticket::orderBy('id', 'desc')
-            ->forList('applicant_location', 'applicant', 'employee', 'type', 'priority', 'status')
+            ->forList()
             ->paginate(10);
     }
 
     public function show(Ticket $ticket)
     {
-        return $ticket;
+        return $ticket->forList();
     }
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'title' => 'required|max:255',
             'description' => 'required|max:1000',
             'applicant_name' => 'nullable|max:255',
             'applicant_id' => 'nullable|integer|exists:employees,id',
             'contractor_id' => 'nullable|integer|exists:users,id',
+            'department_id' => 'nullable|integer|exists:user_departments,id',
             'type_id' => 'nullable|integer|exists:ticket_types,id',
             'priority_id' => 'nullable|integer|exists:ticket_priorities,id',
+            'status_id' => 'nullable|integer|exists:ticket_statuses,id',
             'comment' => 'nullable|max:1000',
+            'closed_at' => 'nullable|date',
         ]);
-        $ticket = Ticket::create($request->except('comment'));
-        if ($request->has('comment')) {
-            $comment = Comment::create(['text' => $request->input('comment')]);
-            $ticket->comments()->attach($comment->id);
-        }
-        return response()
-            ->json($ticket->forList(), 201);
+        $ticket = Ticket::create($data);
+        return response()->json($ticket->forList(), 201);
+    }
+
+    public function edit(Ticket $ticket)
+    {
+        return $ticket->forEdit();
     }
 
     public function update(Request $request, Ticket $ticket)
     {
-        $this->validate($request, [
-            'title' => 'required|max:255',
-            'description' => 'required|max:1000',
+        $data = $this->validate($request, [
+            'title' => 'sometimes|required|max:255',
+            'description' => 'sometimes|required|max:1000',
             'applicant_name' => 'nullable|max:255',
             'applicant_id' => 'nullable|integer|exists:employees,id',
             'contractor_id' => 'nullable|integer|exists:users,id',
+            'department_id' => 'nullable|integer|exists:user_departments,id',
             'type_id' => 'nullable|integer|exists:ticket_types,id',
             'priority_id' => 'nullable|integer|exists:ticket_priorities,id',
+            'status_id' => 'nullable|integer|exists:ticket_statuses,id',
             'comment' => 'nullable|max:1000',
+            'closed_at' => 'nullable|date',
         ]);
-        $ticket->update($request->all());
-        return response()
-            ->json($ticket->forList(), 200);
+        $ticket->update($data);
+        return response()->json($ticket->forEdit());
     }
 
     public function destroy(Ticket $ticket)

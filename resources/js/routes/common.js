@@ -1,6 +1,6 @@
 import Home from 'components/auth/Home.vue';
-import UsersList from 'components/users/UsersList.vue';
-import UserCreate from 'components/users/UserCreate.vue';
+import UsersList from 'views/users/UsersList.vue';
+import UserCreate from 'views/users/UserCreate.vue';
 
 export default [
   {path: '/', component: Home, meta: {title: 'Главная'}},

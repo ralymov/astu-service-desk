@@ -8,33 +8,89 @@ use App\Models\Storage\Ticket\References\TicketPriority;
 use App\Models\Storage\Ticket\References\TicketStatus;
 use App\Models\Storage\Ticket\References\TicketType;
 use App\Models\Storage\User\User;
+use App\Models\Storage\User\UserDepartment;
+use App\Traits\FormatDateTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+    use FormatDateTrait;
 
     protected $guarded = ['id'];
+    private static $relationsForList = [
+        'applicant_location',
+        'applicant',
+        'contractor',
+        'type',
+        'priority',
+        'status'
+    ];
+    private static $relationsForEdit = [
+        'applicant_location',
+        'applicant',
+        'contractor',
+        'type',
+        'priority',
+        'status',
+        'author',
+        'comments.author'
+    ];
 
     public static function boot()
     {
         parent::boot();
 
-        self::creating(function ($model) {
+        self::creating(static function ($model) {
             $model->status_id = TicketStatus::new()->first()->id ?? null;
+            $model->author_id = auth()->user()->id ?? null;
         });
-
     }
 
-    #region Relations
+    #region Setters and getter
+
+    public function setClosedAtAttribute($date = null): void
+    {
+        if (!$date) return;
+        $this->attributes['closed_at'] = Carbon::parse($date);
+    }
+
+    #endregion
+
+    #region Relations methods and scopes
+
+    public function forEdit()
+    {
+        return $this->load(self::$relationsForEdit);
+    }
+
+    public function scopeForEdit($query)
+    {
+        return $query->with(self::$relationsForEdit);
+    }
 
     public function forList()
     {
-        return $this->load('applicant_location', 'applicant', 'contractor', 'type', 'priority', 'status');
+        return $this->load(self::$relationsForList);
     }
 
     public function scopeForList($query)
     {
-        return $query->with('applicant_location', 'applicant', 'contractor', 'type', 'priority', 'status');
+        return $query->with(self::$relationsForList);
+    }
+
+    #endregion
+
+    #region Relations
+
+    public function department()
+    {
+        return $this->belongsTo(UserDepartment::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function comments()

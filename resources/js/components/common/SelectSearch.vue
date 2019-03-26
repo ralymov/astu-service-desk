@@ -5,7 +5,7 @@
       <b-form-input
           :id="id"
           type="text"
-          :value="value"
+          :value="selectedItem.name"
           :placeholder="placeholder"
           @blur.native="onBlurFirst"
           @focus.native="onFocusFirst"
@@ -26,7 +26,11 @@
                     class="searchInput"
                     v-model="searchString"
                     @blur.native="onBlurSecond"
-                    @focus.native="onFocusSecond">
+                    @focus.native="onFocusSecond"
+                    @keydown.down.native="onArrowDown"
+                    @keydown.up.native="onArrowUp"
+                    @keydown.enter.native.prevent="onEnter"
+                    @keydown.esc.native="onEsc">
       </b-form-input>
       <div class="searchResultWrapper">
         <div class="searchResultItem pointer"
@@ -34,6 +38,8 @@
              :class="{ 'active': i === arrowCounter }"
              :key="i"
              @click="selectItem(item)"
+             @mousedown="onMouseDown"
+             @mouseup="onMouseUp"
              @mouseover="onMouseover(i)">
           {{item.name}}
         </div>
@@ -72,28 +78,35 @@
       required: {
         type: Boolean,
         default: false,
+      },
+      value: {
+        type: [Number, String],
+        default: null,
       }
     },
     data() {
       return {
-        value: null,
         searchString: '',
-        //showSearch: false,
-        selectedItem: {},
         searchItems: [],
         arrowCounter: -1,
         blurFirstInput: true,
         blurSecondInput: true,
+        mouseClicked: false,
       }
     },
     computed: {
       filteredItems() {
         if (!this.searchString) return this.searchItems;
         let searchField = this.searchField;
-        return this.searchItems.filter(item => item[searchField].toLowerCase().includes(this.searchString.toLowerCase()));
+        return this.searchItems.filter(item => {
+          return item[searchField].toLowerCase().includes(this.searchString.toLowerCase());
+        });
       },
       showSearch() {
         return !this.blurFirstInput || !this.blurSecondInput;
+      },
+      selectedItem() {
+        return this.searchItems.find(item => item.id === this.value) || {};
       }
     },
     mounted() {
@@ -105,8 +118,7 @@
           .then(response => this.searchItems = response.data);
       },
       selectItem(item) {
-        this.value = item.name;
-        this.selectedItem = item;
+        this.arrowCounter = -1;
         this.blurFirstInput = true;
         this.blurSecondInput = true;
         this.$emit('selectItem', item.id);
@@ -115,6 +127,7 @@
       },
 
       onBlurFirst() {
+        if (this.mouseClicked) return;
         setTimeout(() => this.blurFirstInput = true, 100);
       },
       onFocusFirst() {
@@ -122,6 +135,7 @@
         this.$nextTick(() => this.$refs.searchInput.focus());
       },
       onBlurSecond() {
+        if (this.mouseClicked) return;
         setTimeout(() => this.blurSecondInput = true, 100);
       },
       onFocusSecond() {
@@ -139,15 +153,23 @@
         }
       },
       onEnter() {
-        this.selectItem(this.searchItems[this.arrowCounter]);
-        this.showSearch = false;
+        this.selectItem(this.filteredItems[this.arrowCounter]);
+        setTimeout(() => this.blurFirstInput = true, 100);
+        setTimeout(() => this.blurSecondInput = true, 100);
         this.arrowCounter = -1;
       },
       onEsc() {
-        this.showSearch = false;
+        setTimeout(() => this.blurFirstInput = true, 100);
+        setTimeout(() => this.blurSecondInput = true, 100);
       },
       onMouseover(i) {
         this.arrowCounter = i;
+      },
+      onMouseDown() {
+        this.mouseClicked = true;
+      },
+      onMouseUp() {
+        this.mouseClicked = false;
       }
     }
   }
@@ -169,6 +191,7 @@
       z-index: 500;
       position: absolute;
       width: 100%;
+
       &.hidden {
         display: none;
       }
@@ -182,6 +205,7 @@
     .searchResultItem {
       height: calc(2.25rem + 2px);
       padding: 0.375rem 0.75rem;
+
       &.active {
         background: #93d1e8;
       }
@@ -201,6 +225,7 @@
     .searchSelect {
       text-shadow: 0 0 0 gray;
       caret-color: transparent;
+
       &:focus {
         outline: none;
       }
@@ -209,6 +234,7 @@
     .dropdown {
       position: relative;
     }
+
     .dropdown::before {
       position: absolute;
       content: " \2193";

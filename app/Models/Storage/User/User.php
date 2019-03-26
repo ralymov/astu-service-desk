@@ -8,13 +8,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * @property string name
+ * @property string username
+ * @property string password
+ * @property integer role_id
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $guarded = ['id'];
 
     protected $hidden = [
         'password', 'remember_token',
@@ -25,7 +29,8 @@ class User extends Authenticatable implements JWTSubject
     public const FLD_PASSWORD = 'password';
     public const FLD_ROLE_ID = 'role_id';
 
-    public function updateUser(array $attributes = []): self {
+    public function updateUser(array $attributes = []): self
+    {
         $this->username = $attributes['username'];
         $this->role_id = $attributes['role_id'];
         $this->password = \Hash::make($attributes['password']);
@@ -34,7 +39,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function department()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(UserDepartment::class);
     }
 
     public function position()

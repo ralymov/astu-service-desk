@@ -26,6 +26,7 @@
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/card";
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
+
 //Components
 @import "components/modal";
 
@@ -71,5 +72,20 @@ h1, h2, h3, h4 {
   }
   .card-footer {
     border-top: 1px solid rgba(0, 0, 0, 0.125);
+  }
+}
+
+.btn-group-justified {
+  display: flex;
+  width: 100%;
+  .btn,
+  .btn-group {
+    flex: 1;
+    .btn {
+      width: 100%;
+    }
+    .dropdown-menu {
+      left: auto;
+    }
   }
 }

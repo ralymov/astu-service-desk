@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Storage\Ticket\Ticket;
+use App\Observers\TicketObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Ticket::observe(TicketObserver::class);
     }
 
     /**

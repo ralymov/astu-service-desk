@@ -190,26 +190,11 @@
                     header-bg-variant="success">
 
               <div class="card-text">
-                <div class="employee-name font-weight-bold">
-                  {{_.get(ticket,'applicant.name',ticket.applicant_name)}}
-                </div>
-                <hr>
-                <b-row class="employee-info-item">
-                  <b-col cols="4">Должность:</b-col>
-                  <b-col cols="8">{{_.get(ticket,'applicant.position.name','Нет данных')}}</b-col>
-                </b-row>
-                <b-row class="employee-info-item">
-                  <b-col cols="4">Отдел:</b-col>
-                  <b-col cols="8">{{_.get(ticket,'applicant.department.name','Нет данных')}}</b-col>
-                </b-row>
-                <b-row class="employee-info-item">
-                  <b-col cols="4">Тел:</b-col>
-                  <b-col cols="8">{{_.get(ticket,'applicant.phone','Нет данных')}}</b-col>
-                </b-row>
-                <b-row class="employee-info-item">
-                  <b-col cols="4">Кабинет:</b-col>
-                  <b-col cols="8">{{_.get(ticket,'applicant.cabinet','Нет данных')}}</b-col>
-                </b-row>
+                <b-table :items="ticket.history" :fields="ticketHistoryFields">
+                  <template slot="author" slot-scope="data">
+                    {{ data.item.author.name}}
+                  </template>
+                </b-table>
               </div>
             </b-card>
           </b-tab>
@@ -271,6 +256,7 @@
         ticket: {
           applicant: {},
           comments: [],
+          history: [],
         },
         comment: '',
         editing: false,
@@ -279,6 +265,20 @@
         forwardData: {},
         showForwardCollapse: false,
         confirmCompleteModal: false,
+        ticketHistoryFields: [
+          {
+            key: 'created_at',
+            label: 'Дата',
+          },
+          {
+            key: 'author',
+            label: 'Автор',
+          },
+          {
+            key: 'description',
+            label: 'Описание',
+          }
+        ]
       }
     },
     mounted() {

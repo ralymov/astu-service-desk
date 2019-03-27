@@ -14,34 +14,34 @@ class UserDepartmentController extends ApiController
         return UserDepartment::with('location')->orderBy('id', 'desc')->get();
     }
 
-    public function show(UserDepartment $department)
+    public function show(UserDepartment $userDepartment)
     {
-        return $department;
+        return $userDepartment;
     }
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'name' => 'required|max:255',
             'location_id' => 'nullable|integer|exists:locations,id'
         ]);
-        $department = UserDepartment::create($request->all());
+        $department = UserDepartment::create($data);
         return response()->json($department->load('location'), 201);
     }
 
-    public function update(Request $request, UserDepartment $department)
+    public function update(Request $request, UserDepartment $userDepartment)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'name' => 'required|max:255',
             'location_id' => 'nullable|integer|exists:locations,id'
         ]);
-        $department->update($request->all());
-        return response()->json($department->load('location'), 200);
+        $userDepartment->update($data);
+        return response()->json($userDepartment->load('location'));
     }
 
-    public function destroy(UserDepartment $department)
+    public function destroy(UserDepartment $userDepartment)
     {
-        $department->delete();
+        $userDepartment->delete();
         return response()->json(null, 204);
     }
 

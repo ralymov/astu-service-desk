@@ -13,6 +13,9 @@ use App\Traits\FormatDateTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property integer id
+ */
 class Ticket extends Model
 {
     use FormatDateTrait;
@@ -34,7 +37,8 @@ class Ticket extends Model
         'priority',
         'status',
         'author',
-        'comments.author'
+        'comments.author',
+        'history.author'
     ];
 
     public static function boot()
@@ -52,7 +56,24 @@ class Ticket extends Model
     public function setClosedAtAttribute($date = null): void
     {
         if (!$date) return;
+        TicketHistory::create([
+            'ticket_id' => $this->id,
+            'author_id' => auth()->user()->id,
+            'description' => 'Заявка была отмечена как выполненная'
+        ]);
         $this->attributes['closed_at'] = Carbon::parse($date);
+    }
+
+    public function setStatusIdAttribute($statusId): void
+    {
+        $oldStatus = $this->status;
+        $newStatus = TicketStatus::find($statusId);
+        TicketHistory::create([
+            'ticket_id' => $this->id,
+            'author_id' => auth()->user()->id,
+            'description' => "Статус изменен с `$oldStatus->name` на `$newStatus->name`"
+        ]);
+        $this->attributes['status_id'] = $statusId;
     }
 
     #endregion
@@ -82,6 +103,11 @@ class Ticket extends Model
     #endregion
 
     #region Relations
+
+    public function history()
+    {
+        return $this->hasMany(TicketHistory::class)->orderBy('id', 'desc');
+    }
 
     public function department()
     {

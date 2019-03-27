@@ -5,6 +5,7 @@
       :additionalFields="additionalFields"
       nameFieldLabel="Имя"
       :requestFields="['name','department_id','position_id','phone','cabinet']"
+      paginate
   >
 
     <template slot="form-inputs" slot-scope="data">

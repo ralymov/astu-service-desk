@@ -52,6 +52,14 @@
       </template>
 
     </b-table>
+
+    <b-pagination
+        v-model="currentPage"
+        :total-rows="totalRows"
+        :per-page="perPage"
+        @change="changePage"
+    />
+
   </div>
 </template>
 
@@ -83,10 +91,17 @@
       editPath: {
         type: String,
         default: null,
-      }
+      },
+      paginate: {
+        type: Boolean,
+        default: false,
+      },
     },
     data() {
       return {
+        currentPage: 1,
+        totalRows: 1,
+        perPage: 1,
         item: {},
         items: [],
         initialFields: [
@@ -110,8 +125,8 @@
         return this.initialFields.slice(0, -1).concat(this.additionalFields).concat(this.initialFields[2]);
       }
     },
-    mounted() {
-      this.fetchData();
+    created() {
+      this.paginate ? this.fetchDataPaginate() : this.fetchData();
     },
     methods: {
       fetchData() {
@@ -120,6 +135,16 @@
             item.is_edit = false;
             return item;
           }));
+      },
+      fetchDataPaginate(page = 1) {
+        axios.get(this.entity + '/?page=' + page).then(response => {
+          this.items = response.data.data.map(item => {
+            item.is_edit = false;
+            return item;
+          });
+          this.perPage = response.data.per_page;
+          this.totalRows = response.data.total;
+        });
       },
       edit(item) {
         if (this.editPath) this.$router.push(this.editPath + item.id);
@@ -144,6 +169,10 @@
       destroy(id) {
         axios.delete(this.entity + '/' + id)
           .then(() => this.deleteById(this.items, id));
+      },
+      changePage(page) {
+        console.log(page);
+        this.fetchDataPaginate(page);
       },
     },
   }

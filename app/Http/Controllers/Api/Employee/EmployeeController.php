@@ -12,7 +12,7 @@ class EmployeeController extends ApiController
 
     public function index()
     {
-        return Employee::orderBy('id', 'desc')->get();
+        return Employee::orderBy('id', 'desc')->paginate(15);
     }
 
     public function show(Employee $employees)

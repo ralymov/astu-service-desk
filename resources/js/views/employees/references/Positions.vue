@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import ReferenceTableList from 'components/common/ReferenceTableList'
+  import ReferenceTableList from 'common/ReferenceTableList'
 
   export default {
     name: "Positions",

@@ -4,6 +4,7 @@
       ref="employeesList"
       :additionalFields="additionalFields"
       nameFieldLabel="Имя"
+      :requestFields="['name','department_id','position_id','phone','cabinet']"
   >
 
     <template slot="form-inputs" slot-scope="data">
@@ -13,6 +14,8 @@
       <form-select v-model="data.item.position_id" :options="positions"
                    :firstElement="{value:null,text:'Должность'}">
       </form-select>
+      <b-form-input placeholder="Телефон" v-model="data.item.phone"/>
+      <b-form-input placeholder="Кабинет" v-model="data.item.cabinet"/>
     </template>
 
     <template slot="additional-forms">
@@ -50,11 +53,29 @@
       </template>
     </template>
 
+    <template slot="phone" slot-scope="data">
+      <template v-if="data.item.is_edit">
+        <b-form-input v-model="data.item.phone"/>
+      </template>
+      <template v-else>
+        {{ data.item.phone }}
+      </template>
+    </template>
+
+    <template slot="cabinet" slot-scope="data">
+      <template v-if="data.item.is_edit">
+        <b-form-input v-model="data.item.cabinet"/>
+      </template>
+      <template v-else>
+        {{ data.item.cabinet }}
+      </template>
+    </template>
+
   </reference-table-list>
 </template>
 
 <script>
-  import ReferenceTableList from 'components/common/ReferenceTableList'
+  import ReferenceTableList from 'common/ReferenceTableList'
 
   export default {
     name: "Employees",
@@ -74,6 +95,14 @@
           {
             key: 'position',
             label: 'Должность'
+          },
+          {
+            key: 'phone',
+            label: 'Телефон'
+          },
+          {
+            key: 'cabinet',
+            label: 'Кабинет'
           },
         ]
       }

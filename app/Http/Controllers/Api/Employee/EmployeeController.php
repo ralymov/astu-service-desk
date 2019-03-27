@@ -55,24 +55,28 @@ class EmployeeController extends ApiController
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'name' => 'required|max:255',
             'position_id' => 'nullable|integer|exists:positions,id',
             'department_id' => 'nullable|integer|exists:departments,id',
+            'phone' => 'nullable|max:255',
+            'cabinet' => 'nullable|max:255',
         ]);
-        $employee = Employee::create($request->all());
-        return response()->json($employee, 201);
+        $employee = Employee::create($data);
+        return response()->json($employee->load('position', 'department'), 201);
     }
 
     public function update(Request $request, Employee $employee)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'name' => 'required|max:255',
             'position_id' => 'nullable|integer|exists:positions,id',
             'department_id' => 'nullable|integer|exists:departments,id',
+            'phone' => 'nullable|max:255',
+            'cabinet' => 'nullable|max:255',
         ]);
-        $employee->update($request->all());
-        return response()->json($employee, 200);
+        $employee->update($data);
+        return response()->json($employee);
     }
 
     public function destroy(Employee $employee)

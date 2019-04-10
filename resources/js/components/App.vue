@@ -64,6 +64,10 @@
           {url: '/employees', label: 'Сотрудники'},
           {url: '/users', label: 'Пользователи системы'},
           {url: '/user-departments', label: 'Отделы пользователей'},
+          {url: '/events', label: 'Мероприятия'},
+          {url: '/processors', label: 'Процессоры'},
+          {url: '/ram', label: 'Оперативная память'},
+          {url: '/software', label: 'Софт'},
         ],
       }
     },
@@ -127,14 +131,17 @@
     background-color: theme-color('success');
     color: white;
     transition: all 0.3s ease-out;
+
     h1 {
       font-size: 28px;
     }
+
     .icon {
       width: 30px;
       height: 32px;
       color: white;
     }
+
     .dropdown {
       .btn {
         min-width: auto;
@@ -153,6 +160,7 @@
     background-color: #2e3642;
     color: white;
     transition: all 0.3s ease-out;
+
     .nav-toggle {
       position: absolute;
       right: 0;
@@ -162,11 +170,13 @@
       background-color: darken(theme-color('success'), 20%);
       cursor: pointer;
       text-align: center;
+
       .icon {
         width: 35px;
         height: inherit;
       }
     }
+
     .nav-header {
       height: 80px;
       padding-right: 80px;
@@ -195,10 +205,12 @@
     height: 900px;
     overflow-y: auto;
     margin-top: 50px;
+
     &, & ul {
       list-style: none;
       padding-left: 0;
     }
+
     > li {
       // 2 level
       > div > div > ul {
@@ -207,9 +219,11 @@
         border-left: 1px solid #a1a1a1;
         list-style-type: disc;
         color: #00c690;
+
         div {
           color: #a1a1a1;
         }
+
         // 3 level
         ul {
           margin: 3px 0 5px 12px;
@@ -224,16 +238,20 @@
     #header {
       left: 80px;
     }
+
     #nav {
       width: 80px;
+
       .nav-header {
         height: 80px;
         padding-right: 0px;
       }
+
       .nav-toggle {
         position: static;
       }
     }
+
     #content {
       margin-left: 80px;
     }
@@ -245,10 +263,12 @@
             display: block;
           }
         }
+
         > .menu-icon {
           height: 60px;
           width: 100%;
         }
+
         > .menu-item-content {
           position: absolute;
           left: 80px;
@@ -269,6 +289,7 @@
   .menu-icon {
     width: 55px;
     height: 50px;
+
     + div {
       padding-top: 13px;
     }
@@ -279,6 +300,7 @@
     color: #a1a1a1;
     white-space: nowrap;
     text-decoration: none !important;
+
     &:hover, &.active {
       color: #00c690 !important;
     }
@@ -288,9 +310,11 @@
     .btn-link {
       color: white;
       text-decoration: none;
+
       &:hover {
         text-decoration: none;
       }
+
       &:focus {
         text-decoration: none;
       }

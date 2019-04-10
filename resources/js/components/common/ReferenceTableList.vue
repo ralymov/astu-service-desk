@@ -105,10 +105,10 @@
         item: {},
         items: [],
         initialFields: [
-          {
-            key: 'id',
-            label: '№',
-          },
+          // {
+          //   key: 'id',
+          //   label: '№',
+          // },
           {
             key: 'name',
             label: this.nameFieldLabel,
@@ -122,7 +122,8 @@
     },
     computed: {
       fields() {
-        return this.initialFields.slice(0, -1).concat(this.additionalFields).concat(this.initialFields[2]);
+        return this.initialFields.slice(0, -1).concat(this.additionalFields)
+          .concat(this.initialFields[this.initialFields.length - 1]);
       }
     },
     created() {
@@ -155,6 +156,7 @@
           .then(response => {
             response.data.is_edit = false;
             this.items.unshift(response.data);
+            this.item = {is_edit: false};
           });
       },
       update(item) {

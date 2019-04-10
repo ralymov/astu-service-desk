@@ -2,11 +2,11 @@ import sweetAlert from '../../../mixins/sweet_alert';
 
 export default {
   async get() {
-    const res = await axios.get('/tickets');
+    const res = await axios.get('tickets');
     return res.data;
   },
   async show(id) {
-    const res = await axios.get(`/tickets/${id}`);
+    const res = await axios.get(`tickets/${id}`);
     return res.data;
   },
   async edit(id) {

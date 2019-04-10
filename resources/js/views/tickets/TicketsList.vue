@@ -30,7 +30,7 @@
                   :total-rows="tickets.total"
                   v-model="tickets.current_page"
                   :per-page="tickets.per_page"
-                  @input="changePage">
+                  @change="changePage">
     </b-pagination>
 
   </div>
@@ -76,7 +76,7 @@
         ],
       }
     },
-    mounted() {
+    created() {
       this.fetchData();
     },
     methods: {

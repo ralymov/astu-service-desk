@@ -1,6 +1,6 @@
 import Home from 'components/auth/Home.vue';
 import UsersList from 'views/users/UsersList.vue';
-import UserCreate from 'views/users/UserCreate.vue';
+import UserCreate from 'views/users/User.vue';
 import UserDepartments from "views/users/references/UserDepartments";
 
 export default [

@@ -1,5 +1,8 @@
 export default {
   methods: {
+    hasId() {
+      return this.$route.params.id;
+    },
     findByField(array = [], field = null, value = null) {
       return array.findIndex(item => item[field] === value);
     },

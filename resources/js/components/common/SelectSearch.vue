@@ -115,7 +115,11 @@
     methods: {
       fetchData() {
         axios.get(this.searchTable)
-          .then(response => this.searchItems = response.data);
+          .then(response => {
+            if (response.data && response.data.data) this.searchItems = response.data.data;
+            else this.searchItems = response.data;
+            // this.searchItems = response.data;
+          });
       },
       selectItem(item) {
         this.arrowCounter = -1;

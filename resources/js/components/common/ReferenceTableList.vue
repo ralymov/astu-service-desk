@@ -179,11 +179,3 @@
     },
   }
 </script>
-
-<style lang="scss">
-  .referenceTableList {
-    tr > td:last-of-type {
-      min-width: 250px;
-    }
-  }
-</style>

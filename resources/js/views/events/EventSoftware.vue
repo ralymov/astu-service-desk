@@ -1,74 +1,85 @@
 <template>
-  <b-card header-tag="header"
-          footer-tag="footer"
-          class="event-card">
+  <div class="referenceTableList">
 
-    <h4 slot="header" class="mb-0">Новое мероприятия</h4>
+    <b-row class="mb-3 mt-2">
+      <b-col cols="6">
+        <b-form inline @submit.prevent="store">
+          <div class="input-group">
+            <select-search v-model="item.program_id"
+                           searchTable="programs"
+                           searchField="name"
+                           @item="item.name = $event.name">
+            </select-search>
+            <div class="input-group-append">
+              <b-button variant="success" type="submit">Добавить</b-button>
+            </div>
+          </div>
+        </b-form>
+      </b-col>
+    </b-row>
 
-    <b-form @submit.prevent="storeOrUpdate" id="eventCreateForm">
-      <b-container fluid>
+    <b-table class="mt-4"
+             hover :items="softList"
+             :fields="fields">
 
-        <b-row class="my-1">
-          <b-col sm="3">
-            <label for="inputName">Название:</label>
-          </b-col>
-          <b-col sm="9">
-            <b-form-input id="inputName" v-model="event.name" required/>
-          </b-col>
-        </b-row>
-
-        <b-row class="my-1">
-          <b-col sm="3">
-            <label for="inputDate">Дата:</label>
-          </b-col>
-          <b-col sm="9">
-            <b-form-input id="inputDate" type="date" v-model="event.date" required/>
-          </b-col>
-        </b-row>
-
-        <b-row class="my-1">
-          <b-col sm="3">
-            <label for="inputComputersNumber">Количество компьютеров:</label>
-          </b-col>
-          <b-col sm="9">
-            <b-form-input id="inputComputersNumber" type="number" min="1" v-model="event.computers_number" required/>
-          </b-col>
-        </b-row>
-
-      </b-container>
-    </b-form>
-
-    <div slot="footer">
-      <b-button variant="success" type="submit" class="mr-1" form="eventCreateForm">
-        Сохранить
-      </b-button>
-
-      <template v-if="$route.params.id">
-        <b-button variant="primary" type="submit" class="mr-1" @click="editHardware">
-          Редактор машин
-        </b-button>
-        <b-button variant="info" type="submit" class="mr-1" @click="editSoftware">
-          Редактор софта
-        </b-button>
+      <template slot="name" slot-scope="data">
+        <template v-if="data.item.is_edit">
+          <select-search v-model="data.item.program_id"
+                         searchTable="programs"
+                         searchField="name"
+                         @item="data.item.name = $event.name">
+          </select-search>
+        </template>
+        <template v-else>
+          {{ data.item.name }}
+        </template>
       </template>
-    </div>
 
-  </b-card>
+      <template slot="actions" slot-scope="row" class="action-slot">
+        <template v-if="row.item.is_edit">
+          <b-button size="sm" variant="success" @click.stop="update(row.item)" class="mr-1">
+            Сохранить
+          </b-button>
+        </template>
+        <template v-else>
+          <b-button size="sm" variant="primary" @click.stop="edit(row.item)" class="mr-1">
+            Редактировать
+          </b-button>
+          <b-button size="sm" variant="danger" @click.stop="destroy(row.index)">
+            Удалить
+          </b-button>
+        </template>
+      </template>
+
+    </b-table>
+
+  </div>
 </template>
 
 <script>
+  import ReferenceTableList from 'common/ReferenceTableList'
   import eventApi from "api/tickets/eventApi";
 
   export default {
-    name: "Event",
-    components: {},
+    components: {
+      ReferenceTableList
+    },
     data() {
       return {
-        event: {
-          name: '',
-          date: null,
-          computers_number: null,
-        },
+        software: [],
+        event: {},
+        item: {is_edit: false},
+        softList: [],
+        fields: [
+          {
+            key: 'name',
+            label: 'Название',
+          },
+          {
+            key: 'actions',
+            label: 'Действия'
+          }
+        ],
       }
     },
     created() {
@@ -78,29 +89,50 @@
       async fetchData() {
         if (!this.hasId()) return;
         this.event = await eventApi.show(this.$route.params.id);
+        this.software = this.event.software;
+        this.processSoftware();
       },
-      storeOrUpdate() {
-        if (this.hasId()) {
-          this.update();
-        } else {
-          this.store();
-        }
+      processSoftware() {
+        const vm = this;
+        this.softList = this.software;
+        this.softList.forEach(function (item) {
+          vm.$set(item, 'is_edit', false);
+        });
       },
-      async store() {
-        this.event = await eventApi.store(this.event);
+      edit(item) {
+        item.is_edit = true;
+      },
+      store() {
+        this.software.push(this.item);
+        let soft = this.software.map(function (item) {
+          delete item.is_edit;
+          return item;
+        });
+        eventApi.update(this.$route.params.id, {software: soft});
+        this.processSoftware();
+        this.item = {is_edit: false};
         this.alertSuccess();
-        this.$router.replace('/events/edit/' + this.event.id);
       },
-      async update() {
-        await eventApi.update(this.$route.params.id, this.event);
-        this.alertSuccess();
+      update(item) {
+        let soft = this.software.map(function (item) {
+          delete item.is_edit;
+          return item;
+        });
+        eventApi.update(this.$route.params.id, {software: soft});
+        this.processSoftware();
+        item.is_edit = false;
       },
-      editHardware() {
-        console.log('editHardware');
-      },
-      editSoftware() {
-        console.log('editSoftware');
+      destroy(rowIndex) {
+        this.softList.splice(rowIndex, 1);
+        this.software.splice(rowIndex, 1);
+        let soft = this.software.map(function (item) {
+          delete item.is_edit;
+          return item;
+        });
+        eventApi.update(this.$route.params.id, {software: soft});
+        this.processSoftware();
       },
     }
   }
 </script>
+

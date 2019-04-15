@@ -14,6 +14,7 @@ class Event extends Model
     protected $guarded = ['id'];
     protected $casts = [
         'computers' => 'array',
+        'software' => 'array',
     ];
 
 //    public function getDateAttribute($date): ?string

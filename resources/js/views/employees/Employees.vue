@@ -108,7 +108,7 @@
         ]
       }
     },
-    mounted() {
+    created() {
       this.fetchReferences();
     },
     methods: {

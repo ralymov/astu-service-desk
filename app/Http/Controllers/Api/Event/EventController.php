@@ -26,6 +26,7 @@ class EventController extends ApiController
             'date' => 'required|date',
             'computers_number' => 'required|integer|min:1',
             'computers' => 'nullable|array',
+            'software' => 'nullable|array',
         ]);
         $event = Event::create($data);
         return response()->json($event, 201);
@@ -38,6 +39,7 @@ class EventController extends ApiController
             'date' => 'sometimes|required|date',
             'computers_number' => 'sometimes|required|integer|min:1',
             'computers' => 'sometimes|nullable|array',
+            'software' => 'sometimes|nullable|array',
         ]);
         $event->update($data);
         return response()->json($event);

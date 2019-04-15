@@ -19,6 +19,7 @@ class CreateEventsTable extends Migration
             $table->date('date');
             $table->unsignedInteger('computers_number');
             $table->jsonb('computers')->nullable();
+            $table->jsonb('software')->nullable();
             $table->timestamps();
         });
 

@@ -25,6 +25,7 @@ class EventController extends ApiController
             'name' => 'required|max:255',
             'date' => 'required|date',
             'computers_number' => 'required|integer|min:1',
+            'computers' => 'nullable|array',
         ]);
         $event = Event::create($data);
         return response()->json($event, 201);
@@ -33,9 +34,10 @@ class EventController extends ApiController
     public function update(Request $request, Event $event)
     {
         $data = $this->validate($request, [
-            'name' => 'required|max:255',
-            'date' => 'required|date',
-            'computers_number' => 'required|integer|min:1',
+            'name' => 'sometimes|required|max:255',
+            'date' => 'sometimes|required|date',
+            'computers_number' => 'sometimes|required|integer|min:1',
+            'computers' => 'sometimes|nullable|array',
         ]);
         $event->update($data);
         return response()->json($event);

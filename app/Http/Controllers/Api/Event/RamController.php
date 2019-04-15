@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 class RamController extends ApiController
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return Ram::orderBy('id', 'desc')->paginate(15);
+        if ($request->has('page')) {
+            return Ram::orderBy('id', 'desc')->paginate(15);
+        }
+        return Ram::orderBy('id', 'desc')->get();
     }
 
     public function show(Ram $ram)

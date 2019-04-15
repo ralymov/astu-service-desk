@@ -96,10 +96,10 @@
         this.alertSuccess();
       },
       editHardware() {
-        this.$router.push('/events/hardware/' + this.$route.params.id);
+        console.log('editHardware');
       },
       editSoftware() {
-        this.$router.push('/events/software/' + this.$route.params.id);
+        console.log('editSoftware');
       },
     }
   }

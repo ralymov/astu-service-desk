@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 class ProcessorController extends ApiController
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return Processor::orderBy('id','desc')->paginate(15);
+        if ($request->has('page')) {
+            return Processor::orderBy('id', 'desc')->paginate(15);
+        }
+        return Processor::orderBy('id', 'desc')->get();
     }
 
     public function show(Processor $processor)

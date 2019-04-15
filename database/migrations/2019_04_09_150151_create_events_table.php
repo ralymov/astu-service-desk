@@ -13,13 +13,14 @@ class CreateEventsTable extends Migration
      */
     public function up()
     {
-//        Schema::create('events', function (Blueprint $table) {
-//            $table->increments('id');
-//            $table->string('name');
-//            $table->date('date');
-//            $table->unsignedInteger('computers_number');
-//            $table->timestamps();
-//        });
+        Schema::create('events', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->date('date');
+            $table->unsignedInteger('computers_number');
+            $table->jsonb('computers')->nullable();
+            $table->timestamps();
+        });
 
         Schema::create('processors', function (Blueprint $table) {
             $table->increments('id');
@@ -58,7 +59,7 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('events');
+        Schema::dropIfExists('events');
         Schema::dropIfExists('processors');
         Schema::dropIfExists('ram');
         Schema::dropIfExists('programs');

@@ -66,13 +66,15 @@ class Ticket extends Model
 
     public function setStatusIdAttribute($statusId): void
     {
-        $oldStatus = $this->status;
-        $newStatus = TicketStatus::find($statusId);
-        TicketHistory::create([
-            'ticket_id' => $this->id,
-            'author_id' => auth()->user()->id,
-            'description' => "Статус изменен с `$oldStatus->name` на `$newStatus->name`"
-        ]);
+        if ($this->id) {
+            $oldStatus = $this->status;
+            $newStatus = TicketStatus::find($statusId);
+            TicketHistory::create([
+                'ticket_id' => $this->id,
+                'author_id' => auth()->user()->id,
+                'description' => "Статус изменен с `$oldStatus->name` на `$newStatus->name`",
+            ]);
+        }
         $this->attributes['status_id'] = $statusId;
     }
 

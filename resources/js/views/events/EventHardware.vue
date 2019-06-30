@@ -83,6 +83,7 @@
       processComputers() {
         const vm = this;
         if (!this.event.computers) {
+          this.event.computers = [];
           for (let i = 0; i < this.event.computers_number; i++) {
             vm.event.computers.push({});
           }

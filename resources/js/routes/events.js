@@ -6,6 +6,7 @@ import EventSoftware from "views/events/EventSoftware";
 import ProcessorsList from "views/events/hardware/ProcessorsList";
 import RamList from "views/events/hardware/RamList";
 import SoftwareList from "views/events/software/SoftwareList";
+import Software from "views/events/software/Software";
 
 export default [
   {path: '/events', component: EventsList, meta: {title: 'Мероприятия'}},
@@ -17,4 +18,6 @@ export default [
   {path: '/processors', component: ProcessorsList, meta: {title: 'Процессоры'}},
   {path: '/ram', component: RamList, meta: {title: 'Оперативная память'}},
   {path: '/software', component: SoftwareList, meta: {title: 'Софт'}},
+  {path: '/software/edit/:id', component: Software, meta: {title: 'Редактировать софт'}},
+  {path: '/software/create', component: Software, meta: {title: 'Добавить софт'}},
 ];

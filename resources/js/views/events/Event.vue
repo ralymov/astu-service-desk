@@ -39,16 +39,19 @@
     </b-form>
 
     <div slot="footer">
-      <b-button variant="success" type="submit" class="mr-1" form="eventCreateForm">
+      <b-button variant="success" class="mr-1" form="eventCreateForm" @click="storeOrUpdate">
         Сохранить
       </b-button>
 
       <template v-if="$route.params.id">
-        <b-button variant="primary" type="submit" class="mr-1" @click="editHardware">
+        <b-button variant="primary" class="mr-1" @click="editHardware">
           Редактор машин
         </b-button>
-        <b-button variant="info" type="submit" class="mr-1" @click="editSoftware">
+        <b-button variant="info" class="mr-1" @click="editSoftware">
           Редактор софта
+        </b-button>
+        <b-button variant="danger" class="mr-1" @click="calculateTime">
+          Рассчитать время
         </b-button>
       </template>
     </div>
@@ -101,6 +104,10 @@
       editSoftware() {
         this.$router.push('/events/software/' + this.$route.params.id);
       },
+      async calculateTime() {
+        let calculateTime = await eventApi.calculate(this.$route.params.id);
+        alert('Примерное время подготовки: ' + calculateTime);
+      }
     }
   }
 </script>

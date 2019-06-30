@@ -15,4 +15,8 @@ export default {
     const res = await axios.put(`events/${id}`, data);
     return res.data;
   },
+  async calculate(id) {
+    const res = await axios.post(`events/${id}/calculate`);
+    return res.data;
+  },
 }

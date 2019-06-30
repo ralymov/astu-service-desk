@@ -161,7 +161,9 @@
       },
       update(item) {
         let data = {};
+        console.log(item);
         this.requestFields.map(value => data[value] = item[value]);
+        console.log(data);
         axios.put(this.entity + '/' + item.id, data)
           .then(response => {
             response.data.is_edit = false;

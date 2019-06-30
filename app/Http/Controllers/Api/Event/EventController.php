@@ -51,4 +51,10 @@ class EventController extends ApiController
         return response()->json(null, 204);
     }
 
+    public function calculateInstallationTime(int $eventId)
+    {
+        $event = Event::findOrFail($eventId);
+        return response()->json($event->calculateInstallationTime());
+    }
+
 }

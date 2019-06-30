@@ -5,7 +5,10 @@ namespace App\Models\Storage\Ticket;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property integer id
+ * @property int id
+ * @property int generation
+ * @property int frequency
+ * @property int memory_size
  */
 class Ram extends Model
 {

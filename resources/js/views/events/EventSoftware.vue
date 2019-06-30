@@ -89,7 +89,7 @@
       async fetchData() {
         if (!this.hasId()) return;
         this.event = await eventApi.show(this.$route.params.id);
-        this.software = this.event.software;
+        this.software = this.event.software || [];
         this.processSoftware();
       },
       processSoftware() {

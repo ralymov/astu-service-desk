@@ -22,7 +22,7 @@
             <label for="inputDate">Дата:</label>
           </b-col>
           <b-col sm="9">
-            <b-form-input id="inputDate" type="date" v-model="event.date" required/>
+            <datepicker id="inputDate" v-model="event.date" dateFormat="d.m.Y" required/>
           </b-col>
         </b-row>
 
@@ -32,6 +32,24 @@
           </b-col>
           <b-col sm="9">
             <b-form-input id="inputComputersNumber" type="number" min="1" v-model="event.computers_number" required/>
+          </b-col>
+        </b-row>
+
+        <b-row class="my-1">
+          <b-col sm="3">
+            <label>Предполагаемое время (мин.):</label>
+          </b-col>
+          <b-col sm="9">
+            <b-form-input type="number" v-model="event.estimated_time" readonly/>
+          </b-col>
+        </b-row>
+
+        <b-row class="my-1">
+          <b-col sm="3">
+            <label>Реальное время (мин.):</label>
+          </b-col>
+          <b-col sm="9">
+            <b-form-input type="number" min="1" v-model="event.real_time"/>
           </b-col>
         </b-row>
 
@@ -71,6 +89,8 @@
           name: '',
           date: null,
           computers_number: null,
+          estimated_time: null,
+          real_time: null,
         },
       }
     },
@@ -105,8 +125,8 @@
         this.$router.push('/events/software/' + this.$route.params.id);
       },
       async calculateTime() {
-        let calculateTime = await eventApi.calculate(this.$route.params.id);
-        alert('Примерное время подготовки: ' + calculateTime);
+        this.event = await eventApi.calculate(this.$route.params.id);
+        this.alertSuccess();
       }
     }
   }

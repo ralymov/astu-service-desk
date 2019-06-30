@@ -2,6 +2,7 @@
 
 namespace App\Models\Storage\Ticket;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer id
  * @property array computers
  * @property array software
+ * @property float estimated_time
+ * @property float real_time
  */
 class Event extends Model
 {
@@ -19,11 +22,11 @@ class Event extends Model
         'software' => 'array',
     ];
 
-//    public function getDateAttribute($date): ?string
-//    {
-//        if (!$date) return null;
-//        return Carbon::parse($date)->format('d.m.Y');
-//    }
+    public function getDateAttribute($date): ?string
+    {
+        if (!$date) return null;
+        return Carbon::parse($date)->format('d.m.Y');
+    }
 
     public function calculateInstallationTime()
     {

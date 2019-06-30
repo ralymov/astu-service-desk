@@ -46,6 +46,16 @@
             label: 'Количество компьютеров',
             sortable: false,
           },
+          {
+            key: 'estimated_time',
+            label: 'Предполагаемое время выполнения',
+            sortable: false,
+          },
+          {
+            key: 'real_time',
+            label: 'Реальное время выполнения',
+            sortable: false,
+          },
         ],
       }
     },

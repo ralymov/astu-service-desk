@@ -27,6 +27,7 @@ class EventController extends ApiController
             'computers_number' => 'required|integer|min:1',
             'computers' => 'nullable|array',
             'software' => 'nullable|array',
+            'real_time' => 'nullable|numeric|min:0',
         ]);
         $event = Event::create($data);
         return response()->json($event, 201);
@@ -40,6 +41,7 @@ class EventController extends ApiController
             'computers_number' => 'sometimes|required|integer|min:1',
             'computers' => 'sometimes|nullable|array',
             'software' => 'sometimes|nullable|array',
+            'real_time' => 'nullable|numeric|min:0',
         ]);
         $event->update($data);
         return response()->json($event);
@@ -54,7 +56,9 @@ class EventController extends ApiController
     public function calculateInstallationTime(int $eventId)
     {
         $event = Event::findOrFail($eventId);
-        return response()->json($event->calculateInstallationTime());
+        $event->estimated_time = round($event->calculateInstallationTime(), 2);
+        $event->save();
+        return response()->json($event);
     }
 
 }

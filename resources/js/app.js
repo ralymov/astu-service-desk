@@ -1,3 +1,5 @@
+import Datepicker from "common/Datepicker";
+
 require('./bootstrap');
 window.Vue = require('vue');
 
@@ -22,6 +24,7 @@ import 'vue-awesome/icons/lock';
 import 'vue-awesome/icons/check';
 import 'vue-awesome/icons/comments';
 import 'vue-awesome/icons/history';
+import 'vue-awesome/icons/calculator';
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
@@ -34,6 +37,7 @@ Vue.component('v-icon', Icon);
 Vue.component('form-select', FormSelect);
 Vue.component('input-search', InputSearch);
 Vue.component('select-search', SelectSearch);
+Vue.component('datepicker', Datepicker);
 Vue.component('chrome-color', Chrome);
 Vue.component('confirmation-modal', ConfirmationModal);
 

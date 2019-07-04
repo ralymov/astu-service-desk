@@ -18,18 +18,18 @@
                 <label for="inputPassword">Пароль</label>
               </div>
 
-              <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" id="customCheck1" v-model="remember">
-                <label class="custom-control-label" for="customCheck1">Запомнить пароль</label>
-              </div>
+              <!--              <div class="custom-control custom-checkbox mb-3">-->
+              <!--                <input type="checkbox" class="custom-control-input" id="customCheck1" v-model="remember">-->
+              <!--                <label class="custom-control-label" for="customCheck1">Запомнить пароль</label>-->
+              <!--              </div>-->
               <button class="btn btn-lg btn-primary btn-block text-uppercase" @click.prevent="submit">Вход</button>
-              <hr class="my-4">
-              <button class="btn btn-lg btn-google btn-block text-uppercase" @click.prevent="submit">
-                <i class="fab fa-google mr-2"></i> Войти через Google
-              </button>
-              <button class="btn btn-lg btn-facebook btn-block text-uppercase" @click.prevent="submit">
-                <i class="fab fa-facebook-f mr-2"></i> Войти через Facebook
-              </button>
+              <!--              <hr class="my-4">-->
+              <!--              <button class="btn btn-lg btn-google btn-block text-uppercase" @click.prevent="submit">-->
+              <!--                <i class="fab fa-google mr-2"></i> Войти через Google-->
+              <!--              </button>-->
+              <!--              <button class="btn btn-lg btn-facebook btn-block text-uppercase" @click.prevent="submit">-->
+              <!--                <i class="fab fa-facebook-f mr-2"></i> Войти через Facebook-->
+              <!--              </button>-->
             </form>
           </div>
         </div>

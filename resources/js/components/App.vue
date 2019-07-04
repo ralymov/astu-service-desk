@@ -27,7 +27,7 @@
         </div>
         <div class="nav-body">
           <ul id="nav-menu">
-            <li v-for="(item,i) in navItems" :key="i">
+            <li v-for="(item,i) in menuItems" :key="i">
               <div class="menu-item-wrapper d-flex justify-content-center">
                 <div class="menu-item-content">
                   <router-link :to="item.url" class="menu-link" exact>{{ item.label }}</router-link>
@@ -91,6 +91,41 @@
         isAuth: state => state.auth.auth,
         currentUser: state => state.auth.user
       }),
+      menuItems() {
+        switch (this.currentUser.role) {
+          case 'admin':
+            return [
+              {url: '/tickets', label: 'Заявки'},
+              {url: '/ticketTypes', label: 'Типы заявок'},
+              {url: '/ticketStatuses', label: 'Статусы заявок'},
+              {url: '/departments', label: 'Отделы'},
+              {url: '/positions', label: 'Должности'},
+              {url: '/employees', label: 'Сотрудники'},
+              {url: '/users', label: 'Пользователи системы'},
+              {url: '/user-departments', label: 'Отделы пользователей'},
+              {url: '/events', label: 'Мероприятия'},
+              {url: '/processors', label: 'Процессоры'},
+              {url: '/ram', label: 'Оперативная память'},
+              {url: '/software', label: 'Софт'},
+            ];
+          case 'contractor':
+            return [
+              {url: '/tickets', label: 'Заявки'},
+              {url: '/events', label: 'Мероприятия'},
+              {url: '/processors', label: 'Процессоры'},
+              {url: '/ram', label: 'Оперативная память'},
+              {url: '/software', label: 'Софт'},
+            ];
+          case 'department_head':
+            return [
+              {url: '/tickets', label: 'Заявки'},
+              {url: '/events', label: 'Мероприятия'},
+              {url: '/processors', label: 'Процессоры'},
+              {url: '/ram', label: 'Оперативная память'},
+              {url: '/software', label: 'Софт'},
+            ];
+        }
+      }
     },
     methods: {
       ...mapActions('auth', ['setUser', 'logout']),

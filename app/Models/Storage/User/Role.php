@@ -14,6 +14,7 @@ class Role extends Model
 
     public const admin = 'admin';
     public const contractor = 'contractor';
+    public const department_head = 'department_head';
 
     public function users()
     {

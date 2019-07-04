@@ -9,11 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
+ * @property int id
  * @property string name
  * @property string username
  * @property string password
  * @property integer role_id
  * @property Role role
+ * @property int department_id
  */
 class User extends Authenticatable implements JWTSubject
 {

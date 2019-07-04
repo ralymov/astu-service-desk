@@ -7,6 +7,7 @@ use App\Models\Storage\Employee\Location;
 use App\Models\Storage\Ticket\References\TicketPriority;
 use App\Models\Storage\Ticket\References\TicketStatus;
 use App\Models\Storage\Ticket\References\TicketType;
+use App\Models\Storage\User\Role;
 use App\Models\Storage\User\User;
 use App\Models\Storage\User\UserDepartment;
 use App\Traits\FormatDateTrait;
@@ -81,6 +82,34 @@ class Ticket extends Model
     #endregion
 
     #region Relations methods and scopes
+
+    public function scopeForRole($query)
+    {
+        $user = auth()->user();
+        $roleCode = $user->role->code;
+        switch ($roleCode) {
+            case Role::ADMIN:
+                return $query;
+            case Role::CONTRACTOR:
+                return $query->forEmployee($user);
+            case Role::DEPARTMENT_HEAD:
+                return $query->forHead($user);
+            default:
+                return $query->whereAuthorId($user->id);
+                break;
+        }
+    }
+
+    public function scopeForEmployee($query, User $user)
+    {
+        return $query->whereContractorId($user->id);
+    }
+
+    public function scopeForHead($query, User $user)
+    {
+        return $query->whereContractorId($user->id)
+            ->orWhere('department_id', $user->department_id);
+    }
 
     public function forEdit()
     {

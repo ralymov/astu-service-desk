@@ -14,6 +14,7 @@ class TicketController extends ApiController
     {
         return Ticket::orderBy('id', 'desc')
             ->forList()
+            ->forRole()
             ->paginate(10);
     }
 

@@ -63,13 +63,16 @@ class ImportEmployeesCsv implements ShouldQueue
 
     private function importEmployee(array $record)
     {
+
         if (!ctype_digit($record[1])) {
             return;
         }
-        $position = $this->importPosition($record[5]);
-        $department = $this->importDepartment($record[6]);
+        $position = $this->importPosition(mb_ucfirst(mb_strtolower($record[5])));
+        $department = $this->importDepartment(mb_ucfirst(mb_strtolower($record[6])));
         $employeeData = [
-            'name' => "$record[2] $record[3] $record[4]",
+            'name' => mb_ucfirst(mb_strtolower($record[2])) . ' '
+                . mb_ucfirst(mb_strtolower($record[3])) . ' '
+                . mb_ucfirst(mb_strtolower($record[4])),
             'position_id' => $position->id,
             'department_id' => $department->id,
         ];

@@ -32,7 +32,7 @@ class UserController extends ApiController
         ]);
         $user = new User($data);
         $user->password = \Hash::make($request->input('password'));
-        $user->role_id = Role::whereCode(Role::contractor)->first()->id;
+        $user->role_id = Role::whereCode(Role::CONTRACTOR)->first()->id;
         $user->save();
         return response()->json($user, 201);
     }
@@ -49,7 +49,7 @@ class UserController extends ApiController
         ]);
         $user->fill($data);
         $user->password = \Hash::make($request->input('password'));
-        $user->role_id = Role::whereCode(Role::contractor)->first()->id;
+        $user->role_id = Role::whereCode(Role::CONTRACTOR)->first()->id;
         $user->save();
         return response()->json($user);
     }

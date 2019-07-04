@@ -4,6 +4,12 @@ namespace App\Models\Storage\User;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int id
+ * @property string code
+ * @property string name
+ * @property string display_name
+ */
 class Role extends Model
 {
 
@@ -12,9 +18,10 @@ class Role extends Model
     public const FLD_DISPLAY_NAME = 'display_name';
     public const FLD_CODE = 'code';
 
-    public const admin = 'admin';
-    public const contractor = 'contractor';
-    public const department_head = 'department_head';
+    public const ADMIN = 'admin';
+    public const CONTRACTOR = 'contractor';
+    public const DEPARTMENT_HEAD = 'department_head';
+    public const GUEST = 'guest';
 
     public function users()
     {

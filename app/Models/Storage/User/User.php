@@ -13,6 +13,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string username
  * @property string password
  * @property integer role_id
+ * @property Role role
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -28,6 +29,26 @@ class User extends Authenticatable implements JWTSubject
     public const FLD_USERNAME = 'username';
     public const FLD_PASSWORD = 'password';
     public const FLD_ROLE_ID = 'role_id';
+
+    public function isAdmin(): bool
+    {
+        return $this->role->code === Role::ADMIN;
+    }
+
+    public function isEmployee(): bool
+    {
+        return $this->role->code === Role::CONTRACTOR;
+    }
+
+    public function isHead(): bool
+    {
+        return $this->role->code === Role::DEPARTMENT_HEAD;
+    }
+
+    public function isGuest(): bool
+    {
+        return $this->role->code === Role::GUEST;
+    }
 
     public function updateUser(array $attributes = []): self
     {

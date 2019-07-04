@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['namespace' => 'Api'], function () {
+Route::group(['namespace' => 'Api', 'middleware' => 'can:basic-permission'], static function () {
     Route::apiResource('employees', 'Employee\EmployeeController');
     Route::post('employees/import', 'Employee\EmployeeController@import');
     Route::post('employees/search', 'Employee\EmployeeController@search');

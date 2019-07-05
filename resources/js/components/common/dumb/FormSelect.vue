@@ -47,6 +47,11 @@
         default: '',
       }
     },
+    watch: {
+      value() {
+        this.dataValue = this.value;
+      },
+    },
     data() {
       return {
         dataValue: this.value || null,

@@ -27,12 +27,61 @@
            @mouseover="onMouseover(i)">
         {{item.name}}
         <span class="infoBadge">
-          <img src="/icons/info.svg" alt="Информация" :id="'showItemInfoId'+i">
+          <img src="/icons/info.svg" alt="Информация" :id="'showItemInfoId'+i" @click.stop="openEmployeeInfo(item)">
         </span>
         <employee-info-card :target="'showItemInfoId'+i" v-if="onHoverItem"
                             :employee="onHoverItem"></employee-info-card>
       </div>
     </div>
+
+    <b-modal ref="editEmployeeInfoModal"
+             class="editEmployeeInfoModal"
+             title="Информация о сотруднике"
+             body-class="pt-0"
+             hide-footer
+             @show.once="fetchReferences">
+      <b-row class="mt-3">
+        <b-col sm="3">
+          <label for="position-input">Должность</label>
+        </b-col>
+        <b-col sm="9">
+          <form-select v-model="editingEmployee.position_id" :options="positions" id="position-input"
+                       :firstElement="{value:null,text:'Должность'}">
+          </form-select>
+        </b-col>
+      </b-row>
+      <b-row class="mt-2">
+        <b-col sm="3">
+          <label for="department-input">Отдел</label>
+        </b-col>
+        <b-col sm="9">
+          <form-select v-model="editingEmployee.department_id" :options="departments" id="department-input"
+                       :firstElement="{value:null,text:'Отдел'}">
+          </form-select>
+        </b-col>
+      </b-row>
+      <b-row class="mt-2">
+        <b-col sm="3">
+          <label for="phone-input">Телефон</label>
+        </b-col>
+        <b-col sm="9">
+          <b-form-input id="phone-input" v-model="editingEmployee.phone"/>
+        </b-col>
+      </b-row>
+      <b-row class="mt-2">
+        <b-col sm="3">
+          <label for="cabinet-input">Кабинет</label>
+        </b-col>
+        <b-col sm="9">
+          <b-form-input id="cabinet-input" v-model="editingEmployee.cabinet"/>
+        </b-col>
+      </b-row>
+      <b-row class="mt-3">
+        <b-col sm="3">
+          <b-button variant="success" @click="updateEmployee">Сохранить</b-button>
+        </b-col>
+      </b-row>
+    </b-modal>
 
   </div>
 </template>
@@ -81,6 +130,10 @@
         searchItems: [],
         arrowCounter: -1,
         mousedown: false,
+
+        editingEmployee: {},
+        positions: [],
+        departments: [],
       }
     },
     computed: {
@@ -121,6 +174,22 @@
         this.showSearch = false;
         this.$emit('selectItem', item.id);
         this.$emit('item', item);
+      },
+      openEmployeeInfo(item) {
+        this.editingEmployee = item;
+        this.$refs.editEmployeeInfoModal.show();
+      },
+      async updateEmployee() {
+        console.log(this.editingEmployee);
+        axios.put(`employees/${this.editingEmployee.id}`, this.editingEmployee);
+        this.editingEmployee = {};
+        this.$refs.editEmployeeInfoModal.hide();
+      },
+      fetchReferences() {
+        axios.get('departments')
+          .then(response => this.departments = response.data);
+        axios.get('positions')
+          .then(response => this.positions = response.data);
       },
       onBlur() {
         if (this.mousedown) return;
@@ -167,6 +236,13 @@
       position: absolute;
       right: 10px;
       top: 8px;
+    }
+  }
+
+  .editEmployeeInfoModal {
+    .modal-content {
+      width: 600px;
+      margin: 0 auto;
     }
   }
 </style>

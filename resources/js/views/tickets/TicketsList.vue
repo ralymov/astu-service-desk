@@ -30,7 +30,7 @@
                   :total-rows="tickets.total"
                   v-model="tickets.current_page"
                   :per-page="tickets.per_page"
-                  @change="changePage">
+                  @input="changePage">
     </b-pagination>
 
   </div>
@@ -46,7 +46,12 @@
     },
     data() {
       return {
-        tickets: [],
+        tickets: {
+          total: 0,
+          current_page: 1,
+          per_page: 20,
+          data: []
+        },
         fields: [
           {
             key: 'id',

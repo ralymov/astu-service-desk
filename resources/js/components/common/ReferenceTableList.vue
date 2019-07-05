@@ -57,7 +57,7 @@
         v-model="currentPage"
         :total-rows="totalRows"
         :per-page="perPage"
-        @change="changePage"
+        @input="changePage"
     />
 
   </div>

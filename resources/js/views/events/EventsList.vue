@@ -15,7 +15,7 @@
                   :total-rows="events.total"
                   v-model="events.current_page"
                   :per-page="events.per_page"
-                  @change="changePage">
+                  @input="changePage">
     </b-pagination>
 
   </div>
@@ -48,12 +48,12 @@
           },
           {
             key: 'estimated_time',
-            label: 'Предполагаемое время выполнения',
+            label: 'Предполагаемое время выполнения, мин.',
             sortable: false,
           },
           {
             key: 'real_time',
-            label: 'Реальное время выполнения',
+            label: 'Реальное время выполнения, мин.',
             sortable: false,
           },
         ],

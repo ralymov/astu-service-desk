@@ -149,7 +149,7 @@
 
           <b-row class="mt-4">
             <b-col sm="3">
-              <label>Весовой коэффициентя для ОЗУ:</label>
+              <label>Весовой коэффициент для ОЗУ:</label>
             </b-col>
             <b-col sm="9">
               <b-form-input v-model="software.ram_weight" type="number" step="any"/>

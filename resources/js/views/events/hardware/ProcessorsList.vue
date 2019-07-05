@@ -9,15 +9,15 @@
   >
 
     <template slot="form-inputs" slot-scope="data">
-      <b-form-input placeholder="Количество процессоров" v-model="data.item.processors_number"
+      <b-form-input placeholder="Количество ядер" v-model="data.item.processors_number"
                     type="number" min="0" required/>
-      <b-form-input placeholder="Частота, Гц" v-model="data.item.frequency"
+      <b-form-input placeholder="Частота, МГц" v-model="data.item.frequency"
                     type="number" min="0" required step="10"/>
     </template>
 
     <template slot="processors_number" slot-scope="data">
       <template v-if="data.item.is_edit">
-        <b-form-input placeholder="Количество процессоров" v-model="data.item.processors_number" min="0" type="number"/>
+        <b-form-input placeholder="Количество ядер" v-model="data.item.processors_number" min="0" type="number"/>
       </template>
       <template v-else>
         {{_.get(data.item, 'processors_number', 'Нет данных')}}
@@ -26,7 +26,7 @@
 
     <template slot="frequency" slot-scope="data">
       <template v-if="data.item.is_edit">
-        <b-form-input placeholder="Частота, Гц" v-model="data.item.frequency" type="number" min="0" step="10"/>
+        <b-form-input placeholder="Частота, МГц" v-model="data.item.frequency" type="number" min="0" step="10"/>
       </template>
       <template v-else>
         {{_.get(data.item, 'frequency', 'Нет данных')}}
@@ -48,11 +48,11 @@
         additionalFields: [
           {
             key: 'processors_number',
-            label: 'Количество процессоров, шт.'
+            label: 'Количество ядер, шт.'
           },
           {
             key: 'frequency',
-            label: 'Частота, Гц'
+            label: 'Частота, МГц'
           },
         ]
       }

@@ -26,6 +26,7 @@ class Ticket extends Model
         'applicant_location',
         'applicant',
         'contractor',
+        'department',
         'type',
         'priority',
         'status'
@@ -102,7 +103,11 @@ class Ticket extends Model
 
     public function scopeForEmployee($query, User $user)
     {
-        return $query->whereContractorId($user->id);
+        return $query->whereContractorId($user->id)
+            ->orWhere([
+                ['department_id', $user->department_id],
+                ['contractor_id', null]
+            ]);
     }
 
     public function scopeForHead($query, User $user)

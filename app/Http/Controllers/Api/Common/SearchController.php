@@ -23,8 +23,8 @@ class SearchController extends ApiController
             ->where($request->input('field_name'), 'ILIKE', '%' . $request->input('search_string') . '%');
 
         if ($request->input('search_conditionals')) {
-            foreach ($request->input('search_conditionals') as $conditional) {
-                $query->where($conditional['field'], $conditional['value']);
+            foreach ($request->input('search_conditionals') as $index=>$value) {
+                $query->where($index, $value);
             }
         }
 

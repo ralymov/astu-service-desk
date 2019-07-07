@@ -97,10 +97,10 @@
                 <v-icon name="share"/>
                 Переадресация
               </b-button>
-              <b-button variant="danger">
-                <v-icon name="lock"/>
-                Заблокировать
-              </b-button>
+              <!--              <b-button variant="danger">-->
+              <!--                <v-icon namadditionalSearchConditionalse="lock"/>-->
+              <!--                Заблокировать-->
+              <!--              </b-button>-->
               <b-button variant="success" @click="confirmCompleteModal=true">
                 <v-icon name="check"/>
                 Выполнено
@@ -118,13 +118,15 @@
                     <b-col cols="6">
                       <select-search v-model="ticket.department_id"
                                      searchTable="user-departments"
-                                     searchField="name">
+                                     searchField="name"
+                                     @selectItem="ticket.contractor_id=null">
                       </select-search>
                     </b-col>
-                    <b-col cols="6">
+                    <b-col cols="6" v-if="ticket.department_id">
                       <select-search v-model="ticket.contractor_id"
                                      searchTable="users"
-                                     searchField="name">
+                                     searchField="name"
+                                     :additionalSearchConditionals="{department_id:ticket.department_id}">
                       </select-search>
                     </b-col>
                     <b-col cols="3" class="mt-3">

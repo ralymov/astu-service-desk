@@ -54,9 +54,14 @@
         default: '',
         required: true,
       },
+      additionalSearchId: {
+        type: Number,
+        default: null,
+      },
       additionalSearchConditionals: {
-        type: Array,
-        default: () => [],
+        type: Object,
+        default: () => {
+        },
       },
       required: {
         type: Boolean,

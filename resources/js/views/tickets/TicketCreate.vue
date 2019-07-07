@@ -22,7 +22,7 @@
 
           <label for="inputApplicant">От кого:</label>
           <employee-input-search id="inputApplicant"
-                                 placeholder="ФИО пользователя"
+                                 placeholder="ФИО сотрудника"
                                  v-model="ticket.applicant_name"
                                  @selectItem="ticket.applicant_id=$event"
                                  @item="selectedEmployee=$event"
@@ -31,24 +31,38 @@
           </employee-input-search>
         </b-col>
 
-        <b-col cols="4" class="mt-3">
+        <b-col cols="6" class="mt-3">
           <label for="selectType">Тип заявки:</label>
           <form-select id="selectType" v-model="ticket.type_id" :options="ticketTypes" required></form-select>
         </b-col>
-        <b-col cols="4" class="mt-3">
+        <b-col cols="6" class="mt-3">
           <label for="selectPriority">Приоритет заявки:</label>
           <form-select id="selectPriority" v-model="ticket.priority_id" :options="ticketPriorities"></form-select>
         </b-col>
-        <b-col cols="4" class="mt-3">
-          <label for="inputContractor">Кому:</label>
+
+
+        <b-col cols="6" class="mt-3">
+          <label for="inputDepartment">Кому (отдел):</label>
+          <input-search id="inputDepartment"
+                        placeholder="Отдел"
+                        v-model="ticket.department"
+                        @selectItem="ticket.department_id=$event"
+                        searchTable="user_departments"
+                        searchField="name">
+          </input-search>
+        </b-col>
+        <b-col cols="6" class="mt-3" v-if="ticket.department_id">
+          <label for="inputContractor">Кому (сотрудник):</label>
           <input-search id="inputContractor"
                         placeholder="ФИО сотрудника"
                         v-model="ticket.employee_name"
                         @selectItem="ticket.contractor_id=$event"
+                        :additionalSearchConditionals="{department_id:ticket.department_id}"
                         searchTable="users"
                         searchField="name">
           </input-search>
         </b-col>
+
 
         <b-col cols="12" class="mt-3">
           <label for="inputDescription">Описание заявки:</label>
@@ -92,7 +106,9 @@
     },
     data() {
       return {
-        ticket: {},
+        ticket: {
+          department_id: null,
+        },
         ticketTypes: [],
         ticketPriorities: [],
         ticketStatuses: [],

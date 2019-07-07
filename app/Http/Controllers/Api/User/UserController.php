@@ -12,7 +12,9 @@ class UserController extends ApiController
 
     public function index()
     {
-        return User::with('department', 'position', 'role')->orderBy('id', 'desc')->get();
+        return User::with('department', 'position', 'role')
+            ->orderBy('id', 'desc')
+            ->get();
     }
 
     public function show(User $user)

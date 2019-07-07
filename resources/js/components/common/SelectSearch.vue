@@ -72,8 +72,9 @@
         required: true,
       },
       additionalSearchConditionals: {
-        type: Array,
-        default: () => [],
+        type: Object,
+        default: () => {
+        },
       },
       required: {
         type: Boolean,
@@ -96,10 +97,17 @@
     },
     computed: {
       filteredItems() {
-        if (!this.searchString) return this.searchItems;
+        //if (!this.searchString) return this.searchItems;
         let searchField = this.searchField;
+        let additionalSearchConditionals = this.additionalSearchConditionals;
         return this.searchItems.filter(item => {
-          return item[searchField].toLowerCase().includes(this.searchString.toLowerCase());
+          let isPass = false;
+          isPass = item[searchField].toLowerCase().includes(this.searchString.toLowerCase());
+          if (!additionalSearchConditionals) return isPass;
+          Object.keys(additionalSearchConditionals).forEach(function (innerItem) {
+            isPass = isPass && item[innerItem] === additionalSearchConditionals[innerItem];
+          });
+          return isPass;
         });
       },
       showSearch() {
@@ -118,7 +126,6 @@
           .then(response => {
             if (response.data && response.data.data) this.searchItems = response.data.data;
             else this.searchItems = response.data;
-            // this.searchItems = response.data;
           });
       },
       selectItem(item) {

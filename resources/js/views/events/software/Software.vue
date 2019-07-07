@@ -20,27 +20,27 @@
 
           <b-row class="mt-4">
             <b-col sm="3">
-              <label>Коэффициент для количества процессоров:</label>
+              <label>Коэффициент для количества ядер:</label>
             </b-col>
             <b-col sm="8">
               <b-form-input v-model="software.processor_number_factor" type="number" step="any"/>
             </b-col>
             <b-col sm="1">
               <b-button
-                  @click="openCalculateFactorModal('processor_number_factor', 'Коэффициент для количества процессоров:')">
+                  @click="openCalculateFactorModal('processor_number_factor', 'Коэффициент для количества ядер:')">
                 <v-icon name="calculator"></v-icon>
               </b-button>
             </b-col>
           </b-row>
 
-          <b-row class="mt-4">
-            <b-col sm="3">
-              <label>Константа для количества процессоров:</label>
-            </b-col>
-            <b-col sm="9">
-              <b-form-input v-model="software.processor_number_offset" type="number" step="any"/>
-            </b-col>
-          </b-row>
+<!--          <b-row class="mt-4">-->
+<!--            <b-col sm="3">-->
+<!--              <label>Константа для количества ядер:</label>-->
+<!--            </b-col>-->
+<!--            <b-col sm="9">-->
+<!--              <b-form-input v-model="software.processor_number_offset" type="number" step="any"/>-->
+<!--            </b-col>-->
+<!--          </b-row>-->
 
           <b-row class="mt-4">
             <b-col sm="3">
@@ -57,14 +57,14 @@
             </b-col>
           </b-row>
 
-          <b-row class="mt-4">
-            <b-col sm="3">
-              <label>Константа для частоты процессора:</label>
-            </b-col>
-            <b-col sm="9">
-              <b-form-input v-model="software.processor_frequency_offset" type="number" step="any"/>
-            </b-col>
-          </b-row>
+<!--          <b-row class="mt-4">-->
+<!--            <b-col sm="3">-->
+<!--              <label>Константа для частоты процессора:</label>-->
+<!--            </b-col>-->
+<!--            <b-col sm="9">-->
+<!--              <b-form-input v-model="software.processor_frequency_offset" type="number" step="any"/>-->
+<!--            </b-col>-->
+<!--          </b-row>-->
 
           <b-row class="mt-4">
             <b-col sm="3">
@@ -90,14 +90,14 @@
             </b-col>
           </b-row>
 
-          <b-row class="mt-4">
-            <b-col sm="3">
-              <label>Константа для поколения ОЗУ:</label>
-            </b-col>
-            <b-col sm="9">
-              <b-form-input v-model="software.ram_generation_offset" type="number" step="any"/>
-            </b-col>
-          </b-row>
+<!--          <b-row class="mt-4">-->
+<!--            <b-col sm="3">-->
+<!--              <label>Константа для поколения ОЗУ:</label>-->
+<!--            </b-col>-->
+<!--            <b-col sm="9">-->
+<!--              <b-form-input v-model="software.ram_generation_offset" type="number" step="any"/>-->
+<!--            </b-col>-->
+<!--          </b-row>-->
 
           <b-row class="mt-4">
             <b-col sm="3">
@@ -114,14 +114,14 @@
             </b-col>
           </b-row>
 
-          <b-row class="mt-4">
-            <b-col sm="3">
-              <label>Константа для частоты ОЗУ:</label>
-            </b-col>
-            <b-col sm="9">
-              <b-form-input v-model="software.ram_frequency_offset" type="number" step="any"/>
-            </b-col>
-          </b-row>
+<!--          <b-row class="mt-4">-->
+<!--            <b-col sm="3">-->
+<!--              <label>Константа для частоты ОЗУ:</label>-->
+<!--            </b-col>-->
+<!--            <b-col sm="9">-->
+<!--              <b-form-input v-model="software.ram_frequency_offset" type="number" step="any"/>-->
+<!--            </b-col>-->
+<!--          </b-row>-->
 
           <b-row class="mt-4">
             <b-col sm="3">
@@ -138,14 +138,14 @@
             </b-col>
           </b-row>
 
-          <b-row class="mt-4">
-            <b-col sm="3">
-              <label>Константа для объема памяти ОЗУ:</label>
-            </b-col>
-            <b-col sm="9">
-              <b-form-input v-model="software.ram_memory_size_offset" type="number" step="any"/>
-            </b-col>
-          </b-row>
+<!--          <b-row class="mt-4">-->
+<!--            <b-col sm="3">-->
+<!--              <label>Константа для объема памяти ОЗУ:</label>-->
+<!--            </b-col>-->
+<!--            <b-col sm="9">-->
+<!--              <b-form-input v-model="software.ram_memory_size_offset" type="number" step="any"/>-->
+<!--            </b-col>-->
+<!--          </b-row>-->
 
           <b-row class="mt-4">
             <b-col sm="3">

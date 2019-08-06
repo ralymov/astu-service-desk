@@ -11,17 +11,65 @@
              @row-clicked="editTicket"
              @row-middle-clicked="editTicketNewPage">
 
+      <template slot="HEAD_priority" slot-scope="data">
+        <v-icon name="info-circle" id="priority-column-header"/>
+        <b-tooltip target="priority-column-header" title="Приоритет"/>
+      </template>
+
+      <template slot="priority" slot-scope="data">
+        <div v-if="data.item.priority.code==='high'" v-b-tooltip.hover title="Высокий приоритет">
+          <v-icon name="arrow-circle-up" style="color:red;"/>
+        </div>
+        <div v-else-if="data.item.priority.code==='normal'" v-b-tooltip.hover title="Обычный приоритет">
+          <v-icon name="minus-circle" style="color:blue;"/>
+        </div>
+        <div v-else v-b-tooltip.hover title="Низкий приоритет">
+          <v-icon name="arrow-circle-down" style="color:blue;"/>
+        </div>
+      </template>
+
       <template slot="customer" slot-scope="data">
         {{ _.get(data.item, 'applicant.name', data.item.applicant_name) }}
       </template>
+
       <template slot="contractor" slot-scope="data">
         {{ _.get(data.item, 'contractor.name') || _.get(data.item, 'department.name') || 'Нет данных' }}
       </template>
+
+      <template slot="cabinet" slot-scope="data">
+        {{ _.get(data.item, 'applicant.cabinet') }}
+      </template>
+
+      <template slot="created_at" slot-scope="data">
+        {{ data.item.created_at | ui-normalize-date }}
+      </template>
+
+      <template slot="days_passed" slot-scope="data">
+        {{ diffInDays(data.item.created_at) + ' дн.' }}
+      </template>
+
+      <template slot="author" slot-scope="data">
+        {{ _.get(data.item, 'author.name') }}
+      </template>
+
       <template slot="status" slot-scope="data">
         <div class="badge badge-primary status-badge"
              :style="{ 'background-color': _.get(data.item, 'status.rgb') }">
           {{ _.get(data.item, 'status.name', 'Нет данных') }}
         </div>
+      </template>
+
+      <template slot="actions" slot-scope="data">
+        <b-button variant="warning" size="sm"
+                  v-b-tooltip.hover title="Заблокировать"
+                  @click="lock">
+          <v-icon name="lock"/>
+        </b-button>
+        <b-button variant="success" size="sm"
+                  v-b-tooltip.hover title="Выполнить"
+                  @click="complete">
+          <v-icon name="check"/>
+        </b-button>
       </template>
 
     </b-table>
@@ -55,7 +103,17 @@
         fields: [
           {
             key: 'id',
-            label: '№',
+            label: '#',
+            sortable: false,
+          },
+          {
+            key: 'priority',
+            label: 'Приоритет',
+            sortable: false,
+          },
+          {
+            key: 'customer',
+            label: 'Заявитель',
             sortable: false,
           },
           {
@@ -64,18 +122,43 @@
             sortable: false,
           },
           {
-            key: 'customer',
-            label: 'Клиент',
+            key: 'description',
+            label: 'Суть заявки',
+            sortable: false,
+          },
+          {
+            key: 'cabinet',
+            label: 'Аудитория',
+            sortable: false,
+          },
+          {
+            key: 'created_at',
+            label: 'Создано',
+            sortable: false,
+          },
+          {
+            key: 'days_passed',
+            label: 'Прошло',
+            sortable: false,
+          },
+          {
+            key: 'author',
+            label: 'Автор',
             sortable: false,
           },
           {
             key: 'contractor',
-            label: 'Ответственный',
+            label: 'Исполнитель',
             sortable: false,
           },
           {
             key: 'status',
             label: 'Статус',
+            sortable: false,
+          },
+          {
+            key: 'actions',
+            label: 'Действия',
             sortable: false,
           },
         ],
@@ -101,6 +184,12 @@
       },
       changePage() {
         this.fetchData(this.tickets.current_page);
+      },
+      lock() {
+        console.log('lock');
+      },
+      complete() {
+        console.log('complete');
       },
     }
   }

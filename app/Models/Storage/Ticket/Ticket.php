@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Ticket extends Model
 {
-    use FormatDateTrait;
+    //use FormatDateTrait;
 
     protected $guarded = ['id'];
     private static $relationsForList = [
@@ -29,7 +29,8 @@ class Ticket extends Model
         'department',
         'type',
         'priority',
-        'status'
+        'status',
+        'author'
     ];
     private static $relationsForEdit = [
         'applicant_location',
@@ -51,6 +52,10 @@ class Ticket extends Model
             $model->status_id = TicketStatus::new()->first()->id ?? null;
             $model->author_id = auth()->user()->id ?? null;
         });
+    }
+
+    public function close() {
+
     }
 
     #region Setters and getter

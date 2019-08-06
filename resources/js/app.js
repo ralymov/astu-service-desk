@@ -1,7 +1,7 @@
 import Datepicker from "common/Datepicker";
 
 require('./bootstrap');
-window.Vue = require('vue');
+import Vue from 'vue';
 
 import VueRouter from 'vue-router';
 import BootstrapVue from 'bootstrap-vue';
@@ -25,6 +25,10 @@ import 'vue-awesome/icons/check';
 import 'vue-awesome/icons/comments';
 import 'vue-awesome/icons/history';
 import 'vue-awesome/icons/calculator';
+import 'vue-awesome/icons/arrow-circle-up';
+import 'vue-awesome/icons/arrow-circle-down';
+import 'vue-awesome/icons/minus-circle';
+import 'vue-awesome/icons/info-circle';
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
@@ -47,6 +51,7 @@ Vue.filter('ui-as-time', StringFilter.asTime);
 Vue.filter('ui-as-date', StringFilter.asDate);
 Vue.filter('ui-normalize-date', DateFilter.normalizeDate);
 Vue.filter('ui-get-site', StringFilter.getHostName);
+
 Object.defineProperty(Vue.prototype, '_', {value: _});
 
 const app = new Vue({

@@ -49,6 +49,12 @@ export default {
       //   seconds = "0" + seconds;
       // }
       return hours + ' ч. ' + minutes + ' мин. ' + seconds + ' с.';
+    },
+    diffInDays(date1, date2 = new Date()) {
+      date1 = new Date(date1);
+      date2 = new Date(date2);
+      let differenceInTime = date2.getTime() - date1.getTime();
+      return Math.floor(differenceInTime / (1000 * 3600 * 24));
     }
   }
 }

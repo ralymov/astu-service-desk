@@ -4,6 +4,7 @@ export default {
       return this.$route.params.id;
     },
     findByField(array = [], field = null, value = null) {
+      console.log(array);
       return array.findIndex(item => item[field] === value);
     },
     findById(array = [], id = null) {
@@ -29,6 +30,19 @@ export default {
     deleteFromArray(array = [], value = null) {
       let index = array.indexOf(value);
       if (index !== -1) array.splice(index, 1);
+    },
+    updateById(array, id, data) {
+      const updatingIndex = this.findById(array, id);
+      this.$set(array, updatingIndex, data);
+    },
+    updateByField(array, field, value, data) {
+      const updatingIndex = this.findByField(array, field, value);
+      this.$set(array, updatingIndex, data);
+    },
+    updateField(array, field, searchValue, newValue) {
+      const updatingIndex = this.findByField(array, field, searchValue);
+      if (!array[updatingIndex]) return;
+      array[updatingIndex][field] = newValue;
     },
     convertManyToManyToIdArray(relation = []) {
       return _.map(relation, item => item.id);

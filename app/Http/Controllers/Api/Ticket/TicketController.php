@@ -66,6 +66,38 @@ class TicketController extends ApiController
         return response()->json($ticket->forEdit());
     }
 
+    public function complete(int $ticketId)
+    {
+        $ticket = Ticket::findOrFail($ticketId);
+        $ticket->complete();
+        $ticket->save();
+        return response()->json($ticket->forList());
+    }
+
+    public function cancelComplete(int $ticketId)
+    {
+        $ticket = Ticket::findOrFail($ticketId);
+        $ticket->cancelComplete();
+        $ticket->save();
+        return response()->json($ticket->forList());
+    }
+
+    public function lock(int $ticketId)
+    {
+        $ticket = Ticket::findOrFail($ticketId);
+        $ticket->lock();
+        $ticket->save();
+        return response()->json($ticket->forList());
+    }
+
+    public function unlock(int $ticketId)
+    {
+        $ticket = Ticket::findOrFail($ticketId);
+        $ticket->unlock();
+        $ticket->save();
+        return response()->json($ticket->forList());
+    }
+
     public function destroy(Ticket $ticket)
     {
         $ticket->delete();

@@ -60,14 +60,21 @@
       </template>
 
       <template slot="actions" slot-scope="data">
-        <b-button variant="warning" size="sm"
+        <b-button v-if="data.item.contractor_id"
+                  variant="warning" size="sm"
+                  v-b-tooltip.hover title="Разблокировать"
+                  @click="unlock(data.item)">
+          <v-icon name="lock-open"/>
+        </b-button>
+        <b-button v-else variant="warning" size="sm"
                   v-b-tooltip.hover title="Заблокировать"
-                  @click="lock">
+                  @click="lock(data.item)">
           <v-icon name="lock"/>
         </b-button>
-        <b-button variant="success" size="sm"
+
+        <b-button v-if="!data.item.closed_at" variant="success" size="sm"
                   v-b-tooltip.hover title="Выполнить"
-                  @click="complete">
+                  @click="complete(data.item)">
           <v-icon name="check"/>
         </b-button>
       </template>
@@ -86,6 +93,7 @@
 
 <script>
   import TicketCreate from './TicketCreate';
+  import ticketApi from "api/tickets/ticketApi";
 
   export default {
     name: "TicketsList",
@@ -185,11 +193,23 @@
       changePage() {
         this.fetchData(this.tickets.current_page);
       },
-      lock() {
-        console.log('lock');
+
+      async lock(ticket) {
+        ticket = await ticketApi.lock(ticket.id);
+        this.updateById(this.tickets.data, ticket.id, ticket);
       },
-      complete() {
-        console.log('complete');
+      async unlock(ticket) {
+        ticket = await ticketApi.unlock(ticket.id);
+        console.log(ticket);
+        this.updateById(this.tickets.data, ticket.id, ticket);
+      },
+      async complete(ticket) {
+        ticket = await ticketApi.complete(ticket.id);
+        this.updateById(this.tickets.data, ticket.id, ticket);
+      },
+      async cancelComplete(ticket) {
+        ticket = await ticketApi.cancelComplete(ticket.id);
+        this.updateById(this.tickets.data, ticket.id, ticket);
       },
     }
   }

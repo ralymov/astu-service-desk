@@ -21,6 +21,7 @@ import Icon from 'vue-awesome/components/Icon';
 
 import 'vue-awesome/icons/share';
 import 'vue-awesome/icons/lock';
+import 'vue-awesome/icons/lock-open';
 import 'vue-awesome/icons/check';
 import 'vue-awesome/icons/comments';
 import 'vue-awesome/icons/history';

@@ -18,4 +18,20 @@ export default {
     sweetAlert.methods.alertSuccess();
     return res.data;
   },
+  async lock(id) {
+    const res = await axios.get(`tickets/lock/${id}`);
+    return res.data;
+  },
+  async unlock(id) {
+    const res = await axios.get(`tickets/unlock/${id}`);
+    return res.data;
+  },
+  async complete(id) {
+    const res = await axios.get(`tickets/complete/${id}`);
+    return res.data;
+  },
+  async cancelComplete(id) {
+    const res = await axios.get(`tickets/cancel-complete/${id}`);
+    return res.data;
+  },
 }

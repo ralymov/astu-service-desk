@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer id
+ * @property string closed_at
+ * @property int status_id
  */
 class Ticket extends Model
 {
@@ -54,8 +56,32 @@ class Ticket extends Model
         });
     }
 
-    public function close() {
+    public function complete()
+    {
+        $this->closed_at = Carbon::now();
+        $this->status()->associate(TicketStatus::whereCode(TicketStatus::DONE)->first()->id);
+        return $this;
+    }
 
+    public function cancelComplete()
+    {
+        $this->closed_at = null;
+        $this->status()->associate(TicketStatus::whereCode(TicketStatus::IN_PROGRESS)->first()->id);
+        return $this;
+    }
+
+    public function lock()
+    {
+        $this->contractor()->associate(auth()->user());
+        $this->status()->associate(TicketStatus::whereCode(TicketStatus::IN_PROGRESS)->first()->id);
+        return $this;
+    }
+
+    public function unlock()
+    {
+        $this->contractor()->dissociate();
+        $this->status()->associate(TicketStatus::whereCode(TicketStatus::NEW)->first()->id);
+        return $this;
     }
 
     #region Setters and getter

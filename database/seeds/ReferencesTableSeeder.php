@@ -3,7 +3,6 @@
 use App\Models\Storage\Employee\Department;
 use App\Models\Storage\Employee\Location;
 use App\Models\Storage\Employee\Position;
-use App\Models\Storage\Employee\References\EmployeeType;
 use App\Models\Storage\Ticket\References\TicketPriority;
 use App\Models\Storage\Ticket\References\TicketStatus;
 use App\Models\Storage\Ticket\References\TicketType;
@@ -97,19 +96,6 @@ class ReferencesTableSeeder extends Seeder
         ];
         fill_seeds($positions, Position::class, 'name');
 
-        $employeeTypes = [
-            [
-                'name' => 'Исполнитель',
-                'code' => EmployeeType::CONTRACTOR,
-            ],
-            [
-                'name' => 'Клиент',
-                'code' => EmployeeType::CUSTOMER,
-            ]
-        ];
-        fill_seeds($employeeTypes, EmployeeType::class);
-
-
         //Seeds for tickets
         $ticketTypes = [
             ['name' => 'Проблема с сетью'],
@@ -136,9 +122,11 @@ class ReferencesTableSeeder extends Seeder
         fill_seeds($ticketPriorities, TicketPriority::class);
 
         $ticketStatuses = [
-            ['name' => 'Новая'],
-            ['name' => 'Необходимо уточнение'],
-            ['name' => 'Завершенная'],
+            ['name' => 'Новая', 'code' => TicketStatus::NEW],
+            ['name' => 'Выполняется', 'code' => TicketStatus::IN_PROGRESS],
+            ['name' => 'Необходимо уточнение', 'code' => TicketStatus::SPECIFY],
+            ['name' => 'Завершенная', 'code' => TicketStatus::DONE],
+            ['name' => 'Отменить', 'code' => TicketStatus::CANCEL],
         ];
         fill_seeds($ticketStatuses, TicketStatus::class, 'name');
     }

@@ -74,6 +74,7 @@ class CreateTicketsTable extends Migration
         Schema::create('ticket_statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            $table->string('code')->unique();
             $table->string('rgb', 7)->nullable()->default('#007bff');
             $table->timestamps();
         });

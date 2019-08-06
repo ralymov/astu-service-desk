@@ -11,7 +11,7 @@ class TicketStatusController extends ApiController
 
     public function index()
     {
-        return TicketStatus::orderBy('id','desc')->get();
+        return TicketStatus::orderBy('id', 'desc')->get();
     }
 
     public function show(TicketStatus $ticketStatus)
@@ -23,7 +23,8 @@ class TicketStatusController extends ApiController
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'rgb' => 'nullable|max:7'
+            'rgb' => 'nullable|max:7',
+            'code' => 'required|max:10',
         ]);
         $ticketStatus = TicketStatus::create($request->all());
         return response()->json($ticketStatus, 201);

@@ -57,8 +57,8 @@
         errorPage: false,
         navItems: [
           {url: '/tickets', label: 'Заявки'},
-          {url: '/ticketTypes', label: 'Типы заявок'},
-          {url: '/ticketStatuses', label: 'Статусы заявок'},
+          {url: '/ticket-types', label: 'Типы заявок'},
+          {url: '/ticket-statuses', label: 'Статусы заявок'},
           {url: '/departments', label: 'Отделы'},
           {url: '/positions', label: 'Должности'},
           {url: '/employees', label: 'Сотрудники'},
@@ -96,8 +96,8 @@
           case 'admin':
             return [
               {url: '/tickets', label: 'Заявки'},
-              {url: '/ticketTypes', label: 'Типы заявок'},
-              {url: '/ticketStatuses', label: 'Статусы заявок'},
+              {url: '/ticket-types', label: 'Типы заявок'},
+              {url: '/ticket-statuses', label: 'Статусы заявок'},
               {url: '/departments', label: 'Отделы'},
               {url: '/positions', label: 'Должности'},
               {url: '/employees', label: 'Сотрудники'},

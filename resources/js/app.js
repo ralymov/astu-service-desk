@@ -41,6 +41,12 @@ Vue.component('datepicker', Datepicker);
 Vue.component('chrome-color', Chrome);
 Vue.component('confirmation-modal', ConfirmationModal);
 
+import * as StringFilter from './services/filters/strings';
+import * as DateFilter from './services/filters/date';
+Vue.filter('ui-as-time', StringFilter.asTime);
+Vue.filter('ui-as-date', StringFilter.asDate);
+Vue.filter('ui-normalize-date', DateFilter.normalizeDate);
+Vue.filter('ui-get-site', StringFilter.getHostName);
 Object.defineProperty(Vue.prototype, '_', {value: _});
 
 const app = new Vue({

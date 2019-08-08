@@ -4,6 +4,18 @@
     <b-button variant="success" v-b-modal.ticketCreate>Создать заявку</b-button>
     <ticket-create @ticketCreated="ticketCreated"></ticket-create>
 
+    <b-input-group prepend="Поиск" class="mt-3 w-50">
+      <b-form-input v-model="search" @keydown.enter="fetchData(1)"></b-form-input>
+      <b-input-group-append>
+        <b-button variant="info" @click="fetchData(1)">
+          <v-icon name="search"/>
+        </b-button>
+        <b-button variant="danger" @click="clearSearch">
+          <v-icon name="times"/>
+        </b-button>
+      </b-input-group-append>
+    </b-input-group>
+
     <b-table class="mt-4"
              hover :items="tickets.data"
              :fields="fields"
@@ -108,6 +120,7 @@
           per_page: 20,
           data: []
         },
+        search: '',
         fields: [
           {
             key: 'id',
@@ -173,12 +186,12 @@
       }
     },
     created() {
-      this.fetchData();
+      this.fetchData(1);
     },
     methods: {
-      fetchData(page = 1) {
-        axios.get('tickets/?page=' + page)
-          .then(response => this.tickets = response.data)
+      async fetchData(page = 1) {
+        if (page) this.tickets.current_page = page;
+        this.tickets = await ticketApi.get(this.tickets.current_page, this.search);
       },
       ticketCreated(ticket) {
         this.tickets.data.unshift(ticket);
@@ -211,6 +224,10 @@
         ticket = await ticketApi.cancelComplete(ticket.id);
         this.updateById(this.tickets.data, ticket.id, ticket);
       },
+      clearSearch() {
+        this.search = '';
+        this.fetchData(1);
+      }
     }
   }
 </script>

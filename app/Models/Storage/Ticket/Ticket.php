@@ -10,7 +10,6 @@ use App\Models\Storage\Ticket\References\TicketType;
 use App\Models\Storage\User\Role;
 use App\Models\Storage\User\User;
 use App\Models\Storage\User\UserDepartment;
-use App\Traits\FormatDateTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,8 +20,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Ticket extends Model
 {
-    //use FormatDateTrait;
-
     protected $guarded = ['id'];
     private static $relationsForList = [
         'applicant_location',
@@ -145,6 +142,26 @@ class Ticket extends Model
     {
         return $query->whereContractorId($user->id)
             ->orWhere('department_id', $user->department_id);
+    }
+
+    public function scopeSearch($query, ?string $searchString = '')
+    {
+        if (!$searchString) return $query;
+        if ((int)$searchString) {
+            return $query->where('id', $searchString);
+        }
+        return $query
+            ->orWhere('applicant_name', 'ILIKE', "%$searchString%")
+            ->orWhereHas('applicant', function ($query) use ($searchString) {
+                $query->where('name', 'ILIKE', "%$searchString%");
+            })
+            ->orWhereHas('status', function ($query) use ($searchString) {
+                $query->where('name', 'ILIKE', "%$searchString%");
+            })
+            ->orWhereHas('department', function ($query) use ($searchString) {
+                $query->where('name', 'ILIKE', "%$searchString%");
+            });
+
     }
 
     public function forEdit()

@@ -1,8 +1,8 @@
 import sweetAlert from '../../../mixins/sweet_alert';
 
 export default {
-  async get() {
-    const res = await axios.get('tickets');
+  async get(page = 1, searchString = '') {
+    const res = await axios.get(`tickets/?page=${page}&search=${searchString}`);
     return res.data;
   },
   async show(id) {
@@ -28,6 +28,10 @@ export default {
   },
   async complete(id) {
     const res = await axios.get(`tickets/complete/${id}`);
+    return res.data;
+  },
+  async search(searchString) {
+    const res = await axios.get(`tickets/search/${searchString}`);
     return res.data;
   },
   async cancelComplete(id) {

@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Api\Ticket;
 
 use App\Http\Controllers\Api\ApiController;
-use App\Models\Storage\Ticket\Comment;
 use App\Models\Storage\Ticket\Ticket;
 use Illuminate\Http\Request;
 
 class TicketController extends ApiController
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        $this->validate($request, [
+            'search' => 'nullable|max:255'
+        ]);
         return Ticket::orderBy('id', 'desc')
+            ->search($request->input('search'))
             ->forList()
             ->forRole()
             ->paginate(10);
@@ -96,6 +99,26 @@ class TicketController extends ApiController
         $ticket->unlock();
         $ticket->save();
         return response()->json($ticket->forList());
+    }
+
+    public function search(string $searchString)
+    {
+        $tickets = Ticket
+            ::where('id', $searchString)
+            ->orWhere('applicant_name', 'ILIKE', "%$searchString%")
+            ->orWhereHas('applicant', function ($query) use ($searchString) {
+                $query->where('name', 'ILIKE', "%$searchString%");
+            })
+            ->orWhereHas('status', function ($query) use ($searchString) {
+                $query->where('name', 'ILIKE', "%$searchString%");
+            })
+            ->orWhereHas('department', function ($query) use ($searchString) {
+                $query->where('name', 'ILIKE', "%$searchString%");
+            })
+            ->forList()
+            ->forRole()
+            ->paginate(10);
+        return response()->json($tickets);
     }
 
     public function destroy(Ticket $ticket)

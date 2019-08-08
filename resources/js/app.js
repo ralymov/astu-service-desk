@@ -19,6 +19,8 @@ import _ from 'lodash';
 import {Chrome} from 'vue-color';
 import Icon from 'vue-awesome/components/Icon';
 
+import 'vue-awesome/icons/times';
+import 'vue-awesome/icons/search';
 import 'vue-awesome/icons/share';
 import 'vue-awesome/icons/lock';
 import 'vue-awesome/icons/lock-open';

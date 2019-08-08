@@ -1,7 +1,7 @@
 <?php
 
 Route::group(['namespace' => 'Api', 'middleware' => 'can:basic-permission'], static function () {
-    Route::apiResource('tickets', 'Ticket\TicketController');
+    Route::resource('tickets', 'Ticket\TicketController');
     Route::get('tickets/lock/{ticketId}', 'Ticket\TicketController@lock');
     Route::get('tickets/unlock/{ticketId}', 'Ticket\TicketController@unlock');
     Route::get('tickets/complete/{ticketId}', 'Ticket\TicketController@complete');

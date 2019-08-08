@@ -20,8 +20,10 @@
              hover :items="tickets.data"
              :fields="fields"
              tbody-tr-class="pointer"
+             :tbody-tr-class="rowClass"
              @row-clicked="editTicket"
-             @row-middle-clicked="editTicketNewPage">
+             @row-middle-clicked="editTicketNewPage"
+    >
 
       <template slot="HEAD_priority" slot-scope="data">
         <v-icon name="info-circle" id="priority-column-header"/>
@@ -227,6 +229,10 @@
       clearSearch() {
         this.search = '';
         this.fetchData(1);
+      },
+      rowClass(item) {
+        if (!item || item.status.code === 'done' || item.status.code === 'cancel') return;
+        if (this.diffInDays(item.created_at) >= 3) return 'table-danger'
       }
     }
   }

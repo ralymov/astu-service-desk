@@ -14,6 +14,20 @@
         </b-form>
       </b-col>
       <slot name="additional-forms"></slot>
+
+      <b-col cols="12" class="mt-2" v-if="allowSearch">
+        <b-input-group prepend="Поиск" class="mt-3 w-50">
+          <b-form-input v-model="search" @keydown.enter="fetchDataPaginate(1)"/>
+          <b-input-group-append>
+            <b-button variant="info" @click="fetchDataPaginate(1)">
+              <v-icon name="search"/>
+            </b-button>
+            <b-button variant="danger" @click="clearSearch">
+              <v-icon name="times"/>
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-col>
     </b-row>
 
     <slot name="before-table"></slot>
@@ -54,10 +68,11 @@
     </b-table>
 
     <b-pagination
-        v-model="currentPage"
-        :total-rows="totalRows"
-        :per-page="perPage"
-        @input="changePage"
+      v-if="paginate"
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="perPage"
+      @input="changePage"
     />
 
   </div>
@@ -96,6 +111,10 @@
         type: Boolean,
         default: false,
       },
+      allowSearch: {
+        type: Boolean,
+        default: false,
+      },
     },
     data() {
       return {
@@ -104,11 +123,8 @@
         perPage: 1,
         item: {},
         items: [],
+        search: '',
         initialFields: [
-          // {
-          //   key: 'id',
-          //   label: '№',
-          // },
           {
             key: 'name',
             label: this.nameFieldLabel,
@@ -130,23 +146,48 @@
       this.paginate ? this.fetchDataPaginate() : this.fetchData();
     },
     methods: {
+
       fetchData() {
-        axios.get(this.entity)
-          .then(response => this.items = response.data.map(item => {
-            item.is_edit = false;
-            return item;
-          }));
+        this.allowSearch ? this.fetchDataWithSearch() : this.fetchDataWithoutSearch();
       },
-      fetchDataPaginate(page = 1) {
-        axios.get(this.entity + '/?page=' + page).then(response => {
-          this.items = response.data.data.map(item => {
-            item.is_edit = false;
-            return item;
-          });
+      fetchDataWithoutSearch() {
+        axios.get(this.entity)
+          .then(response => this.setIsEditToFalse(response));
+      },
+      fetchDataWithSearch() {
+        axios.post(`${this.entity}/search}`, {
+          field_name: 'name',
+          search_string: this.search,
+        }).then(response => {
+          this.setIsEditToFalse(response);
           this.perPage = response.data.per_page;
           this.totalRows = response.data.total;
         });
       },
+
+      fetchDataPaginate(page = 1) {
+        this.allowSearch ? this.fetchDataPaginateWithSearch(page) : this.fetchDataPaginateWithoutSearch(page);
+      },
+      fetchDataPaginateWithSearch(page = 1) {
+        axios.post(`${this.entity}/search/?page=${page}`, {
+          field_name: 'name',
+          search_string: this.search,
+          relations: ['position', 'department'],
+          paginate: true,
+        }).then(response => {
+          this.setIsEditToFalse(response);
+          this.perPage = response.data.per_page;
+          this.totalRows = response.data.total;
+        });
+      },
+      fetchDataPaginateWithoutSearch(page = 1) {
+        axios.get(`${this.entity}/?page=${page}`).then(response => {
+          this.setIsEditToFalse(response);
+          this.perPage = response.data.per_page;
+          this.totalRows = response.data.total;
+        });
+      },
+
       edit(item) {
         if (this.editPath) this.$router.push(this.editPath + item.id);
         item.is_edit = true;
@@ -161,9 +202,7 @@
       },
       update(item) {
         let data = {};
-        console.log(item);
         this.requestFields.map(value => data[value] = item[value]);
-        console.log(data);
         axios.put(this.entity + '/' + item.id, data)
           .then(response => {
             response.data.is_edit = false;
@@ -174,10 +213,27 @@
         axios.delete(this.entity + '/' + id)
           .then(() => this.deleteById(this.items, id));
       },
+
       changePage(page) {
-        console.log(page);
         this.fetchDataPaginate(page);
       },
+      clearSearch() {
+        this.search = '';
+        this.paginate ? this.fetchDataPaginate() : this.fetchData();
+      },
+      setIsEditToFalse(response) {
+        if (response.data.data) {
+          this.items = response.data.data.map(item => {
+            item.is_edit = false;
+            return item;
+          });
+        } else {
+          this.items = response.data.map(item => {
+            item.is_edit = false;
+            return item;
+          });
+        }
+      }
     },
   }
 </script>

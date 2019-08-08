@@ -33,12 +33,15 @@ class EmployeeController extends ApiController
     {
         $this->validate($request, [
             'field_name' => 'required|max:255',
-            'search_string' => 'required|max:255',
+            'search_string' => 'nullable|max:255',
             'search_conditionals' => 'nullable|array',
             'relations' => 'nullable|array',
+            'paginate' => 'nullable|boolean'
         ]);
 
-        $query = Employee::where($request->input('field_name'), 'ILIKE', '%' . $request->input('search_string') . '%');
+        $query = Employee
+            ::where($request->input('field_name'), 'ILIKE', '%' . $request->input('search_string') . '%')
+            ->orderBy('id');
 
         if ($request->input('search_conditionals')) {
             foreach ($request->input('search_conditionals') as $conditional) {
@@ -46,9 +49,12 @@ class EmployeeController extends ApiController
             }
         }
 
-
         if ($request->input('relations')) {
             $query->with($request->input('relations'));
+        }
+
+        if ($request->input('paginate')) {
+            return $query->paginate(15);
         }
         return $query->get();
     }

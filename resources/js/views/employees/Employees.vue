@@ -1,11 +1,12 @@
 <template>
   <reference-table-list
-      entity="employees"
-      ref="employeesList"
-      :additionalFields="additionalFields"
-      nameFieldLabel="Имя"
-      :requestFields="['name','department_id','position_id','phone','cabinet']"
-      paginate
+    entity="employees"
+    ref="employeesList"
+    :additionalFields="additionalFields"
+    nameFieldLabel="Имя"
+    :requestFields="['name','department_id','position_id','phone','cabinet']"
+    paginate
+    allowSearch
   >
 
     <template slot="form-inputs" slot-scope="data">

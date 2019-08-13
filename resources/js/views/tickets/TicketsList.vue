@@ -196,7 +196,7 @@
         this.tickets = await ticketApi.get(this.tickets.current_page, this.search);
       },
       ticketCreated(ticket) {
-        this.tickets.data.unshift(ticket);
+        this.fetchData(1);
       },
       editTicket(item) {
         this.$router.push('/tickets/edit/' + item.id);

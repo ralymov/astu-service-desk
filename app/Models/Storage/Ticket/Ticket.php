@@ -116,6 +116,8 @@ class Ticket extends Model
     {
         $user = auth()->user();
         $roleCode = $user->role->code;
+        $userDepartment = $user->department;
+        if ($userDepartment->name === 'Сервисный отдел') return $query;
         switch ($roleCode) {
             case Role::ADMIN:
                 return $query;

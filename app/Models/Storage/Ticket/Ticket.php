@@ -2,6 +2,7 @@
 
 namespace App\Models\Storage\Ticket;
 
+use App\Models\Storage\Employee\Department;
 use App\Models\Storage\Employee\Employee;
 use App\Models\Storage\Employee\Location;
 use App\Models\Storage\Ticket\References\TicketPriority;
@@ -108,6 +109,33 @@ class Ticket extends Model
         $this->attributes['status_id'] = $statusId;
     }
 
+    public function setContractorIdAttribute($contractorId): void
+    {
+        if ($this->id) {
+            $contractor = User::find($contractorId);
+            TicketHistory::create([
+                'ticket_id' => $this->id,
+                'author_id' => auth()->user()->id,
+                'description' => "Исполнитель изменен на $contractor->name",
+            ]);
+        }
+        $this->attributes['contractor_id'] = $contractorId;
+    }
+
+    public function setDepartmentIdAttribute($departmentId): void
+    {
+        if ($this->id) {
+            $department = UserDepartment::find($departmentId);
+            TicketHistory::create([
+                'ticket_id' => $this->id,
+                'author_id' => auth()->user()->id,
+                'description' => "Ответственный отдел изменен на $department->name",
+            ]);
+        }
+        $this->attributes['department_id'] = $departmentId;
+    }
+
+
     #endregion
 
     #region Relations methods and scopes
@@ -117,7 +145,8 @@ class Ticket extends Model
         $user = auth()->user();
         $roleCode = $user->role->code;
         $userDepartment = $user->department;
-        if ($userDepartment->name === 'Сервисный отдел') return $query;
+        if (optional($userDepartment)->name === 'Сервисный отдел') return $query;
+
         switch ($roleCode) {
             case Role::ADMIN:
                 return $query;

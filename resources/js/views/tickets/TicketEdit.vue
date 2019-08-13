@@ -98,7 +98,7 @@
                 Переадресация
               </b-button>
               <b-button variant="danger">
-                <v-icon namadditionalSearchConditionalse="lock"/>
+                <v-icon name="lock"/>
                 Заблокировать
               </b-button>
               <b-button variant="success" @click="confirmCompleteModal=true">

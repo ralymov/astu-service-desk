@@ -97,15 +97,29 @@
                 <v-icon name="share"/>
                 Переадресация
               </b-button>
-              <b-button variant="danger">
+
+              <b-button variant="danger" @click="confirmLockModal=true" v-if="!ticket.contractor_id">
                 <v-icon name="lock"/>
                 Заблокировать
               </b-button>
-              <b-button variant="success" @click="confirmCompleteModal=true">
+              <b-button variant="danger" @click="confirmUnlockModal=true" v-else>
+                <v-icon name="lock-open"/>
+                Разблокировать
+              </b-button>
+
+              <b-button variant="success" @click="confirmCompleteModal=true" v-if="!ticket.closed_at">
                 <v-icon name="check"/>
                 Выполнено
               </b-button>
-              <confirmation-modal v-model="confirmCompleteModal" @ok="complete"/>
+              <b-button variant="danger" @click="confirmCancelCompleteModal=true" v-else>
+                Не выполнено
+              </b-button>
+
+              <confirmation-modal v-model="confirmCompleteModal" @ok="complete" id="confirmCompleteModal"/>
+              <confirmation-modal v-model="confirmCancelCompleteModal" @ok="cancelComplete"
+                                  id="confirmCancelCompleteModal"/>
+              <confirmation-modal v-model="confirmLockModal" @ok="lock" id="confirmLockModal"/>
+              <confirmation-modal v-model="confirmUnlockModal" @ok="unlock" id="confirmUnLockModal"/>
             </b-button-group>
 
             <b-collapse id="forward" class="mt-2" v-model="showForwardCollapse">
@@ -256,7 +270,17 @@
     data() {
       return {
         ticket: {
-          applicant: {},
+          applicant: {
+            name: '',
+          },
+          contractor_id: null,
+          contractor: {
+            name: '',
+          },
+          closed_at: null,
+          status: {
+            name: '',
+          },
           comments: [],
           history: [],
         },
@@ -267,6 +291,9 @@
         forwardData: {},
         showForwardCollapse: false,
         confirmCompleteModal: false,
+        confirmCancelCompleteModal: false,
+        confirmLockModal: false,
+        confirmUnlockModal: false,
         ticketHistoryFields: [
           {
             key: 'created_at',
@@ -317,11 +344,26 @@
         this.editing = true;
       },
       async complete() {
-        let closedStatus = this.statuses.find(item => item.name === 'Завершенная');
+        let closedStatus = this.statuses.find(item => item.code === 'done');
         this.ticket = await ticketApi.update(this.$route.params.id, {
           closed_at: new Date(),
           status_id: closedStatus.id,
         });
+        this.alertSuccess();
+      },
+      async cancelComplete() {
+        console.log('cancelComplete');
+        this.ticket = await ticketApi.cancelComplete(this.$route.params.id);
+        this.alertSuccess();
+      },
+      async lock() {
+        console.log('lock');
+        this.ticket = await ticketApi.lock(this.$route.params.id);
+        this.alertSuccess();
+      },
+      async unlock() {
+        console.log('unlock');
+        this.ticket = await ticketApi.unlock(this.$route.params.id);
         this.alertSuccess();
       },
       async addComment() {

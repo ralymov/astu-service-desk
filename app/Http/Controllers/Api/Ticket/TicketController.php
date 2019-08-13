@@ -74,7 +74,7 @@ class TicketController extends ApiController
         $ticket = Ticket::findOrFail($ticketId);
         $ticket->complete();
         $ticket->save();
-        return response()->json($ticket->forList());
+        return response()->json($ticket->forEdit());
     }
 
     public function cancelComplete(int $ticketId)
@@ -82,7 +82,7 @@ class TicketController extends ApiController
         $ticket = Ticket::findOrFail($ticketId);
         $ticket->cancelComplete();
         $ticket->save();
-        return response()->json($ticket->forList());
+        return response()->json($ticket->forEdit());
     }
 
     public function lock(int $ticketId)
@@ -90,7 +90,7 @@ class TicketController extends ApiController
         $ticket = Ticket::findOrFail($ticketId);
         $ticket->lock();
         $ticket->save();
-        return response()->json($ticket->forList());
+        return response()->json($ticket->forEdit());
     }
 
     public function unlock(int $ticketId)
@@ -98,7 +98,7 @@ class TicketController extends ApiController
         $ticket = Ticket::findOrFail($ticketId);
         $ticket->unlock();
         $ticket->save();
-        return response()->json($ticket->forList());
+        return response()->json($ticket->forEdit());
     }
 
     public function search(string $searchString)

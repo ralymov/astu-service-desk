@@ -1,5 +1,5 @@
 <template>
-  <b-modal :id="id" ref="confirmationModal" :title="title" @ok="handleOk" @cancel="handleCancel" :visible="value"
+  <b-modal :id="id" :title="title" @ok="handleOk" @cancel="handleCancel" :visible="value"
            @change="change" class="confirmation-modal" ok-title="OK" cancel-title="Отмена">
     <p>{{text}}</p>
   </b-modal>

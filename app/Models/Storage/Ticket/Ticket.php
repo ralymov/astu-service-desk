@@ -86,13 +86,16 @@ class Ticket extends Model
 
     public function setClosedAtAttribute($date = null): void
     {
-        if (!$date) return;
-        TicketHistory::create([
-            'ticket_id' => $this->id,
-            'author_id' => auth()->user()->id,
-            'description' => 'Заявка была отмечена как выполненная'
-        ]);
-        $this->attributes['closed_at'] = Carbon::parse($date);
+        if ($date) {
+            TicketHistory::create([
+                'ticket_id' => $this->id,
+                'author_id' => auth()->user()->id,
+                'description' => 'Заявка была отмечена как выполненная'
+            ]);
+            $this->attributes['closed_at'] = Carbon::parse($date);
+        } else {
+            $this->attributes['closed_at'] = $date;
+        }
     }
 
     public function setStatusIdAttribute($statusId): void
@@ -100,11 +103,13 @@ class Ticket extends Model
         if ($this->id) {
             $oldStatus = $this->status;
             $newStatus = TicketStatus::find($statusId);
-            TicketHistory::create([
-                'ticket_id' => $this->id,
-                'author_id' => auth()->user()->id,
-                'description' => "Статус изменен с `$oldStatus->name` на `$newStatus->name`",
-            ]);
+            if ($oldStatus->id !== $newStatus->id) {
+                TicketHistory::create([
+                    'ticket_id' => $this->id,
+                    'author_id' => auth()->user()->id,
+                    'description' => "Статус изменен с `$oldStatus->name` на `$newStatus->name`",
+                ]);
+            }
         }
         $this->attributes['status_id'] = $statusId;
     }
@@ -116,7 +121,9 @@ class Ticket extends Model
             TicketHistory::create([
                 'ticket_id' => $this->id,
                 'author_id' => auth()->user()->id,
-                'description' => "Исполнитель изменен на $contractor->name",
+                'description' => $contractor
+                    ? "Исполнитель изменен на $contractor->name"
+                    : 'Исполнитель сброшен',
             ]);
         }
         $this->attributes['contractor_id'] = $contractorId;
@@ -129,7 +136,9 @@ class Ticket extends Model
             TicketHistory::create([
                 'ticket_id' => $this->id,
                 'author_id' => auth()->user()->id,
-                'description' => "Ответственный отдел изменен на $department->name",
+                'description' => $department
+                    ? "Ответственный отдел изменен на $department->name"
+                    : 'Ответственный отдел сброшен',
             ]);
         }
         $this->attributes['department_id'] = $departmentId;

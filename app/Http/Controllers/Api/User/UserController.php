@@ -50,8 +50,10 @@ class UserController extends ApiController
             'position_id' => 'nullable|integer|exists:positions,id'
         ]);
         $user->fill($data);
-        $user->password = \Hash::make($request->input('password'));
         $user->role_id = Role::whereCode(Role::CONTRACTOR)->first()->id;
+        if ($request->input('password')) {
+            $user->password = \Hash::make($request->input('password'));
+        }
         $user->save();
         return response()->json($user);
     }

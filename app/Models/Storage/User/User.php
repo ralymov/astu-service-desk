@@ -16,6 +16,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property integer role_id
  * @property Role role
  * @property int department_id
+ * @property boolean enabled
  */
 class User extends Authenticatable implements JWTSubject
 {

@@ -8,20 +8,25 @@ use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
-class AuthenticateWithJWT extends BaseMiddleware {
+class AuthenticateWithJWT extends BaseMiddleware
+{
 
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @param bool $optional
      * @return mixed
      */
-    public function handle($request, Closure $next, $optional = null) {
+    public function handle($request, Closure $next, $optional = null)
+    {
         $this->auth->setRequest($request);
 
         try {
+            if (!$this->auth->user()->enabled) {
+                return $this->respondError('JWT error: User not found');
+            }
             if (!$user = $this->auth->parseToken()->authenticate()) {
                 return $this->respondError('JWT error: User not found');
             }
@@ -44,7 +49,8 @@ class AuthenticateWithJWT extends BaseMiddleware {
      * @param $message
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondError($message) {
+    protected function respondError($message)
+    {
         return response()->json([
             'errors' => [
                 'message' => $message,

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class AuthController extends ApiController
+class AuthController extends Controller
 {
 
     /**
@@ -30,6 +31,11 @@ class AuthController extends ApiController
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        $user = auth()->user();
+        if (!$user || !$user->enabled) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
         return $this->respondWithToken($token);
     }
 
@@ -41,7 +47,7 @@ class AuthController extends ApiController
     public function credentials()
     {
         $user = auth()->user();
-        if (!$user) {
+        if (!$user || !$user->enabled) {
             return $this->respondUnauthorized();
         }
         return response()->json([
@@ -89,7 +95,7 @@ class AuthController extends ApiController
     /**
      * Get the token array structure.
      *
-     * @param  string $token
+     * @param string $token
      *
      * @return \Illuminate\Http\JsonResponse
      */

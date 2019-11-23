@@ -12,7 +12,12 @@
                 <img :style="{width:'30px'}" src="/icons/user.svg">
                 <span class="font-weight-bold mr-4">{{ currentUser.full_name || 'Нет данных' }}</span>
               </template>
-              <b-dropdown-item href="#" @click="logout">Выход</b-dropdown-item>
+              <b-dropdown-item href="#" @click="logout">
+                <a href="#">Выход</a>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <router-link to="/profile" exact>Профиль</router-link>
+              </b-dropdown-item>
             </b-dropdown>
           </div>
         </div>
@@ -55,20 +60,6 @@
         isOpen: true,
         pageTitle: '',
         errorPage: false,
-        navItems: [
-          {url: '/tickets', label: 'Заявки'},
-          {url: '/ticket-types', label: 'Типы заявок'},
-          {url: '/ticket-statuses', label: 'Статусы заявок'},
-          {url: '/departments', label: 'Отделы'},
-          {url: '/positions', label: 'Должности'},
-          {url: '/employees', label: 'Сотрудники'},
-          {url: '/users', label: 'Пользователи системы'},
-          {url: '/user-departments', label: 'Отделы пользователей'},
-          {url: '/events', label: 'Мероприятия'},
-          {url: '/processors', label: 'Процессоры'},
-          {url: '/ram', label: 'Оперативная память'},
-          {url: '/software', label: 'Софт'},
-        ],
       }
     },
     watch: {

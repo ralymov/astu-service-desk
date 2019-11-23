@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
-class ApiController extends Controller {
+class ApiController extends Controller
+{
 
-    public function __construct() {
-        //$this->middleware('auth.api');
+    public function __construct()
+    {
+        $this->middleware('auth.api');
     }
 
     /**
@@ -18,7 +20,8 @@ class ApiController extends Controller {
      * @param array $headers
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respond($data, $statusCode = 200, $headers = []) {
+    protected function respond($data, $statusCode = 200, $headers = [])
+    {
         return response()->json($data, $statusCode, $headers);
     }
 
@@ -27,7 +30,8 @@ class ApiController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondSuccess() {
+    protected function respondSuccess()
+    {
         return $this->respond(null);
     }
 
@@ -37,7 +41,8 @@ class ApiController extends Controller {
      * @param $data
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondCreated($data) {
+    protected function respondCreated($data)
+    {
         return $this->respond($data, 201);
     }
 
@@ -46,7 +51,8 @@ class ApiController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondNoContent() {
+    protected function respondNoContent()
+    {
         return $this->respond(null, 204);
     }
 
@@ -57,7 +63,8 @@ class ApiController extends Controller {
      * @param $statusCode
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondError($message, $statusCode) {
+    protected function respondError($message, $statusCode)
+    {
         return $this->respond([
             'errors' => [
                 'message' => $message,
@@ -72,7 +79,8 @@ class ApiController extends Controller {
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondUnauthorized($message = 'Unauthorized') {
+    protected function respondUnauthorized($message = 'Unauthorized')
+    {
         return $this->respondError($message, 401);
     }
 
@@ -82,7 +90,8 @@ class ApiController extends Controller {
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondForbidden($message = 'Forbidden') {
+    protected function respondForbidden($message = 'Forbidden')
+    {
         return $this->respondError($message, 403);
     }
 
@@ -92,7 +101,8 @@ class ApiController extends Controller {
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondNotFound($message = 'Not Found') {
+    protected function respondNotFound($message = 'Not Found')
+    {
         return $this->respondError($message, 404);
     }
 
@@ -101,7 +111,8 @@ class ApiController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondFailedLogin() {
+    protected function respondFailedLogin()
+    {
         return $this->respond([
             'errors' => [
                 'email or password' => 'is invalid',
@@ -115,7 +126,8 @@ class ApiController extends Controller {
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondInternalError($message = 'Internal Error') {
+    protected function respondInternalError($message = 'Internal Error')
+    {
         return $this->respondError($message, 500);
     }
 

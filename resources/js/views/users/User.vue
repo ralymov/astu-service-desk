@@ -3,7 +3,7 @@
           footer-tag="footer"
           class="user-card">
 
-    <h4 slot="header" class="mb-0">Новый пользователь</h4>
+    <h4 slot="header" class="mb-0">Пользователь</h4>
 
     <b-form @submit.prevent="storeOrUpdate" id="userCreateForm">
       <b-container fluid>
@@ -71,6 +71,15 @@
           </b-col>
         </b-row>
 
+        <b-row class="mt-4" v-if="user.id">
+          <b-col sm="3">
+            <label for="inputEnabled">Аккаунт:</label>
+          </b-col>
+          <b-col sm="9">
+            <b-form-select id="inputEnabled" v-model="user.enabled" :options="enabledOptions"/>
+          </b-col>
+        </b-row>
+
       </b-container>
     </b-form>
 
@@ -91,6 +100,10 @@
       return {
         user: {},
         departments: [],
+        enabledOptions: [
+          {value: true, text: 'Включен'},
+          {value: false, text: 'Выключен'}
+        ]
       }
     },
     mounted() {

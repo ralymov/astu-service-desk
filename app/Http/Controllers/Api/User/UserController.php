@@ -47,7 +47,8 @@ class UserController extends ApiController
             'password' => 'nullable|max:255',
             'email' => 'nullable|max:255',
             'department_id' => 'nullable|integer|exists:user_departments,id',
-            'position_id' => 'nullable|integer|exists:positions,id'
+            'position_id' => 'nullable|integer|exists:positions,id',
+            'enabled' => 'nullable|boolean'
         ]);
         $user->fill($data);
         $user->role_id = Role::whereCode(Role::CONTRACTOR)->first()->id;

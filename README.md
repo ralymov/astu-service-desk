@@ -53,7 +53,7 @@ sudo apt update && sudo apt install yarn
 ### .env переменные
 * `DB_CONNECTION` - Название соединения (`pgsql`).
 * `DB_HOST` - Адрес соединения (`127.0.0.1`).
-* `DB_PORT` - Порт соединения (`5543` по умолчанию для postgre).
+* `DB_PORT` - Порт соединения (`5432` по умолчанию для postgre).
 * `DB_DATABASE` - Название БД (`astu_service_desk`).
 * `DB_USERNAME` - Имя пользователя БД (`astu_service_desk`).
 * `DB_PASSWORD` - Пароль пользователя БД (`astu_service_desk`).

@@ -2,7 +2,7 @@
   "name": "astu-service-desk",
   "version": "1.0.1",
   "main": "index.js",
-  "repository": "https://github.com/HitTheNails/astu-service-desk.git",
+  "repository": "https://github.com/ralymov/astu-service-desk.git",
   "author": "Roman Alymov",
   "license": "Apache-2.0",
   "scripts": {
